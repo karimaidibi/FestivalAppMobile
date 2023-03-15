@@ -19,10 +19,6 @@
 		B70792F729C1CBBA0016E81B /* States in Resources */ = {isa = PBXBuildFile; fileRef = B70792F629C1CBBA0016E81B /* States */; };
 		B70792F929C1CBC50016E81B /* Intents in Resources */ = {isa = PBXBuildFile; fileRef = B70792F829C1CBC50016E81B /* Intents */; };
 		B70792FB29C1CBD40016E81B /* Errors in Resources */ = {isa = PBXBuildFile; fileRef = B70792FA29C1CBD40016E81B /* Errors */; };
-		B70792FD29C1D00B0016E81B /* ZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70792FC29C1D00B0016E81B /* ZoneView.swift */; };
-		B70792FF29C1D05E0016E81B /* JeuxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70792FE29C1D05E0016E81B /* JeuxViewModel.swift */; };
-		B707930129C1D07E0016E81B /* ZoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B707930029C1D07E0016E81B /* ZoneViewModel.swift */; };
-		B707930329C1D0950016E81B /* ZoneListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B707930229C1D0950016E81B /* ZoneListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,10 +54,6 @@
 		B70792F629C1CBBA0016E81B /* States */ = {isa = PBXFileReference; lastKnownFileType = folder; path = States; sourceTree = "<group>"; };
 		B70792F829C1CBC50016E81B /* Intents */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Intents; sourceTree = "<group>"; };
 		B70792FA29C1CBD40016E81B /* Errors */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Errors; sourceTree = "<group>"; };
-		B70792FC29C1D00B0016E81B /* ZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZoneView.swift; path = FestivalAppMobile/Views/Zones/ZoneView.swift; sourceTree = "<group>"; };
-		B70792FE29C1D05E0016E81B /* JeuxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JeuxViewModel.swift; path = FestivalAppMobile/ViewModels/Jeux/JeuxViewModel.swift; sourceTree = "<group>"; };
-		B707930029C1D07E0016E81B /* ZoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZoneViewModel.swift; path = FestivalAppMobile/ViewModels/Zones/ZoneViewModel.swift; sourceTree = "<group>"; };
-		B707930229C1D0950016E81B /* ZoneListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZoneListViewModel.swift; path = FestivalAppMobile/ViewModels/Zones/ZoneListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,10 +84,6 @@
 		6FE2D21B29C1C28200128A16 = {
 			isa = PBXGroup;
 			children = (
-				B707930229C1D0950016E81B /* ZoneListViewModel.swift */,
-				B707930029C1D07E0016E81B /* ZoneViewModel.swift */,
-				B70792FE29C1D05E0016E81B /* JeuxViewModel.swift */,
-				B70792FC29C1D00B0016E81B /* ZoneView.swift */,
 				6FE2D22629C1C28200128A16 /* FestivalAppMobile */,
 				6FE2D23729C1C28300128A16 /* FestivalAppMobileTests */,
 				6FE2D24129C1C28300128A16 /* FestivalAppMobileUITests */,
@@ -290,10 +278,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FE2D22A29C1C28200128A16 /* ContentView.swift in Sources */,
-				B707930129C1D07E0016E81B /* ZoneViewModel.swift in Sources */,
-				B70792FD29C1D00B0016E81B /* ZoneView.swift in Sources */,
-				B70792FF29C1D05E0016E81B /* JeuxViewModel.swift in Sources */,
-				B707930329C1D0950016E81B /* ZoneListViewModel.swift in Sources */,
 				6FE2D22829C1C28200128A16 /* FestivalAppMobileApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
