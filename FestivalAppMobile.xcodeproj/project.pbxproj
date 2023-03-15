@@ -14,6 +14,11 @@
 		6FE2D23929C1C28300128A16 /* FestivalAppMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE2D23829C1C28300128A16 /* FestivalAppMobileTests.swift */; };
 		6FE2D24329C1C28300128A16 /* FestivalAppMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE2D24229C1C28300128A16 /* FestivalAppMobileUITests.swift */; };
 		6FE2D24529C1C28300128A16 /* FestivalAppMobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE2D24429C1C28300128A16 /* FestivalAppMobileUITestsLaunchTests.swift */; };
+		B70792F329C1CB8A0016E81B /* viewModels in Resources */ = {isa = PBXBuildFile; fileRef = B70792F229C1CB8A0016E81B /* viewModels */; };
+		B70792F529C1CBAE0016E81B /* views in Resources */ = {isa = PBXBuildFile; fileRef = B70792F429C1CBAE0016E81B /* views */; };
+		B70792F729C1CBBA0016E81B /* states in Resources */ = {isa = PBXBuildFile; fileRef = B70792F629C1CBBA0016E81B /* states */; };
+		B70792F929C1CBC50016E81B /* intents in Resources */ = {isa = PBXBuildFile; fileRef = B70792F829C1CBC50016E81B /* intents */; };
+		B70792FB29C1CBD40016E81B /* errors in Resources */ = {isa = PBXBuildFile; fileRef = B70792FA29C1CBD40016E81B /* errors */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,11 @@
 		6FE2D23E29C1C28300128A16 /* FestivalAppMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FestivalAppMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FE2D24229C1C28300128A16 /* FestivalAppMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalAppMobileUITests.swift; sourceTree = "<group>"; };
 		6FE2D24429C1C28300128A16 /* FestivalAppMobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalAppMobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B70792F229C1CB8A0016E81B /* viewModels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = viewModels; sourceTree = "<group>"; };
+		B70792F429C1CBAE0016E81B /* views */ = {isa = PBXFileReference; lastKnownFileType = folder; path = views; sourceTree = "<group>"; };
+		B70792F629C1CBBA0016E81B /* states */ = {isa = PBXFileReference; lastKnownFileType = folder; path = states; sourceTree = "<group>"; };
+		B70792F829C1CBC50016E81B /* intents */ = {isa = PBXFileReference; lastKnownFileType = folder; path = intents; sourceTree = "<group>"; };
+		B70792FA29C1CBD40016E81B /* errors */ = {isa = PBXFileReference; lastKnownFileType = folder; path = errors; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +105,11 @@
 			isa = PBXGroup;
 			children = (
 				6FE2D22729C1C28200128A16 /* FestivalAppMobileApp.swift */,
+				B70792FA29C1CBD40016E81B /* errors */,
+				B70792F829C1CBC50016E81B /* intents */,
+				B70792F629C1CBBA0016E81B /* states */,
+				B70792F429C1CBAE0016E81B /* views */,
+				B70792F229C1CB8A0016E81B /* viewModels */,
 				6FE2D22929C1C28200128A16 /* ContentView.swift */,
 				6FE2D22B29C1C28300128A16 /* Assets.xcassets */,
 				6FE2D22D29C1C28300128A16 /* Preview Content */,
@@ -231,8 +246,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B70792F929C1CBC50016E81B /* intents in Resources */,
+				B70792F729C1CBBA0016E81B /* states in Resources */,
 				6FE2D22F29C1C28300128A16 /* Preview Assets.xcassets in Resources */,
 				6FE2D22C29C1C28300128A16 /* Assets.xcassets in Resources */,
+				B70792FB29C1CBD40016E81B /* errors in Resources */,
+				B70792F329C1CB8A0016E81B /* viewModels in Resources */,
+				B70792F529C1CBAE0016E81B /* views in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
