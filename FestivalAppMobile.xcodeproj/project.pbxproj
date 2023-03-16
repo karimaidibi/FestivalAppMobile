@@ -14,6 +14,13 @@
 		6F52723529C2964E00F3C896 /* FestivalAppMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52723429C2964E00F3C896 /* FestivalAppMobileTests.swift */; };
 		6F52723F29C2964E00F3C896 /* FestivalAppMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52723E29C2964E00F3C896 /* FestivalAppMobileUITests.swift */; };
 		6F52724129C2964E00F3C896 /* FestivalAppMobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52724029C2964E00F3C896 /* FestivalAppMobileUITestsLaunchTests.swift */; };
+		6F52725429C2971700F3C896 /* ZonesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725329C2971700F3C896 /* ZonesView.swift */; };
+		6F52725629C2973B00F3C896 /* ViewModelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725529C2973B00F3C896 /* ViewModelObserver.swift */; };
+		6F52725929C2976F00F3C896 /* ZoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725829C2976F00F3C896 /* ZoneViewModel.swift */; };
+		6F52725B29C2978100F3C896 /* ZoneListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725A29C2978100F3C896 /* ZoneListViewModel.swift */; };
+		6F52725D29C297C700F3C896 /* ZoneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725C29C297C700F3C896 /* ZoneState.swift */; };
+		6F52725F29C297F800F3C896 /* ZoneIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725E29C297F800F3C896 /* ZoneIntent.swift */; };
+		6F52726129C2981A00F3C896 /* ZoneIntentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726029C2981A00F3C896 /* ZoneIntentError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +51,13 @@
 		6F52723A29C2964E00F3C896 /* FestivalAppMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FestivalAppMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F52723E29C2964E00F3C896 /* FestivalAppMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalAppMobileUITests.swift; sourceTree = "<group>"; };
 		6F52724029C2964E00F3C896 /* FestivalAppMobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalAppMobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6F52725329C2971700F3C896 /* ZonesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZonesView.swift; sourceTree = "<group>"; };
+		6F52725529C2973B00F3C896 /* ViewModelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelObserver.swift; sourceTree = "<group>"; };
+		6F52725829C2976F00F3C896 /* ZoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneViewModel.swift; sourceTree = "<group>"; };
+		6F52725A29C2978100F3C896 /* ZoneListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneListViewModel.swift; sourceTree = "<group>"; };
+		6F52725C29C297C700F3C896 /* ZoneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneState.swift; sourceTree = "<group>"; };
+		6F52725E29C297F800F3C896 /* ZoneIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneIntent.swift; sourceTree = "<group>"; };
+		6F52726029C2981A00F3C896 /* ZoneIntentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneIntentError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +108,11 @@
 		6F52722229C2964D00F3C896 /* FestivalAppMobile */ = {
 			isa = PBXGroup;
 			children = (
+				6F52725129C296F400F3C896 /* Views */,
+				6F52725029C296EE00F3C896 /* ViewModels */,
+				6F52724F29C296E700F3C896 /* States */,
+				6F52724E29C296E000F3C896 /* Intents */,
+				6F52724D29C296D800F3C896 /* Errors */,
 				6F52722329C2964D00F3C896 /* FestivalAppMobileApp.swift */,
 				6F52722529C2964D00F3C896 /* ContentView.swift */,
 				6F52722729C2964D00F3C896 /* Assets.xcassets */,
@@ -125,6 +144,64 @@
 				6F52724029C2964E00F3C896 /* FestivalAppMobileUITestsLaunchTests.swift */,
 			);
 			path = FestivalAppMobileUITests;
+			sourceTree = "<group>";
+		};
+		6F52724D29C296D800F3C896 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				6F52726029C2981A00F3C896 /* ZoneIntentError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		6F52724E29C296E000F3C896 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				6F52725E29C297F800F3C896 /* ZoneIntent.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		6F52724F29C296E700F3C896 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				6F52725C29C297C700F3C896 /* ZoneState.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
+		6F52725029C296EE00F3C896 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6F52725729C2975300F3C896 /* Zones */,
+				6F52725529C2973B00F3C896 /* ViewModelObserver.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6F52725129C296F400F3C896 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6F52725229C296FF00F3C896 /* Zones */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6F52725229C296FF00F3C896 /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				6F52725329C2971700F3C896 /* ZonesView.swift */,
+			);
+			path = Zones;
+			sourceTree = "<group>";
+		};
+		6F52725729C2975300F3C896 /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				6F52725829C2976F00F3C896 /* ZoneViewModel.swift */,
+				6F52725A29C2978100F3C896 /* ZoneListViewModel.swift */,
+			);
+			path = Zones;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +335,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F52722629C2964D00F3C896 /* ContentView.swift in Sources */,
+				6F52725F29C297F800F3C896 /* ZoneIntent.swift in Sources */,
+				6F52725929C2976F00F3C896 /* ZoneViewModel.swift in Sources */,
+				6F52726129C2981A00F3C896 /* ZoneIntentError.swift in Sources */,
+				6F52725429C2971700F3C896 /* ZonesView.swift in Sources */,
+				6F52725D29C297C700F3C896 /* ZoneState.swift in Sources */,
+				6F52725629C2973B00F3C896 /* ViewModelObserver.swift in Sources */,
+				6F52725B29C2978100F3C896 /* ZoneListViewModel.swift in Sources */,
 				6F52722429C2964D00F3C896 /* FestivalAppMobileApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
