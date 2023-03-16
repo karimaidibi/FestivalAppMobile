@@ -8,6 +8,23 @@
 import Foundation
 import SwiftUI
 
+// the data from the url of apple
+var queryResult : QueryResult<ZoneDTO>?
+
+// the data of zones from url
+var zonesData : Data?
+
+// the zone models DTO decoded from the zonesDatafromJson
+var zoneDTOs : [ZoneDTO]?
+
+// initialise the array of ZoneViewModel to be filled by the array of ZoneViewModelsDTOs later
+var ZoneViewModels : [ZoneViewModel]?
+
+// List of items
+var items : [ZoneViewModel] = []
+
+var isLoading : Bool = false
+
 struct ZonesView: View {
     
     @StateObject var zoneListVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])

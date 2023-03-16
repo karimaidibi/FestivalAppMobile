@@ -25,6 +25,13 @@
 		6F52726629C29E7300F3C896 /* QueryResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726529C29E7300F3C896 /* QueryResult.swift */; };
 		6F52726829C2A58300F3C896 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726729C2A58300F3C896 /* JSONError.swift */; };
 		6F52726B29C2A5CD00F3C896 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726A29C2A5CD00F3C896 /* JSONHelper.swift */; };
+		B739B9CF29C365CB00CE8D4D /* BenevolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B739B9CE29C365CB00CE8D4D /* BenevolesView.swift */; };
+		B739B9D229C3661F00CE8D4D /* CreneauxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B739B9D129C3661F00CE8D4D /* CreneauxView.swift */; };
+		B739B9D529C3665900CE8D4D /* FestivalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B739B9D429C3665900CE8D4D /* FestivalsView.swift */; };
+		B7FBD7FE29C3581200ADA026 /* CreneauxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD7FD29C3581200ADA026 /* CreneauxView.swift */; };
+		B7FBD80029C358B600ADA026 /* BenevolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD7FF29C358B600ADA026 /* BenevolesView.swift */; };
+		B7FBD80229C3597500ADA026 /* FestivalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD80129C3597500ADA026 /* FestivalsView.swift */; };
+		B7FBD80429C35A9E00ADA026 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD80329C35A9E00ADA026 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +73,13 @@
 		6F52726529C29E7300F3C896 /* QueryResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryResult.swift; sourceTree = "<group>"; };
 		6F52726729C2A58300F3C896 /* JSONError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
 		6F52726A29C2A5CD00F3C896 /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		B739B9CE29C365CB00CE8D4D /* BenevolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevolesView.swift; sourceTree = "<group>"; };
+		B739B9D129C3661F00CE8D4D /* CreneauxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreneauxView.swift; sourceTree = "<group>"; };
+		B739B9D429C3665900CE8D4D /* FestivalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalsView.swift; sourceTree = "<group>"; };
+		B7FBD7FD29C3581200ADA026 /* CreneauxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreneauxView.swift; path = FestivalAppMobile/Views/Creneaux/CreneauxView.swift; sourceTree = "<group>"; };
+		B7FBD7FF29C358B600ADA026 /* BenevolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BenevolesView.swift; path = FestivalAppMobile/Views/Benevoles/BenevolesView.swift; sourceTree = "<group>"; };
+		B7FBD80129C3597500ADA026 /* FestivalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FestivalsView.swift; path = FestivalAppMobile/Views/Festivals/FestivalsView.swift; sourceTree = "<group>"; };
+		B7FBD80329C35A9E00ADA026 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = FestivalAppMobile/Views/HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +110,10 @@
 		6F52721729C2964D00F3C896 = {
 			isa = PBXGroup;
 			children = (
+				B7FBD80329C35A9E00ADA026 /* HomeView.swift */,
+				B7FBD80129C3597500ADA026 /* FestivalsView.swift */,
+				B7FBD7FF29C358B600ADA026 /* BenevolesView.swift */,
+				B7FBD7FD29C3581200ADA026 /* CreneauxView.swift */,
 				6F52722229C2964D00F3C896 /* FestivalAppMobile */,
 				6F52723329C2964E00F3C896 /* FestivalAppMobileTests */,
 				6F52723D29C2964E00F3C896 /* FestivalAppMobileUITests */,
@@ -193,6 +211,9 @@
 		6F52725129C296F400F3C896 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B739B9D329C3664600CE8D4D /* Festivals */,
+				B739B9D029C3660D00CE8D4D /* Creneaux */,
+				B739B9CD29C3651900CE8D4D /* Benevoles */,
 				6F52725229C296FF00F3C896 /* Zones */,
 			);
 			path = Views;
@@ -230,6 +251,30 @@
 				6F52726A29C2A5CD00F3C896 /* JSONHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B739B9CD29C3651900CE8D4D /* Benevoles */ = {
+			isa = PBXGroup;
+			children = (
+				B739B9CE29C365CB00CE8D4D /* BenevolesView.swift */,
+			);
+			path = Benevoles;
+			sourceTree = "<group>";
+		};
+		B739B9D029C3660D00CE8D4D /* Creneaux */ = {
+			isa = PBXGroup;
+			children = (
+				B739B9D129C3661F00CE8D4D /* CreneauxView.swift */,
+			);
+			path = Creneaux;
+			sourceTree = "<group>";
+		};
+		B739B9D329C3664600CE8D4D /* Festivals */ = {
+			isa = PBXGroup;
+			children = (
+				B739B9D429C3665900CE8D4D /* FestivalsView.swift */,
+			);
+			path = Festivals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,9 +412,16 @@
 				6F52725929C2976F00F3C896 /* ZoneViewModel.swift in Sources */,
 				6F52726429C29C0B00F3C896 /* ZoneDTO.swift in Sources */,
 				6F52726129C2981A00F3C896 /* ZoneIntentError.swift in Sources */,
+				B739B9D229C3661F00CE8D4D /* CreneauxView.swift in Sources */,
+				B7FBD80429C35A9E00ADA026 /* HomeView.swift in Sources */,
+				B739B9CF29C365CB00CE8D4D /* BenevolesView.swift in Sources */,
 				6F52725429C2971700F3C896 /* ZonesView.swift in Sources */,
+				B7FBD80029C358B600ADA026 /* BenevolesView.swift in Sources */,
 				6F52726829C2A58300F3C896 /* JSONError.swift in Sources */,
 				6F52726629C29E7300F3C896 /* QueryResult.swift in Sources */,
+				B7FBD7FE29C3581200ADA026 /* CreneauxView.swift in Sources */,
+				B7FBD80229C3597500ADA026 /* FestivalsView.swift in Sources */,
+				B739B9D529C3665900CE8D4D /* FestivalsView.swift in Sources */,
 				6F52726B29C2A5CD00F3C896 /* JSONHelper.swift in Sources */,
 				6F52725D29C297C700F3C896 /* ZoneState.swift in Sources */,
 				6F52725629C2973B00F3C896 /* ViewModelObserver.swift in Sources */,
