@@ -27,10 +27,37 @@ var isLoading : Bool = false
 
 struct ContentView: View {
     
-    @StateObject var zoneListVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @State private var selection: Tab = .zones
+
+    enum Tab {
+        case zones
+        case creneaux
+    }
     
     var body: some View {
         
+        TabView(selection: $selection) {
+                    ZoneView()
+                        .tabItem {
+                            Image(systemName: "mappin.and.ellipse")
+                            Text("Zones")
+                        }
+                        .tag(Tab.zones)
+                    CreneauxView()
+                            .tabItem {
+                                Image(systemName: "timer")
+                                Text("Creneaux")
+                            }
+                            .tag(Tab.creneaux)
+                }
+    }
+}
+
+struct ZoneView: View {
+    
+    @StateObject var zoneListVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    
+    var body: some View {
         NavigationStack{
             // Vstack principale
             VStack {
@@ -95,6 +122,15 @@ struct ContentView: View {
         }
     }
 }
+
+struct CreneauxView: View {
+    var body: some View {
+        VStack {
+            Text("ICI ON AFFICHE LES CRENEAUX")
+        }
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
