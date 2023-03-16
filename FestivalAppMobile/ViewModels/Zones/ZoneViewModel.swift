@@ -39,9 +39,9 @@ class ZoneViewModel : ObservableObject, Hashable{
     }
     
     // constructor
-    init(_id : String, nom : String){
-        self._id = _id
-        self.nom = nom
+    init(zoneDTO : ZoneDTO){
+        self._id = zoneDTO._id
+        self.nom = zoneDTO.nom
     }
     
     // functions

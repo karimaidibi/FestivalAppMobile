@@ -21,6 +21,10 @@
 		6F52725D29C297C700F3C896 /* ZoneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725C29C297C700F3C896 /* ZoneState.swift */; };
 		6F52725F29C297F800F3C896 /* ZoneIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52725E29C297F800F3C896 /* ZoneIntent.swift */; };
 		6F52726129C2981A00F3C896 /* ZoneIntentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726029C2981A00F3C896 /* ZoneIntentError.swift */; };
+		6F52726429C29C0B00F3C896 /* ZoneDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726329C29C0B00F3C896 /* ZoneDTO.swift */; };
+		6F52726629C29E7300F3C896 /* QueryResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726529C29E7300F3C896 /* QueryResult.swift */; };
+		6F52726829C2A58300F3C896 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726729C2A58300F3C896 /* JSONError.swift */; };
+		6F52726B29C2A5CD00F3C896 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52726A29C2A5CD00F3C896 /* JSONHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +62,10 @@
 		6F52725C29C297C700F3C896 /* ZoneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneState.swift; sourceTree = "<group>"; };
 		6F52725E29C297F800F3C896 /* ZoneIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneIntent.swift; sourceTree = "<group>"; };
 		6F52726029C2981A00F3C896 /* ZoneIntentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneIntentError.swift; sourceTree = "<group>"; };
+		6F52726329C29C0B00F3C896 /* ZoneDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneDTO.swift; sourceTree = "<group>"; };
+		6F52726529C29E7300F3C896 /* QueryResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryResult.swift; sourceTree = "<group>"; };
+		6F52726729C2A58300F3C896 /* JSONError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
+		6F52726A29C2A5CD00F3C896 /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +116,8 @@
 		6F52722229C2964D00F3C896 /* FestivalAppMobile */ = {
 			isa = PBXGroup;
 			children = (
+				6F52726929C2A5BF00F3C896 /* Helpers */,
+				6F52726229C29BFE00F3C896 /* Models */,
 				6F52725129C296F400F3C896 /* Views */,
 				6F52725029C296EE00F3C896 /* ViewModels */,
 				6F52724F29C296E700F3C896 /* States */,
@@ -150,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				6F52726029C2981A00F3C896 /* ZoneIntentError.swift */,
+				6F52726729C2A58300F3C896 /* JSONError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -202,6 +213,23 @@
 				6F52725A29C2978100F3C896 /* ZoneListViewModel.swift */,
 			);
 			path = Zones;
+			sourceTree = "<group>";
+		};
+		6F52726229C29BFE00F3C896 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6F52726329C29C0B00F3C896 /* ZoneDTO.swift */,
+				6F52726529C29E7300F3C896 /* QueryResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6F52726929C2A5BF00F3C896 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6F52726A29C2A5CD00F3C896 /* JSONHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,8 +365,12 @@
 				6F52722629C2964D00F3C896 /* ContentView.swift in Sources */,
 				6F52725F29C297F800F3C896 /* ZoneIntent.swift in Sources */,
 				6F52725929C2976F00F3C896 /* ZoneViewModel.swift in Sources */,
+				6F52726429C29C0B00F3C896 /* ZoneDTO.swift in Sources */,
 				6F52726129C2981A00F3C896 /* ZoneIntentError.swift in Sources */,
 				6F52725429C2971700F3C896 /* ZonesView.swift in Sources */,
+				6F52726829C2A58300F3C896 /* JSONError.swift in Sources */,
+				6F52726629C29E7300F3C896 /* QueryResult.swift in Sources */,
+				6F52726B29C2A5CD00F3C896 /* JSONHelper.swift in Sources */,
 				6F52725D29C297C700F3C896 /* ZoneState.swift in Sources */,
 				6F52725629C2973B00F3C896 /* ViewModelObserver.swift in Sources */,
 				6F52725B29C2978100F3C896 /* ZoneListViewModel.swift in Sources */,

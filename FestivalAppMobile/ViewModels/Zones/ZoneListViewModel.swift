@@ -11,14 +11,24 @@ import Foundation
 class ZoneListViewModel : ObservableObject, ViewModelObserver, RandomAccessCollection, IteratorProtocol{
     
     //The model views array
-    @Published var ZoneViewModelArray : [ZoneViewModel] = []
+    @Published var zoneViewModelArray : [ZoneViewModel] = []
     
     // constructor
-    init(ZoneViewModelArray : [ZoneViewModel]){
-        self.ZoneViewModelArray = ZoneViewModelArray
+    init(zoneViewModelArray : [ZoneViewModel]){
+        self.zoneViewModelArray = zoneViewModelArray
         // register as a observer of all the track model views in the array
-        for tmv in ZoneViewModelArray{
+        for tmv in zoneViewModelArray{
             tmv.register(obs: self)
+        }
+    }
+    
+    
+    // set
+    func setzoneViewModelArray(zoneViewModelArray : [ZoneViewModel]){
+        self.zoneViewModelArray = zoneViewModelArray
+        // register as a observer of all the track model views in the array
+        for zvm in zoneViewModelArray{
+            zvm.register(obs: self)
         }
     }
     
@@ -30,31 +40,31 @@ class ZoneListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
     // functions to make the use of this class easier
     subscript(index: Int) -> ZoneViewModel {
         get {
-            return ZoneViewModelArray[index]
+            return zoneViewModelArray[index]
         }
         set(newValue) {
-            ZoneViewModelArray[index] = newValue
+            zoneViewModelArray[index] = newValue
         }
     }
 
     // iteratorProtocol
     private var current : Int = 0
     func next() -> ZoneViewModel?{
-        guard current < self.ZoneViewModelArray.count else { return nil }
+        guard current < self.zoneViewModelArray.count else { return nil }
         defer {current += 1}
-        return self.ZoneViewModelArray[current]
+        return self.zoneViewModelArray[current]
     }
     
     // RandomAccessCollection
-    var startIndex: Int {return ZoneViewModelArray.startIndex}
-    var endIndex: Int {return ZoneViewModelArray.endIndex}
-    func index(after i: Int) -> Int { return ZoneViewModelArray.index(after: i)}
+    var startIndex: Int {return zoneViewModelArray.startIndex}
+    var endIndex: Int {return zoneViewModelArray.endIndex}
+    func index(after i: Int) -> Int { return zoneViewModelArray.index(after: i)}
     
     func remove(atOffsets : IndexSet)
-    {ZoneViewModelArray.remove(atOffsets: atOffsets)}
+    {zoneViewModelArray.remove(atOffsets: atOffsets)}
     
     func move(fromOffsets: IndexSet, toOffset: Index){
-        ZoneViewModelArray.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        zoneViewModelArray.move(fromOffsets: fromOffsets, toOffset: toOffset)
     }
     
     
