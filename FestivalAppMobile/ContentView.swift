@@ -27,9 +27,12 @@ var isLoading : Bool = false
 
 struct ContentView: View {
     
-    @State private var selection: Tab = .zones
+    @State private var selection: Tab = .home
 
     enum Tab {
+        case home
+        case festivals
+        case benevoles
         case zones
         case creneaux
     }
@@ -37,100 +40,39 @@ struct ContentView: View {
     var body: some View {
         
         TabView(selection: $selection) {
-                    ZoneView()
+                    HomeView()
+                        .tabItem {
+                            Image(systemName: "house.fill")
+                            Text("Home")
+                        }
+                        .tag(Tab.home)
+                    FestivalsView()
+                        .tabItem {
+                            Image(systemName: "info.circle")
+                            Text("Festivals")
+                        }
+                        .tag(Tab.festivals)
+                    BenevolesView()
+                        .tabItem {
+                            Image(systemName: "person")
+                            Text("Bénévoles")
+                        }
+                        .tag(Tab.benevoles)
+                    ZonesView()
                         .tabItem {
                             Image(systemName: "mappin.and.ellipse")
                             Text("Zones")
                         }
                         .tag(Tab.zones)
                     CreneauxView()
-                            .tabItem {
-                                Image(systemName: "timer")
-                                Text("Creneaux")
-                            }
-                            .tag(Tab.creneaux)
-                }
-    }
-}
-
-struct ZoneView: View {
-    
-    @StateObject var zoneListVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
-    
-    var body: some View {
-        NavigationStack{
-            // Vstack principale
-            VStack {
-                //first element
-                Group{
-                    if isLoading{
-                        ProgressView()
-                    }else{
-                        List{
-                            ForEach(zoneListVM.zoneViewModelArray, id: \.self){
-                                item in
-                                    Text("zone Name : \(item.nom)")
-                            }
+                        .tabItem {
+                            Image(systemName: "timer")
+                            Text("Creneaux")
                         }
-                    }
+                        .tag(Tab.creneaux)
                 }
-            }
-        }
-        .padding()
-        .task {
-            // get the json data from apple web site
-            do{
-                guard let url = URL(string: "https://projetawiapi.onrender.com/api/zones") else{
-                    debugPrint("invalid url")
-                    return
-                }
-                
-                isLoading = true
-                let (data, _) = try await URLSession.shared.data(from: url)
-                isLoading = false
-
-                // do something with data
-                zonesData = data
-            }catch{
-                debugPrint("failed to get data from url")
-            }
-            // decode the data
-            if let zonesData = zonesData{
-                // Decode the data using a JSONDecoder object
-                let decoder = JSONDecoder()
-                do {
-                    queryResult = try decoder.decode(QueryResult.self, from: zonesData)
-                } catch {
-                    print("Error: \(error)")
-                }
-                // decode the data into zone DTOs
-                if let queryResult = queryResult {
-                    zoneDTOs = queryResult.result
-                    if let zoneDTOs = zoneDTOs{
-                        ZoneViewModels = ZoneDTO.convertZoneDTOsToDisplay(zoneDTOs: zoneDTOs)
-                    }
-                }
-            }
-            
-            // create the items from the decoded data
-            if let zoneViewModels = ZoneViewModels {
-                items = zoneViewModels
-            }
-            
-            // update the array of data in the zoneListVM
-            zoneListVM.setzoneViewModelArray(zoneViewModelArray: items)
-        }
     }
 }
-
-struct CreneauxView: View {
-    var body: some View {
-        VStack {
-            Text("ICI ON AFFICHE LES CRENEAUX")
-        }
-    }
-}
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
