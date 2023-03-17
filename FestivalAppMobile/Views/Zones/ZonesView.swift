@@ -23,7 +23,7 @@ var ZoneViewModels : [ZoneViewModel]?
 // List of items
 var items : [ZoneViewModel] = []
 
-var isLoading : Bool = false
+var isLoading : Bool = true
 
 struct ZonesView: View {
     

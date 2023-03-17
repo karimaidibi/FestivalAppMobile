@@ -15,9 +15,9 @@ struct ContentView: View {
     enum Tab {
         case home
         case festivals
-        case benevoles
-        case zones
         case creneaux
+        case signin
+        case zones
     }
     
     var body: some View {
@@ -35,24 +35,27 @@ struct ContentView: View {
                             Text("Festivals")
                         }
                         .tag(Tab.festivals)
-                    BenevolesView()
-                        .tabItem {
-                            Image(systemName: "person")
-                            Text("Bénévoles")
-                        }
-                        .tag(Tab.benevoles)
-                    ZonesView()
-                        .tabItem {
-                            Image(systemName: "mappin.and.ellipse")
-                            Text("Zones")
-                        }
-                        .tag(Tab.zones)
                     CreneauxView()
                         .tabItem {
                             Image(systemName: "timer")
                             Text("Creneaux")
                         }
                         .tag(Tab.creneaux)
+                    SigninView(onSigninSuccess: {
+                        // Update the `selection` variable to switch to the home screen in the `TabView`
+                        self.selection = .home
+                    })
+                        .tabItem {
+                            Image(systemName: "person")
+                            Text("Connexion")
+                        }
+                        .tag(Tab.signin)
+                    ZonesView()
+                        .tabItem {
+                            Image(systemName: "mappin.and.ellipse")
+                            Text("Zones")
+                        }
+                        .tag(Tab.zones)
                 }
     }
 }
