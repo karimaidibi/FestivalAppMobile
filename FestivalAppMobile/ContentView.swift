@@ -39,49 +39,21 @@ let fakeFestivals = [
 ]
 
 struct ContentView: View {
-    
-    @State private var selection: Tab = .home
-
-    enum Tab {
-        case home
-        case festivals
-        case creneaux
-        case zones
-    }
-    
-    var body: some View {
+    @State var land: Bool = true
         
-        TabView(selection: $selection) {
-                HomeView()
-                    .tabItem {
-                        Image(systemName: "house.fill")
-                        Text("Home")
-                    }
-                    .tag(Tab.home)
-                FestivalsView(festivals: fakeFestivals)
-                    .tabItem {
-                        Image(systemName: "info.circle")
-                        Text("Festivals")
-                    }
-                    .tag(Tab.festivals)
-                CreneauxView()
-                    .tabItem {
-                        Image(systemName: "timer")
-                        Text("Creneaux")
-                    }
-                    .tag(Tab.creneaux)
-                ZonesView()
-                    .tabItem {
-                        Image(systemName: "mappin.and.ellipse")
-                        Text("Zones")
-                    }
-                    .tag(Tab.zones)
-            }
+    var body: some View {
+        NavigationView {
+           if land {
+               LandingPageView(land: $land)
+           } else {
+               MenuView(selection: .home)
+           }
+       }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        LandingPageView()
+        ContentView()
     }
 }

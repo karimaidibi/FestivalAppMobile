@@ -11,7 +11,7 @@ import SwiftUI
 struct FestivalAppMobileApp: App {
     var body: some Scene {
         WindowGroup {
-            LandingPageView()
+            ContentView()
         }
     }
 }

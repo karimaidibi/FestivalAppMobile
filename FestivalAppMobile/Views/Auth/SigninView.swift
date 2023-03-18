@@ -11,7 +11,10 @@ import SwiftUI
 struct SigninView: View {
     @State private var email = ""
     @State private var password = ""
+    @Environment(\.presentationMode) var presentationMode
     var onSigninSuccess: () -> Void
+    @Binding var land: Bool
+    @Binding var isSigninViewPresented: Bool
     
     var body: some View {
         NavigationView {
@@ -35,6 +38,8 @@ struct SigninView: View {
                     // Here you would implement the code to validate the user's signin credentials
                     // If the validation is successful, set `isShowingHome` to true to take the user to the home screen
                     self.onSigninSuccess()
+                    land = false
+                    isSigninViewPresented = false
                 }) {
                     Text("Se connecter")
                         .font(.headline)
@@ -45,6 +50,20 @@ struct SigninView: View {
                         .cornerRadius(10)
                 }
                 .padding(.horizontal, 20)
+                Button(action: {
+                    // retour à la page d'avant
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Retour")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
             }
         }
     }

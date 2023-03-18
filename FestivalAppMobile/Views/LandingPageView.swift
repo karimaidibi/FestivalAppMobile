@@ -8,16 +8,21 @@
 import Foundation
 
 import SwiftUI
+
 struct LandingPageView: View {
+    @State private var isSigninViewPresented = false
+    @Binding var land: Bool
+
     var body: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: 20) {
             Text("Welcome to Festival App")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
+                .padding(.vertical, 20)
             
             Button(action: {
-                // Navigate to SigninView
+                isSigninViewPresented = true
             }) {
                 Text("Sign in")
                     .font(.headline)
@@ -26,6 +31,11 @@ struct LandingPageView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.blue)
                     .cornerRadius(10)
+            }
+            .fullScreenCover(isPresented: $isSigninViewPresented) {
+                SigninView(onSigninSuccess: {
+                    self.land = false
+                }, land: $land, isSigninViewPresented: $isSigninViewPresented)
             }
             
             Button(action: {
@@ -51,4 +61,3 @@ struct LandingPageView: View {
         .padding()
     }
 }
-
