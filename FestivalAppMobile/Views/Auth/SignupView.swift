@@ -13,6 +13,7 @@ struct SignupView: View {
     @State private var email = ""
     @State private var password = ""
     var onSignupSuccess: () -> Void
+    @Binding var isSignupViewPresented : Bool
     
     var body: some View {
         VStack {
@@ -35,6 +36,7 @@ struct SignupView: View {
                 // Here you would implement the code to validate the user's signup credentials
                 // If the validation is successful, call the `onSignupSuccess` closure to dismiss the `SignupView`
                 self.onSignupSuccess()
+                isSignupViewPresented = false
             }) {
                 Text("S'inscire")
                     .font(.headline)

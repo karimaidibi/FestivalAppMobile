@@ -40,13 +40,14 @@ let fakeFestivals = [
 
 struct ContentView: View {
     @State var land: Bool = true
+    @State var visitor : Bool = false
         
     var body: some View {
         NavigationView {
            if land {
                LandingPageView(land: $land)
            } else {
-               MenuView(selection: .home)
+               MenuView(selection: .home, visitor: visitor)
            }
        }
     }

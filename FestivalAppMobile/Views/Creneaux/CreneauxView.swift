@@ -21,43 +21,48 @@ struct CreneauxView: View {
     @State private var bookedSlots: [Slot] = []
     
     var body: some View {
+        NavigationView{
             VStack {
-                   if bookedSlots.isEmpty {
-                       Text("No booked time slots.")
-                           .foregroundColor(.gray)
-                           .padding()
-                   } else {
-                       List(bookedSlots) { slot in
-                           HStack {
-                               VStack(alignment: .leading, spacing: 10) {
-                                   Text(slot.StartingTime)
-                                       .font(.headline)
-                                       .foregroundColor(.gray)
-                                   Text(slot.EndingTime)
-                                       .font(.headline)
-                                   Text(slot.zone)
-                                   .font(.subheadline)
-                                   .foregroundColor(.gray)
-                               }
-                               Spacer()
-                               Button(action: {
-                                   // Handle the delete action here by removing the `Slot` from the list
-                                   // You can use an alert or a confirmation sheet to ask the user to confirm the delete action
-                               }) {
-                                   Image(systemName: "trash")
-                                       .foregroundColor(.red)
-                               }
-                           }
-                           .padding()
-                           .background(Color.white)
-                           .cornerRadius(10)
-                           .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)                       }
-                   }
-               }
+                if bookedSlots.isEmpty {
+                    Text("No booked time slots.")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    List(bookedSlots) { slot in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(slot.StartingTime)
+                                    .font(.headline)
+                                    .foregroundColor(.gray)
+                                Text(slot.EndingTime)
+                                    .font(.headline)
+                                Text(slot.zone)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            Spacer()
+                            Button(action: {
+                                // Handle the delete action here by removing the `Slot` from the list
+                                // You can use an alert or a confirmation sheet to ask the user to confirm the delete action
+                            }) {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)                       }
+                }
+            }
             .onAppear {
-            // Fetch the user's booked time slots from your API and update the `bookedSlots` variable
-            // You can use an async/await pattern or Combine to handle the API call and response
-            bookedSlots = slots
+                // Fetch the user's booked time slots from your API and update the `bookedSlots` variable
+                // You can use an async/await pattern or Combine to handle the API call and response
+                bookedSlots = slots
+            }
+            .navigationTitle("Mes créneaux")
+            .navigationBarTitleDisplayMode(.inline)
+            .font(.system(size: 18))
         }
     }
 }

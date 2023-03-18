@@ -30,30 +30,20 @@ struct ZonesView: View {
     @StateObject var zoneListVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
     
     var body: some View {
-        NavigationStack{
-            GeometryReader{ geometry in
-                ZStack(alignment: .top) {
-                    List{
-                        if isLoading{
-                            ProgressView()
-                        }else{
-                            ForEach(zoneListVM.zoneViewModelArray, id: \.self){
-                                item in
-                                Text("zone Name : \(item.nom)")
-                            }
-                        }
+        NavigationView{
+            List{
+                if isLoading{
+                    ProgressView()
+                }else{
+                    ForEach(zoneListVM.zoneViewModelArray, id: \.self){
+                        item in
+                        Text("zone Name : \(item.nom)")
                     }
-                    .padding(.top, geometry.safeAreaInsets.top + 60) // Ajustez cette valeur en fonction de la hauteur de votre message fixe
-                    
-                    Text("Liste des Zones")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, geometry.safeAreaInsets.top)
                 }
             }
+            .navigationTitle("Liste des zones")
+            .navigationBarTitleDisplayMode(.inline)
+            .font(.system(size: 18))
         }
         .padding()
         .task {

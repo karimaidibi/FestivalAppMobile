@@ -21,7 +21,7 @@ struct SignedInView: View {
             
             Button(action: {
                 // Implement log out functionality here
-            }) {
+                }) {
                 Text("Log out")
                     .font(.headline)
                     .foregroundColor(.white)

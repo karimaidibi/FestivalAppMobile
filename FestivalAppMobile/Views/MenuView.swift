@@ -11,6 +11,7 @@ import SwiftUI
 
 struct MenuView: View {
     @State private var selection: Tab = .home
+    @State private var visitor : Bool
 
     enum Tab {
         case home
@@ -19,8 +20,9 @@ struct MenuView: View {
         case zones
     }
     
-    init(selection: Tab) {
+    init(selection: Tab, visitor : Bool) {
         self.selection = selection
+        self.visitor = visitor
     }
     
     var body: some View {
@@ -40,7 +42,7 @@ struct MenuView: View {
             CreneauxView()
                 .tabItem {
                     Image(systemName: "timer")
-                    Text("Creneaux")
+                    Text("Mes creneaux")
                 }
                 .tag(Tab.creneaux)
             ZonesView()

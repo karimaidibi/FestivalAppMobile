@@ -11,6 +11,7 @@ import SwiftUI
 
 struct LandingPageView: View {
     @State private var isSigninViewPresented = false
+    @State private var isSignupViewPresented = false
     @Binding var land: Bool
 
     var body: some View {
@@ -40,6 +41,7 @@ struct LandingPageView: View {
             
             Button(action: {
                 // Navigate to SignupView
+                isSignupViewPresented = true
             }) {
                 Text("Sign up")
                     .font(.headline)
@@ -49,9 +51,15 @@ struct LandingPageView: View {
                     .background(Color.green)
                     .cornerRadius(10)
             }
+            .fullScreenCover(isPresented: $isSignupViewPresented) {
+                SignupView(onSignupSuccess: {
+                    self.isSignupViewPresented = false
+                }, isSignupViewPresented: $isSignupViewPresented)
+            }
             
             Button(action: {
                 // Navigate to HomeView for visitors
+                self.land = false
             }) {
                 Text("Continue as a visitor")
                     .font(.headline)
