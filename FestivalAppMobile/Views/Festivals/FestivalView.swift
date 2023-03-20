@@ -10,29 +10,40 @@ import Foundation
 import SwiftUI
 
 struct FestivalView: View {
-    @ObservedObject var festivalsVM = FestivalsViewModel()
-    
-    @State var festival: Festival
+    @StateObject var viewModel: FestivalViewModel
+    @State private var isEditingName = false
+    @State private var editedName = ""
     
     var body: some View {
         List {
             Section(header: Text("Nom")) {
-                Text(festival.name)
+                if isEditingName {
+                    TextField("Nom du Festival", text: $editedName, onCommit: {
+                        isEditingName = false
+                        viewModel.updateFestivalName(name: editedName)
+                    })
+                } else {
+                    Text(viewModel.name)
+                        .font(.headline)
+                        .onTapGesture {
+                            isEditingName = true
+                            editedName = viewModel.name
+                        }
+                }
             }
-            
             Section(header: Text("Jours")) {
-                ForEach(festival.days) { jour in
-                       NavigationLink(destination: JourFestivalView(jour: jour)) {
-                           JourRow(jour: jour)
-                       }
-                   }
+                ForEach(viewModel.days) { jour in
+                    NavigationLink(destination: JourFestivalView(jour: jour)) {
+                        JourRow(jour: jour)
+                    }
+                }
             }
         }
-        .navigationTitle("Festival")
+        .navigationTitle(viewModel.name)
         .navigationBarItems(trailing:
             Button(action: {
-                festival = festivalsVM.addNewDay(jour: Jour(id: 0, date: Date(), startingTime: "00:00", endingTime: "00:00", participantCount: 0, creneaux: []), festival: festival)
-                }, label: {
+                viewModel.addNewDay()
+            }, label: {
                 Image(systemName: "plus")
             })
         )

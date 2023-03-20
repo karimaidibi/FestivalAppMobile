@@ -8,20 +8,23 @@
 import Foundation
 
 class FestivalsViewModel : ObservableObject {
-    func addNewFestival(festivals: [Festival]) -> [Festival] {
-        var newFestival = Festival(id: festivals.count + 1, name: "New Festival", days: [], isActive: false)
-        var newFestivals = festivals
-        newFestivals.append(newFestival)
-        return newFestivals
-    }
+    // The model views array
+   @Published var festivalViewModels: [FestivalViewModel] = []
+   
+   init(festivals: [Festival]) {
+       self.festivalViewModels = festivals.map { FestivalViewModel(festival: $0) }
+   }
+   
+   func addNewFestival(festivals: [Festival]) -> [Festival] {
+       var newFestivals = festivals
+       let newFestival = Festival(id: newFestivals.count, name: "New Festival", days: [], isActive: false)
+       newFestivals.append(newFestival)
+       self.festivalViewModels.append(FestivalViewModel(festival: newFestival))
+       return newFestivals
+   }
+   
+   func getFestivalViewModel(for festival: Festival) -> FestivalViewModel? {
+       return festivalViewModels.first { $0.festival.id == festival.id }
+   }
     
-    func addNewDay(jour: Jour, festival: Festival) -> Festival {
-        var updatedFestival = festival
-        var updatedDays = updatedFestival.days
-        let newId = updatedDays.count + 1
-        let newJour = Jour(id: newId, date: Date(), startingTime: "00:00", endingTime: "00:00", participantCount: 0, creneaux: [])
-        updatedDays.append(newJour)
-        updatedFestival.days = updatedDays
-        return updatedFestival
-    }
 }
