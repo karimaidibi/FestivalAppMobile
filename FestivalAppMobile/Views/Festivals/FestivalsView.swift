@@ -10,10 +10,12 @@ import Foundation
 import SwiftUI
 
 struct FestivalsView: View {
-    let festivals: [Festival]
+    @State private var festivals: [Festival]
+    @ObservedObject var festivalsVM : FestivalsViewModel
     
     init(festivals: [Festival]) {
         self.festivals = festivals
+        self.festivalsVM = FestivalsViewModel()
     }
     
     var body: some View {
@@ -26,6 +28,17 @@ struct FestivalsView: View {
             .navigationTitle("Liste des Festivals")
             .navigationBarTitleDisplayMode(.inline)
             .font(.system(size: 18))
+            .navigationBarItems(trailing:
+                Button(action: {
+                    // Handle button tap action here
+                festivals = festivalsVM.addNewFestival(festivals: festivals)
+                }) {
+                    Image(systemName: "plus")
+                        .foregroundColor(.blue)
+                        .imageScale(.large)
+                }
+                .frame(width: 44, height: 44)
+            )
         }
     }
 }
@@ -61,7 +74,7 @@ struct FestivalRow: View {
 struct Festival: Identifiable {
     let id: Int
     let name: String
-    let days: [Jour]
+    var days: [Jour]
     let isActive: Bool
 }
 

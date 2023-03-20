@@ -17,7 +17,7 @@ struct SignupView: View {
     
     var body: some View {
         VStack {
-            Text("Signup")
+            Text("Inscription")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.bottom, 20)
@@ -27,7 +27,7 @@ struct SignupView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 10)
             
-            SecureField("Password", text: $password)
+            SecureField("Mot de passe", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal, 20)
                 .padding(.bottom, 20)

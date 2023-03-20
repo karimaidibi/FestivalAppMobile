@@ -35,6 +35,8 @@
 		B739B9CF29C365CB00CE8D4D /* BenevolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B739B9CE29C365CB00CE8D4D /* BenevolesView.swift */; };
 		B739B9D229C3661F00CE8D4D /* CreneauxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B739B9D129C3661F00CE8D4D /* CreneauxView.swift */; };
 		B739B9D529C3665900CE8D4D /* FestivalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B739B9D429C3665900CE8D4D /* FestivalsView.swift */; };
+		B7A186C429C8535D00FC4846 /* VisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A186C329C8535D00FC4846 /* VisitorView.swift */; };
+		B7A186C729C8629000FC4846 /* FestivalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A186C629C8629000FC4846 /* FestivalsViewModel.swift */; };
 		B7FBD7FE29C3581200ADA026 /* CreneauxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD7FD29C3581200ADA026 /* CreneauxView.swift */; };
 		B7FBD80029C358B600ADA026 /* BenevolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD7FF29C358B600ADA026 /* BenevolesView.swift */; };
 		B7FBD80229C3597500ADA026 /* FestivalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FBD80129C3597500ADA026 /* FestivalsView.swift */; };
@@ -90,6 +92,8 @@
 		B739B9CE29C365CB00CE8D4D /* BenevolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevolesView.swift; sourceTree = "<group>"; };
 		B739B9D129C3661F00CE8D4D /* CreneauxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreneauxView.swift; sourceTree = "<group>"; };
 		B739B9D429C3665900CE8D4D /* FestivalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalsView.swift; sourceTree = "<group>"; };
+		B7A186C329C8535D00FC4846 /* VisitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitorView.swift; sourceTree = "<group>"; };
+		B7A186C629C8629000FC4846 /* FestivalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalsViewModel.swift; sourceTree = "<group>"; };
 		B7FBD7FD29C3581200ADA026 /* CreneauxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CreneauxView.swift; path = FestivalAppMobile/Views/Creneaux/CreneauxView.swift; sourceTree = "<group>"; };
 		B7FBD7FF29C358B600ADA026 /* BenevolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BenevolesView.swift; path = FestivalAppMobile/Views/Benevoles/BenevolesView.swift; sourceTree = "<group>"; };
 		B7FBD80129C3597500ADA026 /* FestivalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FestivalsView.swift; path = FestivalAppMobile/Views/Festivals/FestivalsView.swift; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 		6F52725029C296EE00F3C896 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				B7A186C529C8628100FC4846 /* Festivals */,
 				6F52725729C2975300F3C896 /* Zones */,
 				6F52725529C2973B00F3C896 /* ViewModelObserver.swift */,
 			);
@@ -276,6 +281,7 @@
 				6F95270529C45B5B00E21CD4 /* SigninView.swift */,
 				6FD3722529C47FB500E969D0 /* SignupView.swift */,
 				6F05D6E629C5DFF5005D965E /* SignedInView.swift */,
+				B7A186C329C8535D00FC4846 /* VisitorView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -302,6 +308,14 @@
 				B739B9D429C3665900CE8D4D /* FestivalsView.swift */,
 				6F05D6E029C5C053005D965E /* FestivalView.swift */,
 				6F05D6E229C5CAE6005D965E /* JourFestivalView.swift */,
+			);
+			path = Festivals;
+			sourceTree = "<group>";
+		};
+		B7A186C529C8628100FC4846 /* Festivals */ = {
+			isa = PBXGroup;
+			children = (
+				B7A186C629C8629000FC4846 /* FestivalsViewModel.swift */,
 			);
 			path = Festivals;
 			sourceTree = "<group>";
@@ -445,8 +459,10 @@
 				B7FBD80429C35A9E00ADA026 /* HomeView.swift in Sources */,
 				B739B9CF29C365CB00CE8D4D /* BenevolesView.swift in Sources */,
 				6F52725429C2971700F3C896 /* ZonesView.swift in Sources */,
+				B7A186C729C8629000FC4846 /* FestivalsViewModel.swift in Sources */,
 				6F05D6E129C5C053005D965E /* FestivalView.swift in Sources */,
 				B7FBD80029C358B600ADA026 /* BenevolesView.swift in Sources */,
+				B7A186C429C8535D00FC4846 /* VisitorView.swift in Sources */,
 				6F52726829C2A58300F3C896 /* JSONError.swift in Sources */,
 				6F95270629C45B5B00E21CD4 /* SigninView.swift in Sources */,
 				6F52726629C29E7300F3C896 /* QueryResult.swift in Sources */,

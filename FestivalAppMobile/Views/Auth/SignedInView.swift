@@ -14,7 +14,7 @@ struct SignedInView: View {
     
     var body: some View {
         VStack(spacing: 40) {
-            Text("Welcome \(username)")
+            Text("Bienvenue \(username) !")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
@@ -22,7 +22,7 @@ struct SignedInView: View {
             Button(action: {
                 // Implement log out functionality here
                 }) {
-                Text("Log out")
+                Text("Déconnexion")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()

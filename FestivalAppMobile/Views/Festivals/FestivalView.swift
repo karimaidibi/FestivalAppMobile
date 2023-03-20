@@ -10,7 +10,9 @@ import Foundation
 import SwiftUI
 
 struct FestivalView: View {
-    let festival: Festival
+    @ObservedObject var festivalsVM = FestivalsViewModel()
+    
+    @State var festival: Festival
     
     var body: some View {
         List {
@@ -27,6 +29,13 @@ struct FestivalView: View {
             }
         }
         .navigationTitle(festival.name)
+        .navigationBarItems(trailing:
+            Button(action: {
+                festival = festivalsVM.addNewDay(jour: Jour(id: 0, date: Date(), startingTime: "00:00", endingTime: "00:00", participantCount: 0, creneaux: []), festival: festival)
+                }, label: {
+                Image(systemName: "plus")
+            })
+        )
     }
 }
 

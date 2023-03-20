@@ -15,6 +15,7 @@ struct MenuView: View {
 
     enum Tab {
         case home
+        case visiteur
         case festivals
         case creneaux
         case zones
@@ -27,12 +28,24 @@ struct MenuView: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            HomeView()
+            if (!visitor) {
+                HomeView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Home")
+                    Text("Accueil")
                 }
                 .tag(Tab.home)
+            }
+            //else {
+            //    VisitorView(land : true)
+            //    .tabItem {
+            //        Image(systemName: "house.fill")
+            //        Text("Accueil")
+            //    }
+            //    .tag(Tab.visiteur)
+            //
+            //}
+                
             FestivalsView(festivals: fakeFestivals)
                 .tabItem {
                     Image(systemName: "info.circle")
@@ -42,7 +55,7 @@ struct MenuView: View {
             CreneauxView()
                 .tabItem {
                     Image(systemName: "timer")
-                    Text("Mes creneaux")
+                    Text("Mes créneaux")
                 }
                 .tag(Tab.creneaux)
             ZonesView()
