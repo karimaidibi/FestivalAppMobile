@@ -11,8 +11,12 @@ import SwiftUI
 
 struct SignedInView: View {
     let username: String
+    @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
     
     var body: some View {
+        
+        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
+        
         VStack(spacing: 40) {
             Text("Bienvenue \(username) !")
                 .font(.largeTitle)
@@ -21,6 +25,7 @@ struct SignedInView: View {
             
             Button(action: {
                 // Implement log out functionality here
+                benevoleIntent.logout()
                 }) {
                 Text("Déconnexion")
                     .font(.headline)

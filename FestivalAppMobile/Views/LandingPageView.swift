@@ -35,7 +35,7 @@ struct LandingPageView: View {
             }
             .fullScreenCover(isPresented: $isSigninViewPresented) {
                 SigninView(onSigninSuccess: {
-                    self.land = false
+                    //self.land = false
                 }, land: $land, isSigninViewPresented: $isSigninViewPresented)
             }
             

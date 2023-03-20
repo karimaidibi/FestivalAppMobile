@@ -15,8 +15,12 @@ struct SigninView: View {
     var onSigninSuccess: () -> Void
     @Binding var land: Bool
     @Binding var isSigninViewPresented: Bool
+    @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
     
     var body: some View {
+        
+        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
+        
         NavigationView {
             VStack {
                 Text("Connexion")
@@ -34,12 +38,15 @@ struct SigninView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
                 
-                Button(action: {
-                    // Here you would implement the code to validate the user's signin credentials
-                    // If the validation is successful, set `isShowingHome` to true to take the user to the home screen
-                    self.onSigninSuccess()
-                    land = false
-                    isSigninViewPresented = false
+                Button(action : {
+                    Task {
+                        // Here you would implement the code to validate the user's signin credentials
+                        // If the validation is successful, set `isShowingHome` to true to take the user to the home screen
+                        await benevoleIntent.login(email: self.email, password: self.password)
+                        //self.onSigninSuccess()
+                        //land = false
+                        //isSigninViewPresented = false
+                    }
                 }) {
                     Text("Se connecter")
                         .font(.headline)
@@ -50,6 +57,7 @@ struct SigninView: View {
                         .cornerRadius(10)
                 }
                 .padding(.horizontal, 20)
+                
                 Button(action: {
                     // retour à la page d'avant
                     presentationMode.wrappedValue.dismiss()
