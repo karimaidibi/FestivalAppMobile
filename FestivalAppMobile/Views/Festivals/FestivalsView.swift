@@ -90,5 +90,11 @@ struct Creneau: Identifiable {
     var id: Int
     var startingTime: String
     var endingTime: String
-    var area: String
+    var areas: [Zone]
+}
+
+struct Zone: Identifiable {
+    var id: String
+    var name: String
+    var nbBenevolesMin : Int
 }

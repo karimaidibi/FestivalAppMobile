@@ -1,20 +1,19 @@
 //
-//  ZoneDTO.swift
+//  FestivalDTO.swift
 //  FestivalAppMobile
 //
-//  Created by m1 on 16/03/2023.
+//  Created by etud on 20/03/2023.
 //
 
 import Foundation
+
 import SwiftUI
 
-class ZoneDTO : Decodable, Encodable {
+class FestivalDTO : Decodable, Encodable {
     
     // properties
     var _id : String
     var nom : String
-    var nbRequis : Int
-    var nbActuel : Int
     
     static func convertZoneDTOsToDisplay(zoneDTOs : [ZoneDTO]) -> [ZoneViewModel]{
         var zoneViewModelArray : [ZoneViewModel] = []
