@@ -28,7 +28,7 @@ struct FestivalView: View {
                    }
             }
         }
-        .navigationTitle(festival.name)
+        .navigationTitle("Festival")
         .navigationBarItems(trailing:
             Button(action: {
                 festival = festivalsVM.addNewDay(jour: Jour(id: 0, date: Date(), startingTime: "00:00", endingTime: "00:00", participantCount: 0, creneaux: []), festival: festival)
