@@ -64,6 +64,12 @@ class BenevoleViewModel : ObservableObject, Hashable{
         }
     }
     
+    // this message is to display in the view e.g popup or snackbar
+    @Published var logInErrorMessage : String = ""
+    
+    // to call in the view when loading
+    @Published var loading : Bool = false
+    
     // State Intent management
     @Published var state : BenevoleState = .ready{
         didSet{
@@ -71,6 +77,35 @@ class BenevoleViewModel : ObservableObject, Hashable{
             case .ready:
                 debugPrint("BenevoleViewModel : ready state")
                 debugPrint("-------------------------------")
+                self.loading = false
+                self.logInErrorMessage = ""
+            case .loading:
+                debugPrint("BenevoleViewModel : loading state")
+                debugPrint("-------------------------------")
+                self.loading = true
+                self.logInErrorMessage = ""
+            case .loggedOut:
+                debugPrint("BenevoleViewModel : loggedOut state")
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.logInErrorMessage = ""
+            case .loggedIn(_):
+                debugPrint("BenevoleViewModel : loggedIn state")
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.logInErrorMessage = ""
+            case .tooShortPassword:
+                debugPrint("BenevoleViewModel : tooShortPassword state")
+                debugPrint("-------------------------------")
+                self.logInErrorMessage = state.description
+            case .emailNotValid:
+                debugPrint("BenevoleViewModel : emailNotValid state")
+                debugPrint("-------------------------------")
+                self.logInErrorMessage = state.description
+            case .error(_):
+                debugPrint("BenevoleViewModel : error state")
+                debugPrint("-------------------------------")
+                self.logInErrorMessage = state.description
             default:
                 break
             }

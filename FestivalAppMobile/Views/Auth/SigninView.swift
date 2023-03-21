@@ -15,6 +15,7 @@ struct SigninView: View {
     var onSigninSuccess: () -> Void
     @Binding var land: Bool
     @Binding var isSigninViewPresented: Bool
+    
     @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
     
     var body: some View {
@@ -42,10 +43,17 @@ struct SigninView: View {
                     Task {
                         // Here you would implement the code to validate the user's signin credentials
                         // If the validation is successful, set `isShowingHome` to true to take the user to the home screen
-                        await benevoleIntent.login(email: self.email, password: self.password)
-                        //self.onSigninSuccess()
-                        //land = false
-                        //isSigninViewPresented = false
+                        let loggedIn : Bool = await benevoleIntent.login(email: self.email, password: self.password)
+                        if loggedIn{
+                            print(AuthManager.getBenevoleId())
+                            //self.onSigninSuccess()
+                            //land = false
+                            //isSigninViewPresented = false
+                        }else{
+                            // pop up or something here
+                            print(self.benevoleVM.logInErrorMessage)
+                        }
+
                     }
                 }) {
                     Text("Se connecter")

@@ -26,6 +26,7 @@ struct SignedInView: View {
             Button(action: {
                 // Implement log out functionality here
                 benevoleIntent.logout()
+                print("after logged out  \(AuthManager.getBenevoleId())")
                 }) {
                 Text("Déconnexion")
                     .font(.headline)

@@ -18,27 +18,46 @@ struct BenevoleIntent{
     }
     
     // login and change the state of the model to loggedIn
-    func login(email : String, password: String) async{
-        // verify the email
+    func login(email : String, password: String) async -> Bool{
+        // set email to lower case :
         
-        // if email not valid change the state to emailNotValid
+        let lowercasedEmail = email.lowercased()
         
-        // verify the password
-        
-        // if password is short change the state to tooShortPassword
+        // Verify the email
+         if !validateEmail(lowercasedEmail) {
+             // If email is not valid, change the state to emailNotValid
+             model.state = .emailNotValid
+             return false
+         }
+         
+         // Verify the password
+         if password.count < 5 { // Assuming the minimum password length is 8 characters
+             // If password is short, change the state to tooShortPassword
+             model.state = .tooShortPassword
+             return false
+         }
         
         // if ok send loggin and change the state to loading
-        let result = await self.authService.login(email: email, password: password)
+        model.state = .loading
+        let result = await self.authService.login(email: lowercasedEmail, password: password)
         switch result {
-            case .success(let str) : debugPrint("success \(str)")
-            case .failure(let error): debugPrint("Error : \(error)")
+            case .success(_) :
+            	model.state = .loggedIn(lowercasedEmail)
+                return true
+            case .failure(let error):
+                model.state = .logInFailed(error as! LoginError)
+                return false
         }
-
-        // finnaly change the state to loggedIn
     }
     
     // login and change the state of the model to loggedOut
     func logout(){
         self.authService.logout()
+    }
+    
+    // Validate email function
+    private func validateEmail(_ email: String) -> Bool {
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
+        return emailPredicate.evaluate(with: email)
     }
 }

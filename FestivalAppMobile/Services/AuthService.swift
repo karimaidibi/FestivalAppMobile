@@ -9,13 +9,22 @@ import Foundation
 import SwiftUI
 
 class AuthService {
-    let api : String = "https://festivalappapi.onrender.com/api"
-    let localhost : String = "http://localhost:3000/api"
+    
+    var api : String
+    
+    init(){
+        // define the url
+        if let apiUrl = EnvironmentHelper.getEnvironmentValue(forKey: "API") {
+            self.api = apiUrl
+        }else{
+            self.api = ""
+        }
+    }
     
     // login function
     func login(email: String, password: String) async -> Result<String?, Error> {
-        // define the url
-        guard let url = URL(string: "https://festivalappapi.onrender.com/api/benevoles/login") else {
+
+        guard let url = URL(string: "\(self.api)/benevoles/login") else {
             return .failure(APIRequestError.unknown)
         }
         // define the post request
@@ -50,8 +59,10 @@ class AuthService {
                     return .failure(JSONError.JsonDecodingFailed)
                 }
                 // si bad result
-                return .failure(APIRequestError.UploadError("Bad Result In LogIn, code: \(queryBadResult.status), message : \(queryBadResult.message)"))
-            }
+                let loginError : LoginError = LoginError(message: queryBadResult.message)
+                debugPrint(APIRequestError.UploadError("Bad Result In LogIn, code: \(queryBadResult.status), message : \(queryBadResult.message)"))
+
+                return .failure(loginError)            }
         }catch{
             return .failure(APIRequestError.UploadError("AuthService login"))
         }
