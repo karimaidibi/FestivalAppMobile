@@ -30,7 +30,7 @@ struct BenevoleIntent{
         // if ok send loggin and change the state to loading
         let result = await self.authService.login(email: email, password: password)
         switch result {
-            case .success(let str) : debugPrint(str)
+            case .success(let str) : debugPrint("success \(str)")
             case .failure(let error): debugPrint("Error : \(error)")
         }
 

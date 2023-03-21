@@ -26,5 +26,16 @@ struct JSONHelper{
         return nil
     }
     
+    // encode les données
+    static func encode<T : Encodable>(data : T) async -> Data?{
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        guard let jsonData = try? encoder.encode(data) else {
+            debugPrint(JSONError.JsonEncodingFailed)
+            return nil
+        }
+        return jsonData
+    }
+    
     
 }

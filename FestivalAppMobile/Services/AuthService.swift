@@ -9,36 +9,48 @@ import Foundation
 import SwiftUI
 
 class AuthService {
-    let api : String = "https://festivalappapi.onrender.com"
-    let localhost : String = ""
+    let api : String = "https://festivalappapi.onrender.com/api"
+    let localhost : String = "http://localhost:3000/api"
+    
+    // login function
     func login(email: String, password: String) async -> Result<String?, Error> {
+        // define the url
         guard let url = URL(string: "https://festivalappapi.onrender.com/api/benevoles/login") else {
             return .failure(APIRequestError.unknown)
         }
-        debugPrint(url)
+        // define the post request
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let loginInfo: [String: Any] = ["nom" : "", "prenom" : "", "email": email, "password": password, "isAdmin" : false, "affectations" : []]
-        //request.httpBody = try? JSONSerialization.data(withJSONObject: loginInfo)
-        guard let encoded = try? JSONSerialization.data(withJSONObject: loginInfo) else {
+        
+        // encode the log in data
+        let loginInfo: LogInDTO =  LogInDTO(email: email, password: password)
+        guard let encoded : Data = await JSONHelper.encode(data: loginInfo) else {
             return .failure(JSONError.JsonEncodingFailed)
         }
         
+        // send the request
         do {
-            let(data, response) = try await URLSession.shared.upload(for : request, from : encoded)
-            debugPrint(response)
+            let(data, response) = try await URLSession.shared.upload(for : request, from: encoded)
             let httpresponse = response as! HTTPURLResponse // le bon type
-            debugPrint(httpresponse.statusCode)
-            if httpresponse.statusCode == 200 || httpresponse.statusCode == 404 {
-                debugPrint(data)
+            // si tout se passe bien
+            if httpresponse.statusCode == 200{
+                // recuperer query result
                 guard let decoded : authData = await JSONHelper.decodeOne(data: data) else{
                     return .failure(JSONError.JsonDecodingFailed)
                 }
+                // save the auth data
                 AuthManager.saveAuthToken(decoded.token) // save the token of benevole
                 AuthManager.saveBenevoleId(decoded.benevoleId) // save the id of the benevole
-                debugPrint(decoded)
+            }
+            // sinon afficher erreur avec le status code
+            else {
+                // sinon recuperer query bad result
+                guard let queryBadResult : QueryBadResult = await JSONHelper.decodeOne(data: data) else{
+                    return .failure(JSONError.JsonDecodingFailed)
+                }
+                // si bad result
+                return .failure(APIRequestError.UploadError("Bad Result In LogIn, code: \(queryBadResult.status), message : \(queryBadResult.message)"))
             }
         }catch{
             return .failure(APIRequestError.UploadError("AuthService login"))
