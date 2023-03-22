@@ -12,7 +12,9 @@ import SwiftUI
 struct LandingPageView: View {
     @State private var isSigninViewPresented = false
     @State private var isSignupViewPresented = false
-    @Binding var land: Bool
+    //@Binding var land: Bool
+    @EnvironmentObject var viewsManager : ViewsManager
+    @EnvironmentObject var authManager : AuthManager
 
     var body: some View {
         VStack(spacing: 20) {
@@ -36,7 +38,7 @@ struct LandingPageView: View {
             .fullScreenCover(isPresented: $isSigninViewPresented) {
                 SigninView(onSigninSuccess: {
                     //self.land = false
-                }, land: $land, isSigninViewPresented: $isSigninViewPresented)
+                }, isSigninViewPresented: $isSigninViewPresented).environmentObject(viewsManager).environmentObject(authManager)
             }
             
             Button(action: {
@@ -59,7 +61,8 @@ struct LandingPageView: View {
             
             Button(action: {
                 // Navigate to HomeView for visitors
-                self.land = false
+                //self.land = false
+                viewsManager.land = false
             }) {
                 Text("Continue as a visitor")
                     .font(.headline)

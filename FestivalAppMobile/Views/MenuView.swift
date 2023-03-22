@@ -10,8 +10,10 @@ import Foundation
 import SwiftUI
 
 struct MenuView: View {
-    @State private var selection: Tab = .home
-    @State private var visitor : Bool
+    //@State private var selection: Tab = .home
+    //@State private var visitor : Bool
+    @EnvironmentObject var authManager : AuthManager
+    @EnvironmentObject var viewsManager : ViewsManager
 
     enum Tab {
         case home
@@ -21,30 +23,16 @@ struct MenuView: View {
         case zones
     }
     
-    init(selection: Tab, visitor : Bool) {
-        self.selection = selection
-        self.visitor = visitor
-    }
     
     var body: some View {
-        TabView(selection: $selection) {
-            if (!visitor) {
-                HomeView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Accueil")
-                }
-                .tag(Tab.home)
+        TabView() {
+
+            HomeView().environmentObject(viewsManager).environmentObject(authManager)
+            .tabItem {
+                Image(systemName: "house.fill")
+                Text("Accueil")
             }
-            //else {
-            //    VisitorView(land : true)
-            //    .tabItem {
-            //        Image(systemName: "house.fill")
-            //        Text("Accueil")
-            //    }
-            //    .tag(Tab.visiteur)
-            //
-            //}
+            .tag(Tab.home)
                 
             FestivalsView(festivals: fakeFestivals)
                 .tabItem {

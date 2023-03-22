@@ -41,15 +41,18 @@ let fakeFestivals = [
 ]
 
 struct ContentView: View {
-    @State var land: Bool = true
-    @State var visitor : Bool = false
+    //@State var land: Bool = true
+    //@State var visitor : Bool = false
+    @StateObject private var authManager = AuthManager() // pour le status visiteur
+    @StateObject private var viewsManager = ViewsManager() // pour le landing
         
     var body: some View {
         NavigationView {
-           if land {
-               LandingPageView(land: $land)
+            if viewsManager.land {
+                LandingPageView().environmentObject(viewsManager).environmentObject(authManager)
            } else {
-               MenuView(selection: .home, visitor: visitor)
+               MenuView().environmentObject(authManager)
+                   .environmentObject(viewsManager)
            }
        }
     }

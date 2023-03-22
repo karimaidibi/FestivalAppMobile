@@ -10,11 +10,12 @@ import SwiftUI
 
 struct BenevoleIntent{
     @ObservedObject private var model : BenevoleViewModel
-    private var authService : AuthService = AuthService()
+    private var authService : AuthService
     private var benevoleService : BenevoleService = BenevoleService()
     
-    init(benevole : BenevoleViewModel){
+    init(benevole : BenevoleViewModel, authManager : AuthManager){
         self.model = benevole
+        self.authService = AuthService(authManager: authManager)
     }
     
     // login and change the state of the model to loggedIn
@@ -53,6 +54,9 @@ struct BenevoleIntent{
     // login and change the state of the model to loggedOut
     func logout(){
         self.authService.logout()
+        model.state = .loggedOut
+        let authManager : AuthManager = AuthManager()
+        print(authManager.benevoleId)
     }
     
     // Validate email function

@@ -12,10 +12,13 @@ import SwiftUI
 struct SignedInView: View {
     let username: String
     @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
+    @EnvironmentObject var viewsManager : ViewsManager
+    @EnvironmentObject var authManager : AuthManager
+    @State private var navigateToHome = false
     
     var body: some View {
         
-        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
+        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM, authManager: authManager)
         
         VStack(spacing: 40) {
             Text("Bienvenue \(username) !")
@@ -26,7 +29,8 @@ struct SignedInView: View {
             Button(action: {
                 // Implement log out functionality here
                 benevoleIntent.logout()
-                print("after logged out  \(AuthManager.getBenevoleId())")
+                viewsManager.land = true
+                self.navigateToHome = true
                 }) {
                 Text("Déconnexion")
                     .font(.headline)
@@ -36,6 +40,8 @@ struct SignedInView: View {
                     .background(Color.red)
                     .cornerRadius(10)
             }
+            NavigationLink("", destination: HomeView(), isActive: $navigateToHome)
+                  .hidden()
         }
         .padding()
     }

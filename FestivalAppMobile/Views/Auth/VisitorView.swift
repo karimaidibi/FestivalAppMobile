@@ -12,7 +12,9 @@ import SwiftUI
 struct VisitorView: View {
     @State private var isSigninViewPresented = false
     @State private var isSignupViewPresented = false
-    @Binding var land: Bool
+    //@Binding var land: Bool
+    @EnvironmentObject var viewsManager : ViewsManager //for landing
+    @State private var navigateToHome = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -35,8 +37,10 @@ struct VisitorView: View {
             }
             .fullScreenCover(isPresented: $isSigninViewPresented) {
                 SigninView(onSigninSuccess: {
-                    self.land = false
-                }, land: $land, isSigninViewPresented: $isSigninViewPresented)
+                    //self.land = false
+                    viewsManager.land = false
+                    navigateToHome = true
+                }, isSigninViewPresented: $isSigninViewPresented)
             }
             
             Button(action: {
@@ -56,6 +60,8 @@ struct VisitorView: View {
                     self.isSignupViewPresented = false
                 }, isSignupViewPresented: $isSignupViewPresented)
             }
+            NavigationLink("", destination: HomeView(), isActive: $navigateToHome)
+                  .hidden()
         }
         .padding()
     }

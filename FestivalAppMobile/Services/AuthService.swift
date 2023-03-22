@@ -11,18 +11,21 @@ import SwiftUI
 class AuthService {
     
     var api : String
+    var benevolesService : BenevoleService = BenevoleService()
+    var authManager : AuthManager
     
-    init(){
+    init(authManager : AuthManager){
         // define the url
         if let apiUrl = EnvironmentHelper.getEnvironmentValue(forKey: "API") {
             self.api = apiUrl
         }else{
             self.api = ""
         }
+        self.authManager = authManager
     }
     
     // login function
-    func login(email: String, password: String) async -> Result<String?, Error> {
+    func login(email: String, password: String) async -> Result<BenevoleDTO?, Error> {
 
         guard let url = URL(string: "\(self.api)/benevoles/login") else {
             return .failure(APIRequestError.unknown)
@@ -37,7 +40,8 @@ class AuthService {
         guard let encoded : Data = await JSONHelper.encode(data: loginInfo) else {
             return .failure(JSONError.JsonEncodingFailed)
         }
-        
+        // define a variable to stock the benevoleDTO to be returned
+        var benevoleDTOToBeReturned : BenevoleDTO? = nil
         // send the request
         do {
             let(data, response) = try await URLSession.shared.upload(for : request, from: encoded)
@@ -48,9 +52,19 @@ class AuthService {
                 guard let decoded : authData = await JSONHelper.decodeOne(data: data) else{
                     return .failure(JSONError.JsonDecodingFailed)
                 }
-                // save the auth data
-                AuthManager.saveAuthToken(decoded.token) // save the token of benevole
-                AuthManager.saveBenevoleId(decoded.benevoleId) // save the id of the benevole
+                let getBenevoleByIdResult = await self.benevolesService.getBenevoleById(id: decoded.benevoleId)
+                switch getBenevoleByIdResult{
+                	case .success(let benevoleDTO):
+                    	benevoleDTOToBeReturned = benevoleDTO
+                    	// save the auth data
+                        DispatchQueue.main.async {
+                            self.authManager.authToken = decoded.token // save the token of benevole
+                            self.authManager.benevoleId = decoded.benevoleId // save the id of the benevole
+                            self.authManager.isAdmin = benevoleDTO.isAdmin
+                    	}
+                    case .failure(let error):
+                        return .failure(error)
+                }
             }
             // sinon afficher erreur avec le status code
             else {
@@ -66,14 +80,17 @@ class AuthService {
         }catch{
             return .failure(APIRequestError.UploadError("AuthService login"))
         }
-        return .success(AuthManager.getBenevoleId())
+        return .success(benevoleDTOToBeReturned)
     }
 
     // Add other Benevole-related API calls here
 
     func logout(){
-        AuthManager.clearAuthToken()
-        AuthManager.clearBeneveoleId()
+        DispatchQueue.main.async {
+            self.authManager.authToken = nil
+            self.authManager.benevoleId = nil
+            self.authManager.isAdmin = nil
+        }
     }
 
 }
