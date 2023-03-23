@@ -10,17 +10,17 @@ import Foundation
 import SwiftUI
 
 struct JourFestivalView: View {
-    let jour: Jour
+    @StateObject var viewModel: JourViewModel
 
     var body: some View {
         VStack {
-            Text(jour.date, formatter: dateFormatter)
+            Text(viewModel.jour.date, formatter: dateFormatter)
                 .font(.title)
                 .padding(.top, 20)
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    ForEach(jour.creneaux) { creneau in
+                    ForEach(viewModel.jour.creneaux) { creneau in
                         Divider() // comme sur angular mat
                         CreneauRow(creneau: creneau)
                     }
@@ -32,6 +32,13 @@ struct JourFestivalView: View {
             Spacer()
         }
         .navigationTitle("Jour")
+        .navigationBarItems(trailing:
+            Button(action: {
+            viewModel.addNewCreneau()
+            }, label: {
+                Image(systemName: "plus")
+            })
+        )
     }
 }
 

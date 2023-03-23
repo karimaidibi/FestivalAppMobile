@@ -31,12 +31,9 @@ struct FestivalsView: View {
             .navigationBarItems(trailing:
                 Button(action: {
                     festivals = festivalsVM.addNewFestival(festivals: festivals)
-                }) {
+                }, label: {
                     Image(systemName: "plus")
-                        .foregroundColor(.blue)
-                        .imageScale(.large)
-                }
-                .frame(width: 44, height: 44)
+                })
             )
         }
     }
@@ -52,7 +49,7 @@ struct FestivalRow: View {
             
             Spacer()
             
-            Text("\(viewModel.days.count) Jours")
+            Text("\(viewModel.jourListViewModel.jourViewModels.count) Jours")
                 .font(.subheadline)
             
             if viewModel.isActive {

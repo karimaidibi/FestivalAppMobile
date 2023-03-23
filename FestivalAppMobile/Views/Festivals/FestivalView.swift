@@ -47,9 +47,9 @@ struct FestivalView: View {
             // affichage de la section
             if selectedSection == .jours {
                 Section(header: Text("Jours")) {
-                    ForEach(viewModel.days) { jour in
-                        NavigationLink(destination: JourFestivalView(jour: jour)) {
-                            JourRow(jour: jour)
+                    ForEach(viewModel.jourListViewModel.jourViewModels) { jourVM in
+                        NavigationLink(destination: JourFestivalView(viewModel: jourVM)) {
+                            JourRow(jour: jourVM.jour)
                         }
                     }
                 }

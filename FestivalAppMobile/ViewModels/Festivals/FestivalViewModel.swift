@@ -10,7 +10,7 @@ import Foundation
 class FestivalViewModel: ObservableObject {
     // Observers: a list of view models
     var observers: [ViewModelObserver] = []
-    
+
     // Properties: will notify the model when the view changes any of these properties
     @Published var festival: Festival {
         didSet {
@@ -19,7 +19,7 @@ class FestivalViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published var name: String {
         didSet {
             for observer in observers {
@@ -27,15 +27,9 @@ class FestivalViewModel: ObservableObject {
             }
         }
     }
-    
-    @Published var days: [Jour] {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
-            }
-        }
-    }
-    
+
+    @Published var jourListViewModel: JourListViewModel
+
     @Published var zones: [Zone] {
         didSet {
             for observer in observers {
@@ -43,7 +37,7 @@ class FestivalViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published var isActive: Bool {
         didSet {
             for observer in observers {
@@ -51,8 +45,8 @@ class FestivalViewModel: ObservableObject {
             }
         }
     }
-    
-    
+
+
     // State Intent management
     @Published var state: FestivalState = .ready {
         didSet {
@@ -64,31 +58,30 @@ class FestivalViewModel: ObservableObject {
             }
         }
     }
-    
+
     // Constructor
     init(festival: Festival) {
         self.festival = festival
         self.name = festival.name
-        self.days = festival.days
+        self.jourListViewModel = JourListViewModel(jours: festival.days)
         self.zones = festival.zones
         self.isActive = festival.isActive
     }
-    
+
     // Functions
     func register(obs: ViewModelObserver) {
         self.observers.append(obs)
     }
-    
+
     func updateFestivalName(name: String) {
         self.name = name
     }
-    
+
     func addNewDay() {
-        let newId = self.days.count + 1
-        let newJour = Jour(id: newId, date: Date(), startingTime: "00:00", endingTime: "00:00", participantCount: 0, creneaux: [])
-        self.days.append(newJour)
+        let newJours = self.jourListViewModel.addNewDay(jours: self.festival.days)
+        self.festival.days = newJours
     }
-    
+
     func addNewZone() {
         let newId = self.zones.count + 1
         let newZone = Zone(id: newId, name: "Nouvelle Zone", nbBenevolesMin: 0)
