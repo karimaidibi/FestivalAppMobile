@@ -74,6 +74,7 @@ struct Festival: Identifiable {
     var id: Int
     var name: String
     var days: [Jour]
+    var zones : [Zone]
     var isActive: Bool
 }
 
@@ -94,7 +95,7 @@ struct Creneau: Identifiable {
 }
 
 struct Zone: Identifiable {
-    var id: String
+    var id: Int
     var name: String
     var nbBenevolesMin : Int
 }

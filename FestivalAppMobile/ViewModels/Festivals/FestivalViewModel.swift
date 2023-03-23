@@ -36,6 +36,14 @@ class FestivalViewModel: ObservableObject {
         }
     }
     
+    @Published var zones: [Zone] {
+        didSet {
+            for observer in observers {
+                observer.viewModelUpdated()
+            }
+        }
+    }
+    
     @Published var isActive: Bool {
         didSet {
             for observer in observers {
@@ -62,6 +70,7 @@ class FestivalViewModel: ObservableObject {
         self.festival = festival
         self.name = festival.name
         self.days = festival.days
+        self.zones = festival.zones
         self.isActive = festival.isActive
     }
     
@@ -78,5 +87,11 @@ class FestivalViewModel: ObservableObject {
         let newId = self.days.count + 1
         let newJour = Jour(id: newId, date: Date(), startingTime: "00:00", endingTime: "00:00", participantCount: 0, creneaux: [])
         self.days.append(newJour)
+    }
+    
+    func addNewZone() {
+        let newId = self.zones.count + 1
+        let newZone = Zone(id: newId, name: "Nouvelle Zone", nbBenevolesMin: 0)
+        self.zones.append(newZone)
     }
 }

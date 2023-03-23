@@ -17,7 +17,8 @@ class FestivalsViewModel : ObservableObject {
    
    func addNewFestival(festivals: [Festival]) -> [Festival] {
        var newFestivals = festivals
-       let newFestival = Festival(id: newFestivals.count, name: "New Festival", days: [], isActive: false)
+       let zoneLibre = Zone(id: 0, name: "Libre", nbBenevolesMin : 0)
+       let newFestival = Festival(id: newFestivals.count, name: "New Festival", days: [], zones: [zoneLibre] ,isActive: false)
        newFestivals.append(newFestival)
        self.festivalViewModels.append(FestivalViewModel(festival: newFestival))
        return newFestivals

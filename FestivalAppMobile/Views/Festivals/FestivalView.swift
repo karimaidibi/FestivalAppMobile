@@ -13,6 +13,12 @@ struct FestivalView: View {
     @StateObject var viewModel: FestivalViewModel
     @State private var isEditingName = false
     @State private var editedName = ""
+    @State private var selectedSection : FestivalSection = .jours // par défaut
+    
+    enum FestivalSection {
+            case jours
+            case zones
+        }
     
     var body: some View {
         List {
@@ -31,10 +37,27 @@ struct FestivalView: View {
                         }
                 }
             }
-            Section(header: Text("Jours")) {
-                ForEach(viewModel.days) { jour in
-                    NavigationLink(destination: JourFestivalView(jour: jour)) {
-                        JourRow(jour: jour)
+            Picker(selection: $selectedSection, label: Text("")) {
+                Text("Jours").tag(FestivalSection.jours)
+                Text("Zones").tag(FestivalSection.zones)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .listRowBackground(Color.white)
+            
+            // affichage de la section
+            if selectedSection == .jours {
+                Section(header: Text("Jours")) {
+                    ForEach(viewModel.days) { jour in
+                        NavigationLink(destination: JourFestivalView(jour: jour)) {
+                            JourRow(jour: jour)
+                        }
+                    }
+                }
+            } else {
+                Section(header: Text("Zones")) {
+                    // Display the list of zones
+                    ForEach(viewModel.zones) { zone in
+                        ZoneRow(zone: zone)
                     }
                 }
             }
@@ -42,7 +65,11 @@ struct FestivalView: View {
         .navigationTitle(viewModel.name)
         .navigationBarItems(trailing:
             Button(action: {
-                viewModel.addNewDay()
+                if selectedSection == .jours {
+                    viewModel.addNewDay()
+                } else {
+                    viewModel.addNewZone()
+                }
             }, label: {
                 Image(systemName: "plus")
             })
@@ -63,12 +90,30 @@ struct JourRow: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
-            
             Spacer()
             
             Text("\(jour.participantCount) participants")
                 .font(.subheadline)
                 .foregroundColor(.gray)
+        }
+        .padding(.vertical, 10)
+    }
+}
+
+struct ZoneRow: View {
+    let zone: Zone
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(zone.name)
+                    .font(.headline)
+                
+                Text("Bénévoles min. : \(zone.nbBenevolesMin)")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            Spacer()
         }
         .padding(.vertical, 10)
     }
@@ -80,3 +125,4 @@ let dateFormatter: DateFormatter = {
     formatter.timeStyle = .none
     return formatter
 }()
+

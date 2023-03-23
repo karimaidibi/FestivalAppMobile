@@ -9,9 +9,9 @@
 import SwiftUI
 
 let zones = [
-    Zone(id: "1", name: "Esplanade Gauche 1", nbBenevolesMin: 35),
-    Zone(id: "2", name: "Antigone Buvette", nbBenevolesMin: 10),
-    Zone(id: "3", name: "Libre", nbBenevolesMin: 0)
+    Zone(id: 1, name: "Esplanade Gauche 1", nbBenevolesMin: 35),
+    Zone(id: 2, name: "Antigone Buvette", nbBenevolesMin: 10),
+    Zone(id: 3, name: "Libre", nbBenevolesMin: 0)
 ]
 
 
@@ -31,13 +31,13 @@ let fakeFestivals = [
             Creneau(id: 7, startingTime: "11:00 AM", endingTime: "12:00 PM", areas: zones),
             Creneau(id: 8, startingTime: "12:00 PM", endingTime: "1:00 PM", areas: zones)
         ])
-    ], isActive: true),
+    ], zones: zones , isActive: true),
     Festival(id: 2, name: "Festival de Sète", days: [
            Jour(id: 1, date: Date(), startingTime: "10:00 AM", endingTime: "12:00 PM", participantCount: 40, creneaux: [
                Creneau(id: 1, startingTime: "10:00 AM", endingTime: "11:00 AM", areas: zones),
                Creneau(id: 2, startingTime: "11:00 AM", endingTime: "12:00 PM", areas: zones)
            ]),
-           Jour(id: 2, date: Date().addingTimeInterval(86400 * 2), startingTime: "12:00 PM", endingTime: "1:00 PM", participantCount: 50, creneaux: [])], isActive: false)
+           Jour(id: 2, date: Date().addingTimeInterval(86400 * 2), startingTime: "12:00 PM", endingTime: "1:00 PM", participantCount: 50, creneaux: [])], zones: zones ,isActive: false)
 ]
 
 struct ContentView: View {
