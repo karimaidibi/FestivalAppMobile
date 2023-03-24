@@ -16,5 +16,20 @@ struct BenevoleIntent{
         self.model = benevole
     }
     
+    func getBenevoleAffectation(id : String) async -> Bool{
+        let result = await benevoleService.getBenevoleAffectations(id: id)
+        switch result{
+            case .success(let affectations):
+            	model.state = .affectationsLoadedSuccess(affectations!)
+            	return true
+        	case .failure(let error as APIRequestError):
+            	model.state = .affectationsLoadingFailure(error)
+            	return false
+            default:
+            	model.state = .error
+            return false
+        }
+    }
+    
 
 }

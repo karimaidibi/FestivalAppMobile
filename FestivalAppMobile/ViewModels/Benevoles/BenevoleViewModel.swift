@@ -64,13 +64,30 @@ class BenevoleViewModel : ObservableObject, Hashable{
         }
     }
     
+    // les affectations completes
+    @Published var affectationDocuments : [AffectationDocDTO]{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
+            }
+        }
+    }
+    
     // this message is to display in the view e.g popup or snackbar
     @Published var authErrorMessage : String = ""
     
+    // error message from api request
+    @Published var errorMessage : String = ""
+    
+    // on sign up success message
     @Published var signUpSucessMessage : String = ""
     
     // to call in the view when loading
     @Published var loading : Bool = false
+    
+    // to call in the view when loading affectations
+    @Published var loadingAffectations : Bool = false
+    
     
     // State Intent management
     @Published var state : BenevoleState = .ready{
@@ -127,6 +144,16 @@ class BenevoleViewModel : ObservableObject, Hashable{
                 debugPrint("-------------------------------")
                 self.authErrorMessage = state.description
                 self.loading = false
+            case .affectationsLoadedSuccess(let affectationDocuments):
+                debugPrint("BenevoleViewModel : affectationsLoadedSuccess state")
+                debugPrint("-------------------------------")
+                self.affectationDocuments = affectationDocuments
+                self.loadingAffectations = false
+            case .affectationsLoadingFailure(_):
+                debugPrint("BenevoleViewModel : affectationsLoadingFailure state")
+                debugPrint("-------------------------------")
+                self.errorMessage = state.description
+                self.loadingAffectations = false
             default:
                 break
             }
@@ -142,6 +169,7 @@ class BenevoleViewModel : ObservableObject, Hashable{
         self.password = benevoleDTO.password
         self.affectations = benevoleDTO.affectations
         self.isAdmin = benevoleDTO.isAdmin
+        self.affectationDocuments = []
     }
     
     init(){
@@ -152,6 +180,7 @@ class BenevoleViewModel : ObservableObject, Hashable{
         self.password = ""
         self.affectations = []
         self.isAdmin = false
+        self.affectationDocuments = []
     }
     
     // functions
