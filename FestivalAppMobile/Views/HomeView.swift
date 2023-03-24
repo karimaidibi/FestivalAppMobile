@@ -18,7 +18,7 @@ struct HomeView: View {
             NavigationView{
                 // if signed in
                 if let _ =  authManager.benevoleId{
-                    SignedInView(username: "Test").environmentObject(viewsManager).environmentObject(authManager)
+                    SignedInView().environmentObject(viewsManager).environmentObject(authManager)
                 }else{
                     // if visitor
                     VisitorView().environmentObject(viewsManager)

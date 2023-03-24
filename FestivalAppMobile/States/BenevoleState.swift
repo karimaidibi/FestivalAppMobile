@@ -11,12 +11,13 @@ import SwiftUI
 enum BenevoleState: CustomStringConvertible, Equatable {
     case ready
     case loggedOut
-    case loggedIn(String)
+    case loggedIn(BenevoleDTO)
     case loading
-    case logInFailed(LoginError)
+    case authFailed(AuthError)
     case emailNotValid
     case tooShortPassword
-    case error(BenevoleIntentError)
+    case signedUp(String)
+    case error
     
     var description: String {
         switch self {
@@ -32,10 +33,12 @@ enum BenevoleState: CustomStringConvertible, Equatable {
             return "Password must be at least 5 characters !"
         case .emailNotValid:
             return "Please verify your email format and try again !"
-        case .logInFailed(let error):
-            return "Error : \(error)"
-        case .error(let error):
-            return "error(\(error.localizedDescription))"
+        case .authFailed(let error):
+            return "Error : \(error.localizedDescription)"
+        case .signedUp(let message):
+            return message
+        case .error:
+            return "error"
         }
     }
 }

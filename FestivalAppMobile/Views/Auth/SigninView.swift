@@ -13,7 +13,6 @@ struct SigninView: View {
     @State private var password = ""
     @Environment(\.presentationMode) var presentationMode
     var onSigninSuccess: () -> Void
-    //@Binding var land: Bool
     @Binding var isSigninViewPresented: Bool
     
     @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
@@ -22,10 +21,10 @@ struct SigninView: View {
     
     var body: some View {
         
-        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM, authManager : authManager)
+        let authIntent : AuthIntent = AuthIntent(benevole: benevoleVM, authManager : authManager)
         
         if benevoleVM.loading{
-            ProgressView()
+            ProgressView("Please wait ...")
         }else{
             
             NavigationView {
@@ -49,7 +48,7 @@ struct SigninView: View {
                         Task {
                             // Here you would implement the code to validate the user's signin credentials
                             // If the validation is successful, set `isShowingHome` to true to take the user to the home screen
-                            let loggedIn : Bool = await benevoleIntent.login(email: self.email, password: self.password)
+                            let loggedIn : Bool = await authIntent.login(email: self.email, password: self.password)
                             if loggedIn{
                                 self.onSigninSuccess()
                                 //land = false
@@ -57,7 +56,7 @@ struct SigninView: View {
                                 isSigninViewPresented = false
                             }else{
                                 // pop up or something here
-                                print(self.benevoleVM.logInErrorMessage)
+                                print(self.benevoleVM.authErrorMessage)
                             }
                             
                         }

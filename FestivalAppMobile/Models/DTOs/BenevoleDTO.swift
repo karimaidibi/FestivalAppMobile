@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class BenevoleDTO : Decodable, Encodable, Equatable {
+class BenevoleDTO : Decodable, Encodable {
     
     // properties
     var _id : String
@@ -16,7 +16,7 @@ class BenevoleDTO : Decodable, Encodable, Equatable {
     var prenom : String
     var email : String
     var password : String
-    var affectations : [AffectationDTO]
+    var affectations : [Affectation]
     var isAdmin : Bool
     
     init(benevoleVM : BenevoleViewModel){
@@ -29,7 +29,6 @@ class BenevoleDTO : Decodable, Encodable, Equatable {
         self.isAdmin = benevoleVM.isAdmin
     }
     
-    
     static func convertBenevoleDTOsToDisplay(benevolesDTOs : [BenevoleDTO]) -> [BenevoleViewModel]{
         var benevoleViewModelArray : [BenevoleViewModel] = []
         for benevoleDTO in benevolesDTOs {
@@ -38,16 +37,5 @@ class BenevoleDTO : Decodable, Encodable, Equatable {
         }
         return benevoleViewModelArray
     }
-    
-    static func == (lhs: BenevoleDTO, rhs: BenevoleDTO) -> Bool {
-        return lhs._id == rhs._id &&
-               lhs.nom == rhs.nom &&
-               lhs.prenom == rhs.prenom &&
-               lhs.email == rhs.email &&
-               lhs.password == rhs.password &&
-               lhs.affectations == rhs.affectations &&
-               lhs.isAdmin == rhs.isAdmin
-    }
-
     
 }

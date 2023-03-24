@@ -44,7 +44,7 @@ class BenevoleService {
                 }else{
                     // si le status est autre que 200
                     // sinon recuperer query bad result
-                    guard let queryBadResult : QueryBadResult = await JSONHelper.decodeOne(data: data) else{
+                    guard let queryBadResult : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
                         return .failure(JSONError.JsonDecodingFailed)
                     }
                     // si bad result

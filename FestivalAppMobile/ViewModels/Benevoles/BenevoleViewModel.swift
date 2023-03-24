@@ -48,7 +48,7 @@ class BenevoleViewModel : ObservableObject, Hashable{
         }
     }
     
-    @Published var affectations : [Affectation]{
+    @Published var affectations : [AffectationDTO]{
         didSet{
             for o in self.observers{
                 o.viewModelUpdated()
@@ -65,7 +65,9 @@ class BenevoleViewModel : ObservableObject, Hashable{
     }
     
     // this message is to display in the view e.g popup or snackbar
-    @Published var logInErrorMessage : String = ""
+    @Published var authErrorMessage : String = ""
+    
+    @Published var signUpSucessMessage : String = ""
     
     // to call in the view when loading
     @Published var loading : Bool = false
@@ -78,34 +80,53 @@ class BenevoleViewModel : ObservableObject, Hashable{
                 debugPrint("BenevoleViewModel : ready state")
                 debugPrint("-------------------------------")
                 self.loading = false
-                self.logInErrorMessage = ""
+                self.authErrorMessage = ""
             case .loading:
                 debugPrint("BenevoleViewModel : loading state")
                 debugPrint("-------------------------------")
                 self.loading = true
-                self.logInErrorMessage = ""
+                self.authErrorMessage = ""
             case .loggedOut:
                 debugPrint("BenevoleViewModel : loggedOut state")
                 debugPrint("-------------------------------")
                 self.loading = false
-                self.logInErrorMessage = ""
-            case .loggedIn(_):
+                self.authErrorMessage = ""
+            case .loggedIn(let benevoleDTO):
                 debugPrint("BenevoleViewModel : loggedIn state")
                 debugPrint("-------------------------------")
+                self._id = benevoleDTO._id
+                self.nom = benevoleDTO.nom
+                self.prenom = benevoleDTO.prenom
+                self.email = benevoleDTO.email
+                self.password = benevoleDTO.password
+                self.affectations = benevoleDTO.affectations
+                self.isAdmin = benevoleDTO.isAdmin
                 self.loading = false
-                self.logInErrorMessage = ""
+                self.authErrorMessage = ""
             case .tooShortPassword:
                 debugPrint("BenevoleViewModel : tooShortPassword state")
                 debugPrint("-------------------------------")
-                self.logInErrorMessage = state.description
+                self.authErrorMessage = state.description
+                self.loading = false
             case .emailNotValid:
                 debugPrint("BenevoleViewModel : emailNotValid state")
                 debugPrint("-------------------------------")
-                self.logInErrorMessage = state.description
-            case .error(_):
+                self.authErrorMessage = state.description
+                self.loading = false
+            case .error:
                 debugPrint("BenevoleViewModel : error state")
                 debugPrint("-------------------------------")
-                self.logInErrorMessage = state.description
+                self.loading = false
+            case .signedUp(let msg):
+                debugPrint("BenevoleViewModel : signedUp state")
+                debugPrint("-------------------------------")
+                self.signUpSucessMessage = msg
+                self.loading = false
+            case .authFailed(_):
+                debugPrint("BenevoleViewModel : authFailed state")
+                debugPrint("-------------------------------")
+                self.authErrorMessage = state.description
+                self.loading = false
             default:
                 break
             }

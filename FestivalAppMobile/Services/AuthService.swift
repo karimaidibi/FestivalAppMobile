@@ -40,8 +40,6 @@ class AuthService {
         guard let encoded : Data = await JSONHelper.encode(data: loginInfo) else {
             return .failure(JSONError.JsonEncodingFailed)
         }
-        // define a variable to stock the benevoleDTO to be returned
-        var benevoleDTOToBeReturned : BenevoleDTO? = nil
         // send the request
         do {
             let(data, response) = try await URLSession.shared.upload(for : request, from: encoded)
@@ -55,13 +53,13 @@ class AuthService {
                 let getBenevoleByIdResult = await self.benevolesService.getBenevoleById(id: decoded.benevoleId)
                 switch getBenevoleByIdResult{
                 	case .success(let benevoleDTO):
-                    	benevoleDTOToBeReturned = benevoleDTO
                     	// save the auth data
                         DispatchQueue.main.async {
                             self.authManager.authToken = decoded.token // save the token of benevole
                             self.authManager.benevoleId = decoded.benevoleId // save the id of the benevole
                             self.authManager.isAdmin = benevoleDTO.isAdmin
                     	}
+                    return .success(benevoleDTO)
                     case .failure(let error):
                         return .failure(error)
                 }
@@ -69,22 +67,21 @@ class AuthService {
             // sinon afficher erreur avec le status code
             else {
                 // sinon recuperer query bad result
-                guard let queryBadResult : QueryBadResult = await JSONHelper.decodeOne(data: data) else{
+                guard let queryBadResult : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
                     return .failure(JSONError.JsonDecodingFailed)
                 }
                 // si bad result
-                let loginError : LoginError = LoginError(message: queryBadResult.message)
+                let loginError : AuthError = AuthError(message: queryBadResult.message)
                 debugPrint(APIRequestError.UploadError("Bad Result In LogIn, code: \(queryBadResult.status), message : \(queryBadResult.message)"))
 
-                return .failure(loginError)            }
+                return .failure(loginError)
+            }
         }catch{
             return .failure(APIRequestError.UploadError("AuthService login"))
         }
-        print(benevoleDTOToBeReturned?.isAdmin)
-        print(benevoleDTOToBeReturned?.isAdmin == true)
-        return .success(benevoleDTOToBeReturned)
-    }
 
+    }
+    
     // Add other Benevole-related API calls here
 
     func logout(){

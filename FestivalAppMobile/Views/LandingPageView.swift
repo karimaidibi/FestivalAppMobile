@@ -37,7 +37,6 @@ struct LandingPageView: View {
             }
             .fullScreenCover(isPresented: $isSigninViewPresented) {
                 SigninView(onSigninSuccess: {
-                    //self.land = false
                 }, isSigninViewPresented: $isSigninViewPresented).environmentObject(viewsManager).environmentObject(authManager)
             }
             
@@ -55,8 +54,7 @@ struct LandingPageView: View {
             }
             .fullScreenCover(isPresented: $isSignupViewPresented) {
                 SignupView(onSignupSuccess: {
-                    self.isSignupViewPresented = false
-                }, isSignupViewPresented: $isSignupViewPresented)
+                }, isSignupViewPresented: $isSignupViewPresented).environmentObject(viewsManager)
             }
             
             Button(action: {

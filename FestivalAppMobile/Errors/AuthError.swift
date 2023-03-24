@@ -6,14 +6,14 @@
 //
 
 import Foundation
-struct LoginError: Error, Equatable {
+struct AuthError: Error, Equatable {
     let message: String
     
     init(message : String){
         self.message = message
     }
     
-    static func ==(lhs: LoginError, rhs: LoginError) -> Bool {
+    static func ==(lhs: AuthError, rhs: AuthError) -> Bool {
         return lhs.message == rhs.message
     }
 }
