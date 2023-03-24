@@ -40,18 +40,22 @@ struct MenuView: View {
                     Text("Festivals")
                 }
                 .tag(Tab.festivals)
-            CreneauxView()
-                .tabItem {
-                    Image(systemName: "timer")
-                    Text("Mes créneaux")
-                }
-                .tag(Tab.creneaux)
-            ZonesView()
-                .tabItem {
-                    Image(systemName: "mappin.and.ellipse")
-                    Text("Zones")
-                }
-                .tag(Tab.zones)
+            if (authManager.benevoleId != nil) {
+                CreneauxView()
+                    .tabItem {
+                        Image(systemName: "timer")
+                        Text("Mes créneaux")
+                    }
+                    .tag(Tab.creneaux)
+            }
+            if (authManager.isAdmin == true) {
+                ZonesView()
+                    .tabItem {
+                        Image(systemName: "mappin.and.ellipse")
+                        Text("Zones")
+                    }
+                    .tag(Tab.zones)
+            }
         }
     }
 }

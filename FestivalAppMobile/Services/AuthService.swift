@@ -80,6 +80,8 @@ class AuthService {
         }catch{
             return .failure(APIRequestError.UploadError("AuthService login"))
         }
+        print(benevoleDTOToBeReturned?.isAdmin)
+        print(benevoleDTOToBeReturned?.isAdmin == true)
         return .success(benevoleDTOToBeReturned)
     }
 
