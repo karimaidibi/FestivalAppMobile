@@ -16,24 +16,16 @@ struct MenuView: View {
     @EnvironmentObject var viewsManager : ViewsManager
 
     enum Tab {
-        case home
+        case compte
         case visiteur
         case festivals
         case creneaux
-        case zones
+        case gestion
     }
     
     
     var body: some View {
         TabView() {
-
-            HomeView().environmentObject(viewsManager).environmentObject(authManager)
-            .tabItem {
-                Image(systemName: "house.fill")
-                Text("Accueil")
-            }
-            .tag(Tab.home)
-                
             FestivalsView(festivals: fakeFestivals)
                 .tabItem {
                     Image(systemName: "info.circle")
@@ -49,13 +41,19 @@ struct MenuView: View {
                     .tag(Tab.creneaux)
             }
             if (authManager.isAdmin == true) {
-                ZonesView()
+                BenevoleListView(viewModel: BVMS)
                     .tabItem {
-                        Image(systemName: "mappin.and.ellipse")
-                        Text("Zones")
+                        Image(systemName: "gearshape.fill")
+                        Text("Gestion")
                     }
-                    .tag(Tab.zones)
+                    .tag(Tab.gestion)
             }
+            HomeView().environmentObject(viewsManager).environmentObject(authManager)
+            .tabItem {
+                Image(systemName: "person")
+                Text("Compte")
+            }
+            .tag(Tab.compte)
         }
     }
 }

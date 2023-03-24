@@ -7,6 +7,14 @@
 
 
 import SwiftUI
+    
+let benevolesVMS = [ BenevoleViewModel(),
+                     BenevoleViewModel(),
+                     BenevoleViewModel(),
+                     BenevoleViewModel(),
+]
+
+let BVMS = BenevoleListViewModel(benevoleViewModels: benevolesVMS)
 
 let zones = [
     Zone(id: 1, name: "Esplanade Gauche 1", nbBenevolesMin: 35),
