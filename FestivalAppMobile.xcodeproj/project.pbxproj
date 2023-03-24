@@ -43,7 +43,6 @@
 		6FB804EB29C9217D0062457E /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804BC29C9217D0062457E /* AuthService.swift */; };
 		6FB804EC29C9217D0062457E /* CreneauxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804BF29C9217D0062457E /* CreneauxView.swift */; };
 		6FB804ED29C9217D0062457E /* ZonesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804C129C9217D0062457E /* ZonesView.swift */; };
-		6FB804EE29C9217D0062457E /* BenevolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804C329C9217D0062457E /* BenevolesView.swift */; };
 		6FB804EF29C9217D0062457E /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804C529C9217D0062457E /* SigninView.swift */; };
 		6FB804F029C9217D0062457E /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804C629C9217D0062457E /* SignupView.swift */; };
 		6FB804F129C9217D0062457E /* VisitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB804C729C9217D0062457E /* VisitorView.swift */; };
@@ -67,6 +66,9 @@
 		6FE400CE29CA326900CE4F12 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE400CD29CA326900CE4F12 /* AuthError.swift */; };
 		B753883629CC558A00091D8F /* JourViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B753883529CC558A00091D8F /* JourViewModel.swift */; };
 		B753883829CC585B00091D8F /* JourListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B753883729CC585B00091D8F /* JourListViewModel.swift */; };
+		B7C6477B29CDA5BB000A011E /* BenevoleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C6477A29CDA5BB000A011E /* BenevoleListViewModel.swift */; };
+		B7C6477D29CDA7DC000A011E /* BenevoleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C6477C29CDA7DC000A011E /* BenevoleListView.swift */; };
+		B7C6477F29CDB01E000A011E /* BenevoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C6477E29CDB01E000A011E /* BenevoleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,7 +128,6 @@
 		6FB804BC29C9217D0062457E /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		6FB804BF29C9217D0062457E /* CreneauxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreneauxView.swift; sourceTree = "<group>"; };
 		6FB804C129C9217D0062457E /* ZonesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZonesView.swift; sourceTree = "<group>"; };
-		6FB804C329C9217D0062457E /* BenevolesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BenevolesView.swift; sourceTree = "<group>"; };
 		6FB804C529C9217D0062457E /* SigninView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		6FB804C629C9217D0062457E /* SignupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		6FB804C729C9217D0062457E /* VisitorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorView.swift; sourceTree = "<group>"; };
@@ -150,6 +151,9 @@
 		6FE400CD29CA326900CE4F12 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		B753883529CC558A00091D8F /* JourViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourViewModel.swift; sourceTree = "<group>"; };
 		B753883729CC585B00091D8F /* JourListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourListViewModel.swift; sourceTree = "<group>"; };
+		B7C6477A29CDA5BB000A011E /* BenevoleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleListViewModel.swift; sourceTree = "<group>"; };
+		B7C6477C29CDA7DC000A011E /* BenevoleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleListView.swift; sourceTree = "<group>"; };
+		B7C6477E29CDB01E000A011E /* BenevoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				6FB804B529C9217D0062457E /* BenevoleViewModel.swift */,
+				B7C6477A29CDA5BB000A011E /* BenevoleListViewModel.swift */,
 			);
 			path = Benevoles;
 			sourceTree = "<group>";
@@ -372,7 +377,8 @@
 		6FB804C229C9217D0062457E /* Benevoles */ = {
 			isa = PBXGroup;
 			children = (
-				6FB804C329C9217D0062457E /* BenevolesView.swift */,
+				B7C6477C29CDA7DC000A011E /* BenevoleListView.swift */,
+				B7C6477E29CDB01E000A011E /* BenevoleView.swift */,
 			);
 			path = Benevoles;
 			sourceTree = "<group>";
@@ -574,6 +580,7 @@
 				6FCC35C929C99ACD00DCAAE2 /* LogInDTO.swift in Sources */,
 				6FB804D929C9217D0062457E /* AuthManager.swift in Sources */,
 				6FB804FD29C921EB0062457E /* ContentView.swift in Sources */,
+				B7C6477F29CDB01E000A011E /* BenevoleView.swift in Sources */,
 				6FB804EF29C9217D0062457E /* SigninView.swift in Sources */,
 				6FB804D829C9217D0062457E /* JSONError.swift in Sources */,
 				6FCF62BE29CA6AEC00DC9329 /* ViewsManager.swift in Sources */,
@@ -588,13 +595,13 @@
 				6F7FD8A729CDB584002CF845 /* SignUpService.swift in Sources */,
 				6FE400C829CA244F00CE4F12 /* EnvironmentHelper.swift in Sources */,
 				6FB804F429C9217D0062457E /* HomeView.swift in Sources */,
-				6FB804EE29C9217D0062457E /* BenevolesView.swift in Sources */,
 				B753883829CC585B00091D8F /* JourListViewModel.swift in Sources */,
 				6FB804DB29C9217D0062457E /* ZoneDTO.swift in Sources */,
 				6FB804E929C9217D0062457E /* FestivalsViewModel.swift in Sources */,
 				6FB804FA29C9217D0062457E /* ZoneIntent.swift in Sources */,
 				6FB804FB29C9217D0062457E /* BenevoleIntent.swift in Sources */,
 				6FB804F329C9217D0062457E /* LandingPageView.swift in Sources */,
+				B7C6477D29CDA7DC000A011E /* BenevoleListView.swift in Sources */,
 				6FB804F529C9217D0062457E /* MenuView.swift in Sources */,
 				6FB804E429C9217D0062457E /* ZoneListViewModel.swift in Sources */,
 				6FB804E629C9217D0062457E /* BenevoleViewModel.swift in Sources */,
@@ -604,7 +611,11 @@
 				6FB804DC29C9217D0062457E /* AffectationDTO.swift in Sources */,
 				6FB8047329C920870062457E /* FestivalAppMobileApp.swift in Sources */,
 				6FB804DD29C9217D0062457E /* QueryResult.swift in Sources */,
+<<<<<<< HEAD
 				6F7FD8A329CDA5DE002CF845 /* AuthIntent.swift in Sources */,
+=======
+				B7C6477B29CDA5BB000A011E /* BenevoleListViewModel.swift in Sources */,
+>>>>>>> 8f4849856bf4db40eb4bf1de14da8c6771426045
 				6FB804DF29C9217D0062457E /* authData.swift in Sources */,
 				6FB804EB29C9217D0062457E /* AuthService.swift in Sources */,
 				6FB804EC29C9217D0062457E /* CreneauxView.swift in Sources */,
