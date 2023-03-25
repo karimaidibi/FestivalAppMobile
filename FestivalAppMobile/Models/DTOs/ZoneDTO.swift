@@ -13,7 +13,7 @@ class ZoneDTO : Decodable, Encodable {
     // properties
     var _id : String
     var nom : String
-    var benevoles_necessaires : Int
+    var nombre_benevoles_necessaires : Int
     var idFestival : String
     
     static func convertZoneDTOsToDisplay(zoneDTOs : [ZoneDTO]) -> [ZoneViewModel]{

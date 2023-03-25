@@ -11,11 +11,11 @@ import SwiftUI
 
 struct FestivalsView: View {
     @State private var festivals: [Festival]
-    @ObservedObject var festivalsVM: FestivalsViewModel
+    @ObservedObject var festivalsVM: FakeFestivalsViewModel
     
     init(festivals: [Festival]) {
         self.festivals = festivals
-        self.festivalsVM = FestivalsViewModel(festivals: festivals)
+        self.festivalsVM = FakeFestivalsViewModel(festivals: festivals)
     }
     
     var body: some View {
@@ -40,7 +40,7 @@ struct FestivalsView: View {
 }
 
 struct FestivalRow: View {
-    @ObservedObject var viewModel: FestivalViewModel
+    @ObservedObject var viewModel: FakeFestivalViewModel
     
     var body: some View {
         HStack {

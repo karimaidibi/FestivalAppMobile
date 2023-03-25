@@ -10,7 +10,7 @@ import Foundation
 class JourDTO: Decodable, Encodable {
     
     var _id : String
-    var date : Data
+    var date : String
     var nom : String
     var heure_ouverture : String
     var heure_fermeture : String

@@ -33,7 +33,7 @@ struct MenuView: View {
                 }
                 .tag(Tab.festivals)
             if (authManager.benevoleId != nil) {
-                CreneauxView()
+                AffectationsView()
                     .tabItem {
                         Image(systemName: "timer")
                         Text("Mes créneaux")

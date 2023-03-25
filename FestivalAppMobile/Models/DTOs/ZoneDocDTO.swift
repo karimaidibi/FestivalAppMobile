@@ -12,7 +12,7 @@ class ZoneDocDTO : Decodable, Encodable, Hashable {
     // properties
     var _id : String
     var nom : String
-    var benevoles_necessaires : Int
+    var nombre_benevoles_necessaires : Int
     var idFestival : FestivalDTO
     
     // functions

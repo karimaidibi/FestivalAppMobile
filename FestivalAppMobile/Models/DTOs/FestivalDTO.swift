@@ -9,18 +9,16 @@ import Foundation
 
 import SwiftUI
 
-class FestivalDTO : Decodable, Encodable {
+class FestivalDTO : Decodable, Encodable, Equatable {
     
     // properties
     var _id : String
     var nom : String
+    var annee : Int
+    var estCloture : Bool
     
-    static func convertZoneDTOsToDisplay(zoneDTOs : [ZoneDTO]) -> [ZoneViewModel]{
-        var zoneViewModelArray : [ZoneViewModel] = []
-        for zoneDTO in zoneDTOs {
-            let zoneViewModel = ZoneViewModel(zoneDTO: zoneDTO)
-            zoneViewModelArray.append(zoneViewModel)
-        }
-        return zoneViewModelArray
+    static func == (lhs: FestivalDTO, rhs:FestivalDTO) -> Bool {
+        return lhs._id == rhs._id
     }
+    
 }

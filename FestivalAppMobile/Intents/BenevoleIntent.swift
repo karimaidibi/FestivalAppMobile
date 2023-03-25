@@ -17,6 +17,7 @@ struct BenevoleIntent{
     }
     
     func getBenevoleAffectation(id : String) async -> Bool{
+        model.state = .loadingAffectations
         let result = await benevoleService.getBenevoleAffectations(id: id)
         switch result{
             case .success(let affectations):
@@ -27,7 +28,25 @@ struct BenevoleIntent{
             	return false
             default:
             	model.state = .error
+                debugPrint("state description :  \(model.state.description)")
             return false
+        }
+    }
+    
+    func removeAffectation(id : String, idZone : String, idCreneau : String) async -> Bool{
+        model.state = .loadingAffectations
+        let affectationDTO : AffectationDTO = AffectationDTO(idZone: idZone, idCreneau: idCreneau)
+        let result = await benevoleService.removeAffectation(id: id, affectation: affectationDTO)
+        switch result{
+            case .success(let msg):
+                model.state =  .affectationDeletedSuccess(msg!)
+                return true
+            case .failure(let error as APIRequestError):
+                model.state = .affectationsLoadingFailure(error)
+                return false
+            default:
+                model.state = .error
+            	return false
         }
     }
     

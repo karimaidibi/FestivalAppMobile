@@ -134,6 +134,7 @@ class BenevoleViewModel : ObservableObject, Hashable{
                 debugPrint("BenevoleViewModel : error state")
                 debugPrint("-------------------------------")
                 self.loading = false
+                self.loadingAffectations = false
             case .signedUp(let msg):
                 debugPrint("BenevoleViewModel : signedUp state")
                 debugPrint("-------------------------------")
@@ -144,6 +145,10 @@ class BenevoleViewModel : ObservableObject, Hashable{
                 debugPrint("-------------------------------")
                 self.authErrorMessage = state.description
                 self.loading = false
+            case .loadingAffectations:
+                debugPrint("BenevoleViewModel : loadingAffectations state")
+                debugPrint("-------------------------------")
+                self.loadingAffectations = true
             case .affectationsLoadedSuccess(let affectationDocuments):
                 debugPrint("BenevoleViewModel : affectationsLoadedSuccess state")
                 debugPrint("-------------------------------")
@@ -153,6 +158,10 @@ class BenevoleViewModel : ObservableObject, Hashable{
                 debugPrint("BenevoleViewModel : affectationsLoadingFailure state")
                 debugPrint("-------------------------------")
                 self.errorMessage = state.description
+                self.loadingAffectations = false
+            case .affectationDeletedSuccess(_):
+                debugPrint("BenevoleViewModel : affectationsDeletedSuccess state")
+                debugPrint("-------------------------------")
                 self.loadingAffectations = false
             default:
                 break

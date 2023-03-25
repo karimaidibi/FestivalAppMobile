@@ -9,14 +9,14 @@ import Foundation
 
 enum FestivalState: CustomStringConvertible, Equatable {
     case ready
-    case error(FestivalIntentError)
+    case error
     
     var description: String {
         switch self {
         case .ready:
             return "ready"
-        case .error(let error):
-            return "error(\(error.localizedDescription))"
+        case .error:
+            return "error"
         }
     }
 }

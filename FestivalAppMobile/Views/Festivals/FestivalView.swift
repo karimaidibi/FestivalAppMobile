@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct FestivalView: View {
-    @StateObject var viewModel: FestivalViewModel
+    @StateObject var viewModel: FakeFestivalViewModel
     @State private var isEditingName = false
     @State private var editedName = ""
     @State private var selectedSection : FestivalSection = .jours // par défaut

@@ -67,8 +67,8 @@ class JourViewModel: ObservableObject, Identifiable {
             switch state {
             case .ready:
                 print("FestivalViewModel: ready state")
-            case .error(let error):
-                print("FestivalViewModel: error state with error \(error.localizedDescription)")
+            case .error:
+                print("FestivalViewModel: error state")
             }
         }
     }

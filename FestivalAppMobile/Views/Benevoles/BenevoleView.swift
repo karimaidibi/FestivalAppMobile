@@ -25,7 +25,7 @@ struct BenevoleView: View {
             if selection == 0 {
                 FestivalsView(festivals: fakeFestivals)
             } else {
-                CreneauxView()
+                AffectationsView()
             }
         }
         .navigationTitle("Gestion de \(benevoleVM.nom)")

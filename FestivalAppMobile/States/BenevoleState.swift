@@ -19,6 +19,8 @@ enum BenevoleState: CustomStringConvertible, Equatable {
     case signedUp(String)
     case affectationsLoadedSuccess([AffectationDocDTO])
     case affectationsLoadingFailure(APIRequestError)
+    case affectationDeletedSuccess(String)
+    case loadingAffectations
     case error
     
     var description: String {
@@ -30,7 +32,7 @@ enum BenevoleState: CustomStringConvertible, Equatable {
         case .loggedIn(let email):
             return "Benevole \(email) Logged in"
         case .loading:
-            return "Benevole loading"
+            return "Benevole loading..."
         case .tooShortPassword:
             return "Password must be at least 5 characters !"
         case .emailNotValid:
@@ -43,6 +45,10 @@ enum BenevoleState: CustomStringConvertible, Equatable {
             return "Affectations Loaded Success"
         case .affectationsLoadingFailure(let error):
             return "\(error.localizedDescription)"
+        case .loadingAffectations:
+            return "Loading Benevole Affectations..."
+        case .affectationDeletedSuccess(let msg):
+            return msg
         case .error:
             return "error"
         }

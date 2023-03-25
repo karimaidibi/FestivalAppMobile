@@ -7,45 +7,40 @@
 
 import Foundation
 
-class FestivalViewModel: ObservableObject {
+class FestivalViewModel: ObservableObject, Hashable {
+    
     // Observers: a list of view models
     var observers: [ViewModelObserver] = []
 
-    // Properties: will notify the model when the view changes any of these properties
-    @Published var festival: Festival {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    //Properties : will notify the model when the view change any of these properties
+    @Published var _id : String
+    
+    //Properties : will notify the model when the view change any of these properties
+    @Published var nom : String{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
-
-    @Published var name: String {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    
+    //Properties : will notify the model when the view change any of these properties
+    @Published var annee : Int{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
-
-    @Published var jourListViewModel: JourListViewModel
-
-    @Published var zones: [Zone] {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    
+    //Properties : will notify the model when the view change any of these properties
+    @Published var estCloture : Bool{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
-
-    @Published var isActive: Bool {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
-            }
-        }
-    }
-
 
     // State Intent management
     @Published var state: FestivalState = .ready {
@@ -53,38 +48,32 @@ class FestivalViewModel: ObservableObject {
             switch state {
             case .ready:
                 print("FestivalViewModel: ready state")
-            case .error(let error):
-                print("FestivalViewModel: error state with error \(error.localizedDescription)")
+            case .error:
+                print("FestivalViewModel: error state")
             }
         }
     }
 
-    // Constructor
-    init(festival: Festival) {
-        self.festival = festival
-        self.name = festival.name
-        self.jourListViewModel = JourListViewModel(jours: festival.days)
-        self.zones = festival.zones
-        self.isActive = festival.isActive
+    // constructor
+    init(festivalDTO : FestivalDTO){
+        self._id = festivalDTO._id
+        self.nom = festivalDTO.nom
+        self.annee = festivalDTO.annee
+        self.estCloture = festivalDTO.estCloture
     }
+    
 
     // Functions
+    static func == (lhs: FestivalViewModel, rhs: FestivalViewModel) -> Bool{
+        return lhs._id == rhs._id
+    }
+    
+    func hash(into hasher: inout Hasher){
+        hasher.combine(self._id)
+    }
+    
     func register(obs: ViewModelObserver) {
         self.observers.append(obs)
     }
 
-    func updateFestivalName(name: String) {
-        self.name = name
-    }
-
-    func addNewDay() {
-        let newJours = self.jourListViewModel.addNewDay(jours: self.festival.days)
-        self.festival.days = newJours
-    }
-
-    func addNewZone() {
-        let newId = self.zones.count + 1
-        let newZone = Zone(id: newId, name: "Nouvelle Zone", nbBenevolesMin: 0)
-        self.zones.append(newZone)
-    }
 }
