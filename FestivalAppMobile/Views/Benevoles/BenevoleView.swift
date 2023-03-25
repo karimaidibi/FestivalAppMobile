@@ -23,7 +23,7 @@ struct BenevoleView: View {
             .pickerStyle(SegmentedPickerStyle())
             
             if selection == 0 {
-                FestivalsView(festivals: fakeFestivals)
+                FakeFestivalsView(festivals: fakeFestivals)
             } else {
                 AffectationsView()
             }

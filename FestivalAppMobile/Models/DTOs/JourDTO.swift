@@ -7,7 +7,7 @@
 
 import Foundation
 
-class JourDTO: Decodable, Encodable {
+class JourDTO: Decodable, Encodable, Equatable, Identifiable {
     
     var _id : String
     var date : String
@@ -15,5 +15,9 @@ class JourDTO: Decodable, Encodable {
     var heure_ouverture : String
     var heure_fermeture : String
     var idFestival : String
+    
+    static func == (lhs: JourDTO, rhs:JourDTO) -> Bool {
+        return lhs._id == rhs._id
+    }
     
 }

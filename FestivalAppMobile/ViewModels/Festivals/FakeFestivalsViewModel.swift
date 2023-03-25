@@ -17,7 +17,6 @@ class FakeFestivalsViewModel : ObservableObject {
        self.festivalViewModels = festivals.map { FakeFestivalViewModel(festival: $0) }
    }
     
-
     
     // functions that update this listt view model when the view model is changed
     func viewModelUpdated(){

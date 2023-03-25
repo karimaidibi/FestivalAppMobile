@@ -26,7 +26,8 @@ struct MenuView: View {
     
     var body: some View {
         TabView() {
-            FestivalsView(festivals: fakeFestivals)
+            //FakeFestivalsView(festivals: fakeFestivals)
+            FestivalsView()
                 .tabItem {
                     Image(systemName: "info.circle")
                     Text("Festivals")

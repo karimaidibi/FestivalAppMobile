@@ -12,6 +12,10 @@ enum FestivalsState: CustomStringConvertible, Equatable {
     case loading
     case festivalsLoaded([FestivalDTO])
     case festivalsLoadingFailed(APIRequestError)
+    case festivalAdded(FestivalDTO)
+    case festivalAddingFailed(APIRequestError)
+    case festivalDeleted(String)
+    case festivalDeletingFailed(APIRequestError)
     case error
     
     var description: String {
@@ -24,6 +28,14 @@ enum FestivalsState: CustomStringConvertible, Equatable {
             return "Festivals Loaded Successfully"
         case .festivalsLoadingFailed(let apiRequestError):
             return apiRequestError.localizedDescription
+        case .festivalAdded:
+            return "success"
+        case .festivalAddingFailed(let error):
+            return error.localizedDescription
+        case .festivalDeleted(let msg):
+            return msg
+        case .festivalDeletingFailed(let error):
+            return error.localizedDescription
         case .error:
             return "error"
         }

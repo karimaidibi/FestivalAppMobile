@@ -93,7 +93,7 @@ class BenevoleService {
                 }
             }else{
                 // gerer le cas ou on a pas de reponse de type HTTPURLResponse
-                return .failure(APIRequestError.invalidHTTPResponse("ge benevole affectations"))
+                return .failure(APIRequestError.invalidHTTPResponse("get benevole affectations"))
             }
         }
         // handle any error

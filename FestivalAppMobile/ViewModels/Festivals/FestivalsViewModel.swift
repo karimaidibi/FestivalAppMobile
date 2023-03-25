@@ -32,6 +32,7 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
     
     @Published var loading : Bool = false
     @Published var errorMessage : String = ""
+    @Published var successMessage : String = ""
     
     // State Intent management
     @Published var state: FestivalsState = .ready {
@@ -41,6 +42,8 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
                 print("FestivalsViewModel: ready state")
                 debugPrint("-------------------------------")
                 self.loading = false
+                self.errorMessage = ""
+                self.successMessage = ""
             case .loading:
                 print("FestivalsViewModel: loading state")
                 debugPrint("-------------------------------")
@@ -55,9 +58,27 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
                 print("FestivalsViewModel: loading failed state")
                 debugPrint("-------------------------------")
                 self.errorMessage = apiRequestError.localizedDescription
+                self.loading = false
+            case.festivalAdded(let festivalDTO):
+                print("FestivalsViewModel: festival Added state")
+                debugPrint("-------------------------------")
+                self.addNewFestival(festival: festivalDTO)
+                self.loading = false
+            case.festivalAddingFailed(let error):
+                print("FestivalsViewModel: festival Adding failed state")
+                debugPrint("-------------------------------")
+                self.errorMessage = error.description
+                self.loading = false
+            case.festivalDeleted(let msg):
+                print("FestivalsViewModel: festival Deleted state")
+                debugPrint("-------------------------------")
+                self.successMessage = msg
+                self.loading = false
             case .error:
                 print("FestivalsViewModel: error state")
                 debugPrint("-------------------------------")
+                self.loading = false
+            default:
                 self.loading = false
             }
         }
@@ -68,6 +89,13 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
             FestivalViewModel(festivalDTO : festivalDTO)
         }
     }
+    
+   // fake data function
+   func addNewFestival(festival: FestivalDTO){
+       let festivalVM = FestivalViewModel(festivalDTO: festival)
+       self.festivalViewModels.append(festivalVM)
+       festivalVM.register(obs: self)
+   }
     
     // functions that update this listt view model when the view model is changed
     func viewModelUpdated(){

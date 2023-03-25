@@ -9,8 +9,8 @@ import Foundation
 
 import SwiftUI
 
-struct FestivalView: View {
-    @StateObject var viewModel: FestivalViewModel
+struct FakeFestivalView: View {
+    @StateObject var viewModel: FakeFestivalViewModel
     @State private var isEditingName = false
     @State private var editedName = ""
     @State private var selectedSection : FestivalSection = .jours // par défaut
@@ -26,14 +26,14 @@ struct FestivalView: View {
                 if isEditingName {
                     TextField("Nom du Festival", text: $editedName, onCommit: {
                         isEditingName = false
-                        //viewModel.updateFestivalName(name: editedName)
+                        viewModel.updateFestivalName(name: editedName)
                     })
                 } else {
-                    Text(viewModel.nom)
+                    Text(viewModel.name)
                         .font(.headline)
                         .onTapGesture {
                             isEditingName = true
-                            editedName = viewModel.nom
+                            editedName = viewModel.name
                         }
                 }
             }
@@ -47,30 +47,28 @@ struct FestivalView: View {
             // affichage de la section
             if selectedSection == .jours {
                 Section(header: Text("Jours")) {
-                    List{
-                        ForEach(viewModel.jourListViewModels, id:\.self) { jourVM in
-                            NavigationLink(destination: JourFestivalView(viewModel: jourVM)) {
-                                //JourRow(jour: jourVM.jour)
-                            }
+                    ForEach(viewModel.jourListViewModel.jourViewModels) { jourVM in
+                        NavigationLink(destination: FakeJourFestivalView(viewModel: jourVM)) {
+                            FakeJourRow(jour: jourVM.jour)
                         }
                     }
                 }
             } else {
                 Section(header: Text("Zones")) {
                     // Display the list of zones
-                    //ForEach(viewModel.zones) { zone in
-                      //  ZoneRow(zone: zone)
-                    //}
+                    ForEach(viewModel.zones) { zone in
+                        FakeZoneRow(zone: zone)
+                    }
                 }
             }
         }
-        .navigationTitle(viewModel.nom)
+        .navigationTitle(viewModel.name)
         .navigationBarItems(trailing:
             Button(action: {
                 if selectedSection == .jours {
-                    //viewModel.addNewDay()
+                    viewModel.addNewDay()
                 } else {
-                    //viewModel.addNewZone()
+                    viewModel.addNewZone()
                 }
             }, label: {
                 Image(systemName: "plus")
@@ -79,7 +77,7 @@ struct FestivalView: View {
     }
 }
 
-struct JourRow: View {
+struct FakeJourRow: View {
     let jour: Jour
     
     var body: some View {
@@ -102,7 +100,7 @@ struct JourRow: View {
     }
 }
 
-struct ZoneRow: View {
+struct FakeZoneRow: View {
     let zone: Zone
     
     var body: some View {
@@ -121,7 +119,7 @@ struct ZoneRow: View {
     }
 }
 
-let dateFormatter: DateFormatter = {
+let fakedateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
     formatter.timeStyle = .none

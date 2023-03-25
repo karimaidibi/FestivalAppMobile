@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FestivalViewModel: ObservableObject, Hashable {
+class FestivalViewModel: ObservableObject, Hashable, Identifiable {
     
     // Observers: a list of view models
     var observers: [ViewModelObserver] = []
@@ -41,6 +41,8 @@ class FestivalViewModel: ObservableObject, Hashable {
             }
         }
     }
+    
+    @Published var jourListViewModels : JourListViewModel = JourListViewModel(jourViewModels: [])
 
     // State Intent management
     @Published var state: FestivalState = .ready {

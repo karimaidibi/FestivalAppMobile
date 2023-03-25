@@ -7,93 +7,83 @@
 
 import Foundation
 
-class JourViewModel: ObservableObject, Identifiable {
+class JourViewModel: ObservableObject, Hashable, Identifiable {
+    
     // Observers: a list of view models
     var observers: [ViewModelObserver] = []
 
-    // Properties: will notify the model when the view changes any of these properties
-    @Published var jour: Jour {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    //Properties : will notify the model when the view change any of these properties
+    @Published var _id : String
+    
+    //Properties : will notify the model when the view change any of these properties
+    @Published var nom : String{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
     
-    @Published var date: Date {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    //Properties : will notify the model when the view change any of these properties
+    @Published var date : String{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
     
-    @Published var startingTime: String {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    //Properties : will notify the model when the view change any of these properties
+    @Published var heure_ouverture : String{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
-    
-    @Published var endingTime: String {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
+    @Published var heure_fermeture : String{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
             }
         }
     }
-    
-    @Published var participantCount: Int {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
-            }
-        }
-    }
-    
-    @Published var creneaux: [Creneau] {
-        didSet {
-            for observer in observers {
-                observer.viewModelUpdated()
-            }
-        }
-    }
-    
-    
+    @Published var idFestival : String
+
     // State Intent management
     @Published var state: FestivalState = .ready {
         didSet {
             switch state {
             case .ready:
-                print("FestivalViewModel: ready state")
+                print("JourViewModel: ready state")
             case .error:
-                print("FestivalViewModel: error state")
+                print("JourViewModel: error state")
             }
         }
     }
-    
-    // Constructor
-    init(jour: Jour) {
-        self.jour = jour
-        self.date = jour.date
-        self.startingTime = jour.startingTime
-        self.endingTime = jour.endingTime
-        self.participantCount = jour.participantCount
-        self.creneaux = jour.creneaux
+
+    // constructor
+    init(jourDTO : JourDTO){
+        self._id = jourDTO._id
+        self.nom = jourDTO.nom
+        self.date = jourDTO.date
+        self.heure_ouverture = jourDTO.heure_ouverture
+        self.heure_fermeture = jourDTO.heure_fermeture
+        self.idFestival = jourDTO.idFestival
     }
     
+
     // Functions
+    static func == (lhs: JourViewModel, rhs: JourViewModel) -> Bool{
+        return lhs._id == rhs._id
+    }
+    
+    func hash(into hasher: inout Hasher){
+        hasher.combine(self._id)
+    }
+    
     func register(obs: ViewModelObserver) {
         self.observers.append(obs)
-    }
-    
-    func addNewCreneau() {
-        let newId = self.creneaux.count + 1
-        let zoneLibre = Zone(id: 0, name: "Libre", nbBenevolesMin : 0)
-        let newCreneau = Creneau(id: newId, startingTime: "00:00", endingTime: "00:00", areas: [zoneLibre])
-        self.creneaux.append(newCreneau)
-        self.jour.creneaux.append(newCreneau)
     }
 
 }

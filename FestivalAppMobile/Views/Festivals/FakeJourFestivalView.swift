@@ -9,21 +9,21 @@ import Foundation
 
 import SwiftUI
 
-struct JourFestivalView: View {
-    @StateObject var viewModel: JourViewModel
+struct FakeJourFestivalView: View {
+    @StateObject var viewModel: FakeJourViewModel
 
     var body: some View {
         VStack {
-            Text(viewModel.date)
+            Text(viewModel.jour.date, formatter: fakedateFormatter)
                 .font(.title)
                 .padding(.top, 20)
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    //ForEach(viewModel.jour.creneaux) { creneau in
-                      //  Divider() // comme sur angular mat
-                        //CreneauRow(creneau: creneau)
-                    //}
+                    ForEach(viewModel.jour.creneaux) { creneau in
+                        Divider() // comme sur angular mat
+                        CreneauRow(creneau: creneau)
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 50)
@@ -34,7 +34,7 @@ struct JourFestivalView: View {
         .navigationTitle("Jour")
         .navigationBarItems(trailing:
             Button(action: {
-            //viewModel.addNewCreneau()
+            viewModel.addNewCreneau()
             }, label: {
                 Image(systemName: "plus")
             })
@@ -42,7 +42,7 @@ struct JourFestivalView: View {
     }
 }
 
-struct CreneauRow: View {
+struct FakeCreneauRow: View {
     let creneau: Creneau
     
     var totalVolunteers: Int {

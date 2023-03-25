@@ -33,4 +33,40 @@ struct FestivalsIntent {
             return false
         }
     }
+    
+    func addFestival() async -> Bool {
+        // create data
+        let festivalDTO = FestivalDTO(nom: "New Festival", annee: 2023, estCloture: false)
+        
+        viewModel.state = .loading
+        let result = await festivalService.addFestival(festivalDTO: festivalDTO)
+        switch result{
+        case .success(let festivalDTO):
+            viewModel.state = .festivalAdded(festivalDTO!)
+            return true
+        case .failure(let error as APIRequestError):
+            viewModel.state = .festivalAddingFailed(error)
+            return false
+        default:
+            viewModel.state = .error
+            return false
+        }
+    }
+    
+    func removeFestival(id : String) async -> Bool{
+        viewModel.state = .loading
+        let result = await festivalService.removeFestival(id: id)
+        switch result{
+        case .success(let  msg):
+            viewModel.state = .festivalDeleted(msg!)
+            return true
+        case .failure(let error as APIRequestError):
+            viewModel.state = .festivalDeletingFailed(error)
+            return false
+        default:
+            viewModel.state = .error
+            return false
+        }
+    }
+    
 }

@@ -29,7 +29,7 @@ class FakeFestivalViewModel: ObservableObject{
         }
     }
     // fake data
-    @Published var jourListViewModel: JourListViewModel
+    @Published var jourListViewModel: FakeJourListViewModel
     // fake data
     @Published var zones: [Zone] {
         didSet {
@@ -64,7 +64,7 @@ class FakeFestivalViewModel: ObservableObject{
     init(festival: Festival) {
         self.festival = festival
         self.name = festival.name
-        self.jourListViewModel = JourListViewModel(jours: festival.days)
+        self.jourListViewModel = FakeJourListViewModel(jours: festival.days)
         self.zones = festival.zones
         self.isActive = festival.isActive
     }

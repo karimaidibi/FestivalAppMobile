@@ -42,7 +42,7 @@ class SignUpService {
             // si tout se passe bien
             if httpresponse.statusCode == 201{
                 // recuperer query result
-                guard let decoded : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
+                guard let _ : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
                     return .failure(JSONError.JsonDecodingFailed)
                 }
                 // si ok
