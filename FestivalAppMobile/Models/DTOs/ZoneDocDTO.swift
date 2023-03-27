@@ -13,7 +13,7 @@ class ZoneDocDTO : Decodable, Encodable, Hashable {
     var _id : String
     var nom : String
     var nombre_benevoles_necessaires : Int
-    var idFestival : FestivalDTO
+    var idFestival : FestivalDTO?
     
     // functions
     static func == (lhs: ZoneDocDTO, rhs: ZoneDocDTO) -> Bool{

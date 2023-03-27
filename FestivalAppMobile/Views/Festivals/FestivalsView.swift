@@ -114,7 +114,7 @@ struct FestivalRow: View {
             
             Spacer()
             
-            Text("\(joursVM.count) Jours")
+            Text("\(viewModel.jourListViewModels.count) Jours")
                 .font(.body)
             
             if !viewModel.estCloture {

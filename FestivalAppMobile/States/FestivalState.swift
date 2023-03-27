@@ -9,14 +9,23 @@ import Foundation
 
 enum FestivalState: CustomStringConvertible, Equatable {
     case ready
+    case loading
+    case festivalUpdated(FestivalDTO)
+    case festivalUpdatingFailed(APIRequestError)
     case error
     
     var description: String {
         switch self {
         case .ready:
-            return "ready"
+            return "FestivalViewModel: ready state"
+        case .loading:
+            return "FestivalViewModel: loading state"
+        case .festivalUpdated(_):
+            return "FestivalViewModel: festivalUpdated state"
+        case .festivalUpdatingFailed(_):
+            return "FestivalViewModel: festivalUpdatingFailed state"
         case .error:
-            return "error"
+            return "FestivalViewModel: error state"
         }
     }
 }

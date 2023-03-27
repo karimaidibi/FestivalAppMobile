@@ -51,16 +51,16 @@ class JourViewModel: ObservableObject, Hashable, Identifiable {
     @Published var idFestival : String
 
     // State Intent management
-    @Published var state: FestivalState = .ready {
-        didSet {
-            switch state {
-            case .ready:
-                print("JourViewModel: ready state")
-            case .error:
-                print("JourViewModel: error state")
-            }
-        }
-    }
+    //@Published var state: JourState = .ready {
+      //  didSet {
+        //    switch state {
+          //  case .ready:
+            //    print("JourViewModel: ready state")
+            //case .error:
+              //  print("JourViewModel: error state")
+           // }
+       // }
+   // }
 
     // constructor
     init(jourDTO : JourDTO){

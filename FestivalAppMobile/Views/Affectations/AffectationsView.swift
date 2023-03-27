@@ -73,7 +73,7 @@ struct AffectationsView: View {
                                                     alertTitle = "Success"
                                                     showAlert = true
                                                 }else{
-                                                    // Show the delete success alert
+                                                    // Show the delete error alert
                                                     alertMessage = "Affectation coud not be removed, please try again."
                                                     alertTitle = "Error"
                                                     showAlert = true

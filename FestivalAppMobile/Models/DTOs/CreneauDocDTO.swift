@@ -12,7 +12,7 @@ class CreneauDocDTO : Decodable, Encodable, Hashable{
     var _id : String
     var heure_debut : String
     var heure_fin : String
-    var idJour : JourDTO
+    var idJour : JourDTO?
     
     init(_id : String, heure_debut: String, heure_fin: String, idJour: JourDTO){
         self._id = _id

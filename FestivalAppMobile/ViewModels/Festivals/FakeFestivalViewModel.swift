@@ -48,17 +48,6 @@ class FakeFestivalViewModel: ObservableObject{
     }
 
 
-    // State Intent management
-    @Published var state: FestivalState = .ready {
-        didSet {
-            switch state {
-            case .ready:
-                print("FestivalViewModel: ready state")
-            case .error:
-                print("FestivalViewModel: error state")
-            }
-        }
-    }
 
     // Constructor fake data
     init(festival: Festival) {

@@ -43,17 +43,46 @@ class FestivalViewModel: ObservableObject, Hashable, Identifiable {
     }
     
     @Published var jourListViewModels : JourListViewModel = JourListViewModel(jourViewModels: [])
+    
+    @Published var loading : Bool = false
+    @Published var errorMessage : String = ""
+    @Published var successMessage : String = ""
 
     // State Intent management
     @Published var state: FestivalState = .ready {
         didSet {
             switch state {
             case .ready:
-                print("FestivalViewModel: ready state")
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = ""
+                self.successMessage = ""
+            case .loading:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = true
+            case .festivalUpdated(let festivalDTO):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.updateFestival(festivalDTO: festivalDTO)
+                self.loading = false
+                self.successMessage = "Festival Updated Successfully !"
+            case .festivalUpdatingFailed(let error):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = error.localizedDescription
             case .error:
-                print("FestivalViewModel: error state")
+                print(state.description)
             }
         }
+    }
+    
+    private func updateFestival(festivalDTO : FestivalDTO){
+        self.nom = festivalDTO.nom
+        self.annee = festivalDTO.annee
+        self.estCloture = festivalDTO.estCloture
     }
 
     // constructor

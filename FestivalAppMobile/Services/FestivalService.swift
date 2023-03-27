@@ -145,7 +145,7 @@ class FestivalService {
     
     func updateFestival(id: String, festivalDTO : FestivalDTO) async -> Result<String?, Error> {
 
-        guard let url = URL(string: "\(self.api)/festivals") else {
+        guard let url = URL(string: "\(self.api)/festivals/\(id)") else {
             return .failure(APIRequestError.unknown)
         }
         // define the post request

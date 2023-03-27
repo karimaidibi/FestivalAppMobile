@@ -61,17 +61,7 @@ class FakeJourViewModel: ObservableObject, Identifiable {
     }
     
     
-    // State Intent management
-    @Published var state: FestivalState = .ready {
-        didSet {
-            switch state {
-            case .ready:
-                print("FestivalViewModel: ready state")
-            case .error:
-                print("FestivalViewModel: error state")
-            }
-        }
-    }
+
     
     // Constructor
     init(jour: Jour) {

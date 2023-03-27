@@ -10,10 +10,17 @@ import Foundation
 import SwiftUI
 
 struct FestivalView: View {
-    @StateObject var viewModel: FestivalViewModel
+    @ObservedObject var viewModel: FestivalViewModel
+    @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
+    
     @State private var isEditingName = false
     @State private var editedName = ""
     @State private var selectedSection : FestivalSection = .jours // par défaut
+    
+    // for alert 
+    @State private var showAlert = false // popup on success deleting
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
     
     enum FestivalSection {
             case jours
@@ -21,12 +28,28 @@ struct FestivalView: View {
         }
     
     var body: some View {
+        let festivalIntent : FestivalIntent = FestivalIntent(viewModel: viewModel)
+        let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
+        
         List {
             Section(header: Text("Nom")) {
                 if isEditingName {
                     TextField("Nom du Festival", text: $editedName, onCommit: {
-                        isEditingName = false
-                        //viewModel.updateFestivalName(name: editedName)
+                        Task{
+                            let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: editedName, editing: "nom")
+                            if festivalUpdated{
+                                isEditingName = false
+                                // show success alert
+                                alertMessage = viewModel.successMessage
+                                alertTitle = "Success"
+                                showAlert = true
+                            }else{
+                                // show error alert
+                                alertMessage = viewModel.errorMessage
+                                alertTitle = "Error"
+                                showAlert = true
+                            }
+                        }
                     })
                 } else {
                     Text(viewModel.nom)
@@ -47,13 +70,14 @@ struct FestivalView: View {
             // affichage de la section
             if selectedSection == .jours {
                 Section(header: Text("Jours")) {
-                    List{
-                        ForEach(viewModel.jourListViewModels, id:\.self) { jourVM in
-                            NavigationLink(destination: JourFestivalView(viewModel: jourVM)) {
-                                //JourRow(jour: jourVM.jour)
-                            }
+                        ForEach(joursVM, id:\.self) { jourVM in
+                            //NavigationLink(destination: JourFestivalView(viewModel: jourVM)) {
+                            	JourRow(jourVM: jourVM)
+                            //}
                         }
-                    }
+                }
+                .task {
+                    let joursLoaded = await joursIntent.getJoursByFestival(festivalId: viewModel._id)
                 }
             } else {
                 Section(header: Text("Zones")) {
@@ -63,6 +87,9 @@ struct FestivalView: View {
                     //}
                 }
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .navigationTitle(viewModel.nom)
         .navigationBarItems(trailing:
@@ -79,22 +106,25 @@ struct FestivalView: View {
     }
 }
 
+
 struct JourRow: View {
-    let jour: Jour
+    @ObservedObject var jourVM : JourViewModel
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(jour.date, formatter: dateFormatter)
+                let formattedDate = formattedDateString(from: jourVM.date)
+                Text(formattedDate)
                     .font(.headline)
+                    .padding(1)
                 
-                Text("\(jour.startingTime) - \(jour.endingTime)")
+                Text("\(jourVM.heure_ouverture) - \(jourVM.heure_fermeture)")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
             Spacer()
             
-            Text("\(jour.participantCount) participants")
+            Text("... participants")
                 .font(.subheadline)
                 .foregroundColor(.gray)
         }
@@ -128,3 +158,16 @@ let dateFormatter: DateFormatter = {
     return formatter
 }()
 
+
+func formattedDateString(from dateString: String) -> String {
+    let inputFormatter = DateFormatter()
+    inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
+    if let date = inputFormatter.date(from: dateString) {
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "dd MMMM yyyy"
+        return outputFormatter.string(from: date)
+    } else {
+        return dateString
+    }
+}

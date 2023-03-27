@@ -24,6 +24,13 @@ class FestivalDTO : Decodable, Encodable, Equatable, Identifiable {
         self._id = ""
     }
     
+    init(festivalVM : FestivalViewModel){
+        self._id = festivalVM._id
+        self.nom = festivalVM.nom
+        self.annee = festivalVM.annee
+        self.estCloture = festivalVM.estCloture
+    }
+    
     static func == (lhs: FestivalDTO, rhs:FestivalDTO) -> Bool {
         return lhs._id == rhs._id
     }
