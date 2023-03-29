@@ -11,7 +11,6 @@ import SwiftUI
 
 struct FestivalView: View {
     @ObservedObject var viewModel: FestivalViewModel
-    @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
     
     @State private var isEditingName = false
     @State private var editedName = ""
@@ -29,7 +28,6 @@ struct FestivalView: View {
     
     var body: some View {
         let festivalIntent : FestivalIntent = FestivalIntent(viewModel: viewModel)
-        let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
         
         List {
             Section(header: Text("Nom")) {
@@ -69,16 +67,7 @@ struct FestivalView: View {
             
             // affichage de la section
             if selectedSection == .jours {
-                Section(header: Text("Jours")) {
-                        ForEach(joursVM, id:\.self) { jourVM in
-                            //NavigationLink(destination: JourFestivalView(viewModel: jourVM)) {
-                            	JourRowView(jourVM: jourVM)
-                            //}
-                        }
-                }
-                .task {
-                    let joursLoaded = await joursIntent.getJoursByFestival(festivalId: viewModel._id)
-                }
+				JourListView(festivalVM: viewModel)
             } else {
                 Section(header: Text("Zones")) {
                     // Display the list of zones
