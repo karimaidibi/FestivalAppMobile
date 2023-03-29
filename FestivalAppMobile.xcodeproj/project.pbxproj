@@ -235,6 +235,92 @@
 			path = Partials;
 			sourceTree = "<group>";
 		};
+		6F004D1429D43DDD00BCB7ED /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0AE729CE0DF600ED9927 /* CreneauDocDTO.swift */,
+				6F7E0AE929CE0E9E00ED9927 /* ZoneDocDTO.swift */,
+				6F7E0AEB29CE111F00ED9927 /* AffectationDocDTO.swift */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
+		6F004D1529D43E0C00BCB7ED /* Festivals */ = {
+			isa = PBXGroup;
+			children = (
+				6FDBFE3E29CE8F800035AE3D /* FestivalsState.swift */,
+				6F7E0A7429CDD9D700ED9927 /* FestivalState.swift */,
+			);
+			path = Festivals;
+			sourceTree = "<group>";
+		};
+		6F004D1629D43E5500BCB7ED /* Jours */ = {
+			isa = PBXGroup;
+			children = (
+				6F004D1229D17F1000BCB7ED /* JourState.swift */,
+				6F004D0629CF4A5A00BCB7ED /* JoursState.swift */,
+			);
+			path = Jours;
+			sourceTree = "<group>";
+		};
+		6F004D1729D43E7D00BCB7ED /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0A7629CDD9D700ED9927 /* ZoneState.swift */,
+			);
+			path = Zones;
+			sourceTree = "<group>";
+		};
+		6F004D1829D43E8500BCB7ED /* Benevoles */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0A7529CDD9D700ED9927 /* BenevoleState.swift */,
+			);
+			path = Benevoles;
+			sourceTree = "<group>";
+		};
+		6F004D1929D43E9600BCB7ED /* Fesivals */ = {
+			isa = PBXGroup;
+			children = (
+				6F004D1029CF8B4200BCB7ED /* FestivalIntent.swift */,
+				6F7E0A7829CDD9D700ED9927 /* FestivalsIntent.swift */,
+			);
+			path = Fesivals;
+			sourceTree = "<group>";
+		};
+		6F004D1A29D43EA700BCB7ED /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0A7929CDD9D700ED9927 /* SignUpIntent.swift */,
+				6F7E0A7A29CDD9D700ED9927 /* AuthIntent.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		6F004D1B29D43EBB00BCB7ED /* Zones */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0A7B29CDD9D700ED9927 /* ZoneIntent.swift */,
+			);
+			path = Zones;
+			sourceTree = "<group>";
+		};
+		6F004D1C29D43EC000BCB7ED /* Jours */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0AF229CE1F3700ED9927 /* JoursIntent.swift */,
+			);
+			path = Jours;
+			sourceTree = "<group>";
+		};
+		6F004D1D29D43EC400BCB7ED /* Benevoles */ = {
+			isa = PBXGroup;
+			children = (
+				6F7E0A7C29CDD9D700ED9927 /* BenevoleIntent.swift */,
+			);
+			path = Benevoles;
+			sourceTree = "<group>";
+		};
 		6F7E097F29CDD7F200ED9927 = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +454,7 @@
 		6F7E0A6429CDD9D700ED9927 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				6F004D1429D43DDD00BCB7ED /* Documents */,
 				6F7E0A6529CDD9D700ED9927 /* ZoneDTO.swift */,
 				6F7E0A6629CDD9D700ED9927 /* LogInDTO.swift */,
 				6F7E0A6729CDD9D700ED9927 /* FestivalDTO.swift */,
@@ -376,9 +463,6 @@
 				6F7E0A6829CDD9D700ED9927 /* SignUpDTO.swift */,
 				6F7E0AE329CE0A9F00ED9927 /* JourDTO.swift */,
 				6F7E0AE529CE0C3900ED9927 /* CreneauDTO.swift */,
-				6F7E0AE729CE0DF600ED9927 /* CreneauDocDTO.swift */,
-				6F7E0AE929CE0E9E00ED9927 /* ZoneDocDTO.swift */,
-				6F7E0AEB29CE111F00ED9927 /* AffectationDocDTO.swift */,
 			);
 			path = DTOs;
 			sourceTree = "<group>";
@@ -394,12 +478,10 @@
 		6F7E0A7329CDD9D700ED9927 /* States */ = {
 			isa = PBXGroup;
 			children = (
-				6F7E0A7429CDD9D700ED9927 /* FestivalState.swift */,
-				6F7E0A7529CDD9D700ED9927 /* BenevoleState.swift */,
-				6F7E0A7629CDD9D700ED9927 /* ZoneState.swift */,
-				6FDBFE3E29CE8F800035AE3D /* FestivalsState.swift */,
-				6F004D0629CF4A5A00BCB7ED /* JoursState.swift */,
-				6F004D1229D17F1000BCB7ED /* JourState.swift */,
+				6F004D1829D43E8500BCB7ED /* Benevoles */,
+				6F004D1729D43E7D00BCB7ED /* Zones */,
+				6F004D1629D43E5500BCB7ED /* Jours */,
+				6F004D1529D43E0C00BCB7ED /* Festivals */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -407,13 +489,11 @@
 		6F7E0A7729CDD9D700ED9927 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
-				6F7E0A7829CDD9D700ED9927 /* FestivalsIntent.swift */,
-				6F7E0A7929CDD9D700ED9927 /* SignUpIntent.swift */,
-				6F7E0A7A29CDD9D700ED9927 /* AuthIntent.swift */,
-				6F7E0A7B29CDD9D700ED9927 /* ZoneIntent.swift */,
-				6F7E0A7C29CDD9D700ED9927 /* BenevoleIntent.swift */,
-				6F7E0AF229CE1F3700ED9927 /* JoursIntent.swift */,
-				6F004D1029CF8B4200BCB7ED /* FestivalIntent.swift */,
+				6F004D1D29D43EC400BCB7ED /* Benevoles */,
+				6F004D1C29D43EC000BCB7ED /* Jours */,
+				6F004D1B29D43EBB00BCB7ED /* Zones */,
+				6F004D1A29D43EA700BCB7ED /* Auth */,
+				6F004D1929D43E9600BCB7ED /* Fesivals */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -436,7 +516,6 @@
 			children = (
 				6F004D0329CF46E800BCB7ED /* Partials */,
 				6F7E0A8529CDD9D700ED9927 /* Affectations */,
-				6F7E0A8729CDD9D700ED9927 /* Zones */,
 				6F7E0A8929CDD9D700ED9927 /* Benevoles */,
 				6F7E0A8C29CDD9D700ED9927 /* Auth */,
 				6F7E0A9129CDD9D700ED9927 /* LandingPageView.swift */,
@@ -486,6 +565,7 @@
 		6F7E0A9429CDD9D700ED9927 /* Festivals */ = {
 			isa = PBXGroup;
 			children = (
+				6F7E0A8729CDD9D700ED9927 /* Zones */,
 				6F7E0A9529CDD9D700ED9927 /* FestivalView.swift */,
 				6F7E0A9629CDD9D700ED9927 /* JourFestivalView.swift */,
 				6F7E0A9729CDD9D700ED9927 /* FestivalsView.swift */,
