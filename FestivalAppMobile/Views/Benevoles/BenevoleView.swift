@@ -12,22 +12,10 @@ import SwiftUI
 struct BenevoleView: View {
     let benevoleVM: BenevoleViewModel
     
-    @State private var selection = 0
-    
     var body: some View {
-        VStack {            
-            Picker(selection: $selection, label: Text("Sélectionner une option")) {
-                Text("Festivals").tag(0)
-                Text("Créneaux").tag(1)
+            VStack {
+                AffectationsView(benevoleVM: benevoleVM, isAdminGestion: true)
             }
-            .pickerStyle(SegmentedPickerStyle())
-            
-            if selection == 0 {
-                FakeFestivalsView(festivals: fakeFestivals)
-            } else {
-                AffectationsView()
-            }
+            .navigationTitle("Affectations de \(benevoleVM.nom)")
         }
-        .navigationTitle("Gestion de \(benevoleVM.nom)")
-    }
 }

@@ -8,7 +8,7 @@
 import Foundation;
 import SwiftUI
 
-class ZoneViewModel : ObservableObject, Hashable{
+class ZoneViewModel : ObservableObject, Hashable, Decoder{
         
     //observers : lists of view model
     var observers : [ViewModelObserver] = []
@@ -16,8 +16,23 @@ class ZoneViewModel : ObservableObject, Hashable{
     //Properties : will notify the model when the view change any of these properties
     @Published var _id : String
     
-    //Properties : will notify the model when the view change any of these properties
     @Published var nom : String{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
+            }
+        }
+    }
+    
+    @Published var nombre_benevoles_necessaires : Int{
+        didSet{
+            for o in self.observers{
+                o.viewModelUpdated()
+            }
+        }
+    }
+    
+    @Published var idFestival : String{
         didSet{
             for o in self.observers{
                 o.viewModelUpdated()
@@ -32,16 +47,45 @@ class ZoneViewModel : ObservableObject, Hashable{
             case .ready:
                 debugPrint("ZoneViewModel : ready state")
                 debugPrint("-------------------------------")
-            default:
-                break
+            case .loading:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = true
+            case .zoneUpdated(let zoneDTO):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.updateZone(zoneDTO: zoneDTO)
+                self.loading = false
+                self.successMessage = "Zone Updated Successfully !"
+            case .zoneUpdatingFailed(let error):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = error.localizedDescription
+            case .error:
+                print(state.description)
             }
         }
     }
+    
+    @Published var zoneListViewModels : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    
+    @Published var loading : Bool = false
+    @Published var errorMessage : String = ""
+    @Published var successMessage : String = ""
     
     // constructor
     init(zoneDTO : ZoneDTO){
         self._id = zoneDTO._id
         self.nom = zoneDTO.nom
+        self.nombre_benevoles_necessaires = zoneDTO.nombre_benevoles_necessaires
+        self.idFestival = zoneDTO.idFestival
+    }
+    
+    private func updateZone(zoneDTO : ZoneDTO){
+        self.nom = zoneDTO.nom
+        self.nombre_benevoles_necessaires = zoneDTO.nombre_benevoles_necessaires
+        self.idFestival = zoneDTO.idFestival
     }
     
     // functions

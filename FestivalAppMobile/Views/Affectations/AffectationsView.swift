@@ -25,6 +25,7 @@ struct AffectationsView: View {
     @State private var alertMessage = ""
     @State private var alertTitle = ""
 
+    var isAdminGestion : Bool
     
     var body: some View {
         
@@ -102,6 +103,7 @@ struct AffectationsView: View {
                 .navigationTitle("Mes créneaux")
                 .navigationBarTitleDisplayMode(.inline)
                 .font(.system(size: 18))
+                .navigationBarHidden(isAdminGestion)
             }
         }
         .alert(isPresented: $showAlert) {
@@ -110,6 +112,9 @@ struct AffectationsView: View {
         .task{
             //bookedSlots = slots
             if let id = authManager.benevoleId{
+                if (!isAdminGestion) {
+                    // load le bénévole avec l'intent
+                }
                 let affectationsLoaded = await benevoleIntent.getBenevoleAffectation(id: id)
                 if !affectationsLoaded{
                     alertMessage = benevoleVM.errorMessage
@@ -117,6 +122,7 @@ struct AffectationsView: View {
                     showAlert = true
                 }
             }
+                
 
         }
     }

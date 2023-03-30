@@ -5,7 +5,7 @@
 	<key>API_LOCAL</key>
 	<string></string>
 	<key>API</key>
-	<string>http://localhost:3000/api</string>
+	<string>https://festivalappapi.onrender.com/api</string>
 	<key>New item</key>
 	<string></string>
 	<key>New item - 3</key>

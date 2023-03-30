@@ -20,10 +20,11 @@ struct JourView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    //ForEach(viewModel.jour.creneaux) { creneau in
-                      //  Divider() // comme sur angular mat
-                        //CreneauRow(creneau: creneau)
-                    //}
+                    ForEach($viewModel.jour.creneaux) { creneau in
+                        NavigationLink(destination: CreneauListView(viewModel: creneau)) {
+                            CreneauRow(creneau: creneau)
+                        }
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 50)

@@ -22,14 +22,80 @@ class ZoneListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
         }
     }
     
-    
     // set
-    func setzoneViewModelArray(zoneViewModelArray : [ZoneViewModel]){
+    func setZoneViewModelArray(zoneViewModelArray : [ZoneViewModel]){
         self.zoneViewModelArray = zoneViewModelArray
         // register as a observer of all the track model views in the array
         for zvm in zoneViewModelArray{
             zvm.register(obs: self)
         }
+    }
+    
+    @Published var loading : Bool = false
+    @Published var errorMessage : String = ""
+    @Published var successMessage : String = ""
+    
+    // State Intent management
+    @Published var state: ZonesState = .ready {
+        didSet {
+            switch state {
+            case .ready:
+                print("zonesViewModel: ready state")
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = ""
+                self.successMessage = ""
+            case .loading:
+                print("zonesViewModel: loading state")
+                debugPrint("-------------------------------")
+                self.loading = true
+            case.zonesLoaded(let zoneDTOs):
+                let newList : [ZoneViewModel] = ZoneListViewModel.fromDTOs(zoneDTOs : zoneDTOs)
+                self.setZoneViewModels(zoneViewModels: newList)
+                print("ZonesViewModel: loaded state")
+                debugPrint("-------------------------------")
+                self.loading = false
+            case.zonesLoadingFailed(let apiRequestError):
+                print("ZonesViewModel: loading failed state")
+                debugPrint("-------------------------------")
+                self.errorMessage = apiRequestError.localizedDescription
+                self.loading = false
+            case.zoneAdded(let zoneDTO):
+                print("ZonesViewModel: zone Added state")
+                debugPrint("-------------------------------")
+                self.addNewZone(zone: zoneDTO)
+                self.loading = false
+            case.zoneAddingFailed(let error):
+                print("ZonesViewModel: zone Adding failed state")
+                debugPrint("-------------------------------")
+                self.errorMessage = error.description
+                self.loading = false
+            case.zoneDeleted(let msg):
+                print("ZonesViewModel: zone Deleted state")
+                debugPrint("-------------------------------")
+                self.successMessage = msg
+                self.loading = false
+            case .error:
+                print("ZonesViewModel: error state")
+                debugPrint("-------------------------------")
+                self.loading = false
+            default:
+                self.loading = false
+            }
+        }
+    }
+    
+    static func fromDTOs(zoneDTOs: [ZoneDTO]) -> [ZoneViewModel] {
+        return zoneDTOs.map { zoneDTO in
+            ZoneViewModel(zoneDTO : zoneDTO)
+        }
+    }
+    
+    // fake data function
+    func addNewZone(zone: ZoneDTO){
+        let zoneVM = ZoneViewModel(zoneDTO: zone)
+        self.zoneViewModelArray.append(zoneVM)
+        zoneVM.register(obs: self)
     }
     
     // functions that update this listt view model when the view model is changed
