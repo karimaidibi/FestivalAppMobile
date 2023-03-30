@@ -103,6 +103,9 @@
 		B73A117829D5A9C600BF0F75 /* ZonesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73A117729D5A9C600BF0F75 /* ZonesState.swift */; };
 		B73A117A29D5BB4D00BF0F75 /* ZoneService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73A117929D5BB4D00BF0F75 /* ZoneService.swift */; };
 		B73A117C29D5BD2D00BF0F75 /* ZonesIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73A117B29D5BD2D00BF0F75 /* ZonesIntent.swift */; };
+		B73A117E29D5CB9400BF0F75 /* AddFestivalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73A117D29D5CB9400BF0F75 /* AddFestivalView.swift */; };
+		B73A118029D5CD2800BF0F75 /* AddJourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73A117F29D5CD2800BF0F75 /* AddJourView.swift */; };
+		B73A118229D5CE1100BF0F75 /* AddZoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73A118129D5CE1100BF0F75 /* AddZoneView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +225,9 @@
 		B73A117729D5A9C600BF0F75 /* ZonesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZonesState.swift; sourceTree = "<group>"; };
 		B73A117929D5BB4D00BF0F75 /* ZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneService.swift; sourceTree = "<group>"; };
 		B73A117B29D5BD2D00BF0F75 /* ZonesIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZonesIntent.swift; sourceTree = "<group>"; };
+		B73A117D29D5CB9400BF0F75 /* AddFestivalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFestivalView.swift; sourceTree = "<group>"; };
+		B73A117F29D5CD2800BF0F75 /* AddJourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJourView.swift; sourceTree = "<group>"; };
+		B73A118129D5CE1100BF0F75 /* AddZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,6 +357,7 @@
 				6F7E0A9529CDD9D700ED9927 /* FestivalView.swift */,
 				6F004D1F29D43F8C00BCB7ED /* Jours */,
 				6F7E0A8729CDD9D700ED9927 /* Zones */,
+				B73A117D29D5CB9400BF0F75 /* AddFestivalView.swift */,
 			);
 			path = Festival;
 			sourceTree = "<group>";
@@ -362,6 +369,7 @@
 				6F7E0A9629CDD9D700ED9927 /* JourView.swift */,
 				6F004D2029D4403700BCB7ED /* JourRowView.swift */,
 				6F004D2429D4419400BCB7ED /* JourListView.swift */,
+				B73A117F29D5CD2800BF0F75 /* AddJourView.swift */,
 			);
 			path = Jours;
 			sourceTree = "<group>";
@@ -596,6 +604,7 @@
 				6F7E0A8829CDD9D700ED9927 /* ZonesView.swift */,
 				6F004D2229D4407F00BCB7ED /* ZoneRowView.swift */,
 				6F004D2629D441B200BCB7ED /* ZoneListView.swift */,
+				B73A118129D5CE1100BF0F75 /* AddZoneView.swift */,
 			);
 			path = Zones;
 			sourceTree = "<group>";
@@ -814,6 +823,7 @@
 				6F7E0AA429CDD9D700ED9927 /* BenevoleViewModel.swift in Sources */,
 				6F7E0AC829CDD9D700ED9927 /* AuthError.swift in Sources */,
 				6F7E0AD429CDD9D700ED9927 /* SignedInView.swift in Sources */,
+				B73A118229D5CE1100BF0F75 /* AddZoneView.swift in Sources */,
 				6F7E0AA729CDD9D700ED9927 /* JourViewModel.swift in Sources */,
 				6F004D0B29CF4F2500BCB7ED /* FakeJourViewModel.swift in Sources */,
 				6F7E0ACE29CDD9D700ED9927 /* ZonesView.swift in Sources */,
@@ -845,6 +855,8 @@
 				6F7E0AB229CDD9D700ED9927 /* ZoneDTO.swift in Sources */,
 				6F7E0AAE29CDD9D700ED9927 /* QueryResult.swift in Sources */,
 				6F004D0D29CF893B00BCB7ED /* FakeFestivalView.swift in Sources */,
+				B73A118029D5CD2800BF0F75 /* AddJourView.swift in Sources */,
+				B73A117E29D5CB9400BF0F75 /* AddFestivalView.swift in Sources */,
 				6F7E0AB029CDD9D700ED9927 /* authData.swift in Sources */,
 				6F7E0AEA29CE0E9E00ED9927 /* ZoneDocDTO.swift in Sources */,
 				6F7E0AB529CDD9D700ED9927 /* SignUpDTO.swift in Sources */,

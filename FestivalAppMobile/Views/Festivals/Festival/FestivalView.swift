@@ -88,9 +88,8 @@ struct FestivalView: View {
                 } else {
                     //viewModel.addNewZone()
                 }
-            }, label: {
-                Image(systemName: "plus")
-            })
-        )
+        }) {
+            Image(systemName: "plus")
+        }
     }
 }

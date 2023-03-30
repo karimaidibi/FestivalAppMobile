@@ -33,10 +33,10 @@ struct ZonesIntent {
         }
     }
     
-    func addZone() async -> Bool {
+    func addZone(nom : String, nombre_benevoles_necessaires: Int, idFestival : String) async -> Bool {
         // create data
         // false zone (zone libre)
-        let zoneDTO = ZoneDTO(nom: "Libre", nombre_benevoles_necessaires: 200, idFestival: "")
+        let zoneDTO = ZoneDTO(nom: nom, nombre_benevoles_necessaires: nombre_benevoles_necessaires, idFestival: idFestival)
         
         viewModel.state = .loading
         let result = await zoneService.addZone(zoneDTO: zoneDTO)

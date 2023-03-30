@@ -48,7 +48,6 @@ struct FestivalsView: View {
                             }
                         }
                     }
-
                     .onMove{
                         IndexSet, index in festivalsVM.move(fromOffsets: IndexSet, toOffset: index)
                     }
@@ -70,10 +69,9 @@ struct FestivalsView: View {
                                     showAlert = true
                                 }
                             }
-                        }, label: {
+                        }) {
                             Image(systemName: "plus")
-                        })
-
+                        }
                         // Second button
                       CustomEditButton()
                     }

@@ -34,9 +34,9 @@ struct FestivalsIntent {
         }
     }
     
-    func addFestival() async -> Bool {
+    func addFestival(nom: String, annee: Int, estCloture: Bool) async -> Bool {
         // create data
-        let festivalDTO = FestivalDTO(nom: "New Festival", annee: 2023, estCloture: false)
+        let festivalDTO = FestivalDTO(nom: nom, annee: annee, estCloture: estCloture)
         
         viewModel.state = .loading
         let result = await festivalService.addFestival(festivalDTO: festivalDTO)
