@@ -59,21 +59,17 @@ struct FestivalsView: View {
                     HStack {
                         // First button
                         Button(action: {
-                            // Action for the first button
-                            // call intent to add festival
-                            Task{
-                                let addedFestival = await festivalsIntent.addFestival()
-                                if !addedFestival{
-                                    alertMessage = festivalsVM.errorMessage
-                                    alertTitle = "Error"
-                                    showAlert = true
-                                }
-                            }
                         }) {
                             Image(systemName: "plus")
                         }
+                        // envoie le user vers la page de création du festival
+                        NavigationLink(destination: AddFestivalView(festivalsVM: festivalsVM)) {
+                            EmptyView()
+                        }
                         // Second button
-                      CustomEditButton()
+                        Button(action: {}) {
+                            CustomEditButton()
+                        }
                     }
                 )
 

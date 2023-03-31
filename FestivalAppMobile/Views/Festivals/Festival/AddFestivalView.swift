@@ -13,15 +13,20 @@ struct AddFestivalView: View {
     // ViewModel
     @ObservedObject var festivalsVM: FestivalsViewModel
     
-    let festivalsIntent : FestivalsIntent = FestivalsIntent(viewModel: festivalsVM)
+    // Gestion popup
+    @State private var showAlert = false // popup on success deleting
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
     
     // States
     @State private var nom: String = ""
-    @State private var annee: String = ""
+    @State private var annee: Int = 2023
     @State private var estCloture: Bool = false
     
     // View
     var body: some View {
+        let festivalsIntent : FestivalsIntent = FestivalsIntent(viewModel: festivalsVM)
+        
         VStack {
             // Form to create new festival
             Form {
@@ -29,8 +34,9 @@ struct AddFestivalView: View {
                     TextField("Nom du Festival", text: $nom)
                 }
                 Section(header: Text("Année")) {
-                    TextField("Année du Festival", text: $annee)
-                        .keyboardType(.numberPad)
+                    Stepper(value: $annee, in: 2010...2090, step: 1) {
+                        Text("\(annee)")
+                    }
                 }
                 Section(header: Text("Cloturé")) {
                     Toggle("Cloturé", isOn: $estCloture)
@@ -38,10 +44,15 @@ struct AddFestivalView: View {
             }
             
             // Create button
-            Button(action:
-                    //createFestival
-                   festivalsIntent.addFestival(nom: zoneName, nombre_benevoles_necessaires: nbBenevolesMin, idFestival: festivalVM._id)
-            ){
+            Button(action: {
+                Task {
+                    let addedFestival = await festivalsIntent.addFestival(nom: nom, annee: annee, estCloture: estCloture)
+                    // Handle error case
+                    alertMessage = festivalsVM.errorMessage
+                    alertTitle = "Error"
+                    showAlert = true
+                }
+            }) {
                 Text("Créer")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -58,10 +69,7 @@ struct AddFestivalView: View {
     
     // Check if form is valid
     private func formIsValid() -> Bool {
-        if nom.isEmpty || annee.isEmpty {
-            return false
-        }
-        if let year = Int(annee), year <= 0 {
+        if nom.isEmpty {
             return false
         }
         return true

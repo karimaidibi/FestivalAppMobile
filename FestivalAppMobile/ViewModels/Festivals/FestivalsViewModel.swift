@@ -90,12 +90,13 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
         }
     }
     
-   // fake data function
-   func addNewFestival(festival: FestivalDTO){
+    // fake data function
+    func addNewFestival(festival: FestivalDTO){
        let festivalVM = FestivalViewModel(festivalDTO: festival)
        self.festivalViewModels.append(festivalVM)
        festivalVM.register(obs: self)
-   }
+    }
+    
     
     // functions that update this listt view model when the view model is changed
     func viewModelUpdated(){

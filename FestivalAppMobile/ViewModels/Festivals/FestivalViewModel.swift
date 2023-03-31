@@ -84,6 +84,7 @@ class FestivalViewModel: ObservableObject, Hashable, Identifiable {
         self.annee = festivalDTO.annee
         self.estCloture = festivalDTO.estCloture
     }
+    
 
     // constructor
     init(festivalDTO : FestivalDTO){

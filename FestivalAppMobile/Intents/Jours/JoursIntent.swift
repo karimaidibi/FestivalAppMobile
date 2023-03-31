@@ -18,6 +18,26 @@ struct JoursIntent {
         self.viewModel = viewModel
     }
     
+    func addJour(nom : String, nombre_benevoles_necessaires: Int, idFestival : String) async -> Bool {
+        // create data
+        // false zone (zone libre)
+        let zoneDTO = ZoneDTO(nom: nom, nombre_benevoles_necessaires: nombre_benevoles_necessaires, idFestival: idFestival)
+        
+        viewModel.state = .loading
+        let result = await zoneService.addZone(zoneDTO: zoneDTO)
+        switch result{
+        case .success(let zoneDTO):
+            viewModel.state = .zoneAdded(zoneDTO!)
+            return true
+        case .failure(let error as APIRequestError):
+            viewModel.state = .zoneAddingFailed(error)
+            return false
+        default:
+            viewModel.state = .error
+            return false
+        }
+    }
+    
     func getJoursByFestival(festivalId : String) async -> Bool{
         
         viewModel.state = .loading
