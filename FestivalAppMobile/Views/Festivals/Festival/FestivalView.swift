@@ -28,7 +28,7 @@ struct FestivalView: View {
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
     @State private var alertTitle = ""
-        
+
     enum FestivalSection {
             case jours
             case zones
@@ -169,3 +169,5 @@ struct FestivalView: View {
         })
     }
 }
+
+

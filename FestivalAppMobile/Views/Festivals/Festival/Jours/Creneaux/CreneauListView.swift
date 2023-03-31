@@ -9,9 +9,6 @@ import Foundation
 import SwiftUI
 
 struct CreneauListView : View{
-    
-    
-    
     @ObservedObject var jourVM : JourViewModel
     @StateObject var creneauxVM : CreneauListViewModel = CreneauListViewModel(creneauViewModelArray: [])
     // for popup
