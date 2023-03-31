@@ -13,24 +13,23 @@ struct JoursIntent {
     
     @ObservedObject private var viewModel: JourListViewModel
     private var jourService : JourService = JourService()
-    
+
     init(viewModel: JourListViewModel) {
         self.viewModel = viewModel
     }
     
-    func addJour(nom : String, nombre_benevoles_necessaires: Int, idFestival : String) async -> Bool {
+    func addJour(date : String, nom : String, heure_ouverture : String, heure_fermeture : String, idFestival : String) async -> Bool {
         // create data
-        // false zone (zone libre)
-        let zoneDTO = ZoneDTO(nom: nom, nombre_benevoles_necessaires: nombre_benevoles_necessaires, idFestival: idFestival)
+        let jourDTO = JourDTO(date : date, nom: nom , heure_ouverture : heure_ouverture, heure_fermeture : heure_fermeture, idFestival: idFestival)
         
         viewModel.state = .loading
-        let result = await zoneService.addZone(zoneDTO: zoneDTO)
+        let result = await jourService.addJour(jourDTO: jourDTO)
         switch result{
-        case .success(let zoneDTO):
-            viewModel.state = .zoneAdded(zoneDTO!)
+        case .success(let jourDTO):
+            viewModel.state = .jourAdded(jourDTO!)
             return true
         case .failure(let error as APIRequestError):
-            viewModel.state = .zoneAddingFailed(error)
+            viewModel.state = .jourAddingFailed(error)
             return false
         default:
             viewModel.state = .error
@@ -48,6 +47,22 @@ struct JoursIntent {
             return true
         case .failure(let error as APIRequestError):
             viewModel.state = .joursLoadingFailed(error)
+            return false
+        default:
+            viewModel.state = .error
+            return false
+        }
+    }
+    
+    func removeJour(id : String) async -> Bool{
+        viewModel.state = .loading
+        let result = await jourService.removeJour(id: id)
+        switch result{
+        case .success(let  msg):
+            viewModel.state = .jourDeleted(msg!)
+            return true
+        case .failure(let error as APIRequestError):
+            viewModel.state = .jourDeletingFailed(error)
             return false
         default:
             viewModel.state = .error

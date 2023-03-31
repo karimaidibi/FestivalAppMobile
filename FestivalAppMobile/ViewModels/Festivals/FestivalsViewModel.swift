@@ -122,6 +122,11 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
         return self.festivalViewModels[current]
     }
     
+    // Renvoie le festivalViewModel de l'élément courant
+    func getCurrent() -> FestivalViewModel{
+        return self.festivalViewModels[self.current]
+    }
+    
     // RandomAccessCollection
     var startIndex: Int {return festivalViewModels.startIndex}
     var endIndex: Int {return festivalViewModels.endIndex}

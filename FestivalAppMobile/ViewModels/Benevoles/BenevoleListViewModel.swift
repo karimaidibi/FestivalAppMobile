@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BenevoleListViewModel: ObservableObject, ViewModelObserver {
+class BenevoleListViewModel: ObservableObject, ViewModelObserver, RandomAccessCollection, IteratorProtocol {
     @Published var benevoleViewModels: [BenevoleViewModel] = []
     @Published var searchText: String = ""
 
@@ -28,15 +28,37 @@ class BenevoleListViewModel: ObservableObject, ViewModelObserver {
         self.objectWillChange.send()
     }
 
-    func filterBenevoles() -> [BenevoleViewModel] {
-        if searchText.isEmpty {
-            return benevoleViewModels
-        } else {
-            return benevoleViewModels.filter { benevole in
-                benevole.nom.lowercased().contains(searchText.lowercased()) ||
-                benevole.prenom.lowercased().contains(searchText.lowercased()) ||
-                benevole.email.lowercased().contains(searchText.lowercased())
-            }
+    func filteredBenevoles(searchText: String) -> [BenevoleViewModel] {
+        let filteredBenevoles = benevoleViewModels.filter { benevole in
+            let searchTerm = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            return searchTerm.isEmpty ||
+                benevole.nom.lowercased().contains(searchTerm) ||
+                benevole.prenom.lowercased().contains(searchTerm) ||
+                benevole.email.lowercased().contains(searchTerm)
+        }
+        return filteredBenevoles
+    }
+    
+    // functions to make the use of this class easier
+    subscript(index: Int) -> BenevoleViewModel {
+        get {
+            return benevoleViewModels[index]
+        }
+        set(newValue) {
+            benevoleViewModels[index] = newValue
         }
     }
+
+    // iteratorProtocol
+    private var current : Int = 0
+    func next() -> BenevoleViewModel?{
+        guard current < self.benevoleViewModels.count else { return nil }
+        defer {current += 1}
+        return self.benevoleViewModels[current]
+    }
+    
+    // RandomAccessCollection
+    var startIndex: Int {return benevoleViewModels.startIndex}
+    var endIndex: Int {return benevoleViewModels.endIndex}
+    func index(after i: Int) -> Int { return benevoleViewModels.index(after: i)}
 }

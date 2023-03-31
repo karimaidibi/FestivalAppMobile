@@ -24,8 +24,6 @@ struct ZoneIntent{
                 zoneDTO.nom = editedProperty as! String
             case "nombre_benevoles_necessaires":
                 zoneDTO.nombre_benevoles_necessaires = editedProperty as! Int
-            case "idFestival":
-                zoneDTO.idFestival = editedProperty as! String
             default:
                 return false
         }

@@ -51,7 +51,7 @@ class ZoneListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
                 self.loading = true
             case.zonesLoaded(let zoneDTOs):
                 let newList : [ZoneViewModel] = ZoneListViewModel.fromDTOs(zoneDTOs : zoneDTOs)
-                self.setZoneViewModels(zoneViewModels: newList)
+                self.setZoneViewModelArray(zoneViewModelArray: newList)
                 print("ZonesViewModel: loaded state")
                 debugPrint("-------------------------------")
                 self.loading = false
@@ -60,10 +60,10 @@ class ZoneListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
                 debugPrint("-------------------------------")
                 self.errorMessage = apiRequestError.localizedDescription
                 self.loading = false
-            case.zoneAdded(let zoneDTO):
+            case.zoneAdded(let msg):
                 print("ZonesViewModel: zone Added state")
                 debugPrint("-------------------------------")
-                self.addNewZone(zone: zoneDTO)
+                self.successMessage = msg
                 self.loading = false
             case.zoneAddingFailed(let error):
                 print("ZonesViewModel: zone Adding failed state")

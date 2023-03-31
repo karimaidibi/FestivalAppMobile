@@ -28,7 +28,7 @@ struct FestivalsView: View {
                 List {
                     ForEach(festivalsVM.sorted { !$0.estCloture && $1.estCloture }, id: \.self){
                         festival in
-                        NavigationLink(destination: FestivalView(viewModel: festival)) {
+                        NavigationLink(destination: FestivalView(festivalsVM: festivalsVM, viewModel: festival)) {
                             FestivalRow(viewModel: festival)
                         }
                     }
@@ -60,11 +60,10 @@ struct FestivalsView: View {
                         // First button
                         Button(action: {
                         }) {
-                            Image(systemName: "plus")
-                        }
-                        // envoie le user vers la page de création du festival
-                        NavigationLink(destination: AddFestivalView(festivalsVM: festivalsVM)) {
-                            EmptyView()
+                            // envoie le user vers la page de création du festival
+                            NavigationLink(destination: AddFestivalView(festivalsVM: festivalsVM)) {
+                                Image(systemName: "plus")
+                            }
                         }
                         // Second button
                         Button(action: {}) {

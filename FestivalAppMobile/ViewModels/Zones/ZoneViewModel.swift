@@ -8,8 +8,7 @@
 import Foundation;
 import SwiftUI
 
-class ZoneViewModel : ObservableObject, Hashable, Decoder{
-        
+class ZoneViewModel : ObservableObject, Hashable, Identifiable{
     //observers : lists of view model
     var observers : [ViewModelObserver] = []
     

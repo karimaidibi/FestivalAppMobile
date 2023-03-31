@@ -61,7 +61,7 @@ class ZoneService {
         
     }
     
-    func addZone(zoneDTO : ZoneDTO) async -> Result<ZoneDTO?, Error> {
+    func addZone(zoneDTO : ZoneDTO) async -> Result<String?, Error> {
 
         guard let url = URL(string: "\(self.api)/zones") else {
             return .failure(APIRequestError.unknown)
@@ -82,11 +82,11 @@ class ZoneService {
             // si tout se passe bien
             if httpresponse.statusCode == 201{
                 // recuperer query result
-                guard let decoded : QueryResultGetOne<ZoneDTO> = await JSONHelper.decodeOne(data: data) else{
+                guard let decoded : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
                     return .failure(JSONError.JsonDecodingFailed)
                 }
-                let zoneDTO = decoded.result
-                return .success(zoneDTO)
+                let message = decoded.message
+                return .success(message)
             }
             // sinon afficher erreur avec le status code
             else {
@@ -179,7 +179,7 @@ class ZoneService {
                 return .failure(APIRequestError.UploadError("\(queryBadResult.status) : \(queryBadResult.message)"))
             }
         }catch{
-            return .failure(APIRequestError.UploadError("update Festival"))
+            return .failure(APIRequestError.UploadError("update Zone"))
         }
 
     }

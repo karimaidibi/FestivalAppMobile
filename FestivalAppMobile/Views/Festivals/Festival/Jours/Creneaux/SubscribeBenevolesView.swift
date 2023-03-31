@@ -38,7 +38,7 @@ let benevoles: [Benevole] = [
 struct SubscribeBenevolesView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var viewModel: SubscribeBenevolesViewModel
+    @ObservedObject var benevolesVM: BenevoleListViewModel
     
     @State private var searchText = ""
     @State private var selectedBenevoles: Set<BenevoleViewModel> = []
@@ -49,27 +49,27 @@ struct SubscribeBenevolesView: View {
                 SearchBar(text: $searchText, placeholder: "Rechercher un bénévole")
                 
                 List {
-                    ForEach(viewModel.filteredBenevoles(searchText: searchText)) { benevole in
+                    ForEach(benevolesVM.filteredBenevoles(searchText: searchText)) { benevoleVM in
                         HStack {
-                            Text(benevole.fullName)
+                            Text(benevoleVM.nom)
                             Spacer()
-                            if selectedBenevoles.contains(benevole) {
+                            if selectedBenevoles.contains(benevoleVM) {
                                 Image(systemName: "checkmark")
                             }
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            if selectedBenevoles.contains(benevole) {
-                                selectedBenevoles.remove(benevole)
+                            if selectedBenevoles.contains(benevoleVM) {
+                                selectedBenevoles.remove(benevoleVM)
                             } else {
-                                selectedBenevoles.insert(benevole)
+                                selectedBenevoles.insert(benevoleVM)
                             }
                         }
                     }
                 }
                 
                 Button(action: {
-                    viewModel.subscribeBenevoles(Array(selectedBenevoles))
+                    //viewModel.subscribeBenevoles(Array(selectedBenevoles))
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Text("S'inscrire")

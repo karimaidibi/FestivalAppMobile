@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BenevoleViewModel : ObservableObject, Hashable{
+class BenevoleViewModel : ObservableObject, Hashable, Identifiable{
         
     //observers : lists of view model
     var observers : [ViewModelObserver] = []

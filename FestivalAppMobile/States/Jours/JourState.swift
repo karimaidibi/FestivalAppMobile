@@ -10,8 +10,8 @@ import Foundation
 enum JourState: CustomStringConvertible, Equatable {
     case ready
     case loading
-    case jourLoaded
-    case jourLoadingFailed
+    case jourUpdated(JourDTO)
+    case jourUpdatingFailed(APIRequestError)
     case error
     
     var description: String {
@@ -20,9 +20,9 @@ enum JourState: CustomStringConvertible, Equatable {
             return "ready"
         case .loading:
             return "loading"
-        case .jourLoaded:
-            return "Festivals Loaded Successfully"
-        case .jourLoadingFailed:
+        case .jourUpdated(_):
+            return "Jour Loaded Successfully"
+        case .jourUpdatingFailed(_):
             return "error"
         case .error:
             return "error"

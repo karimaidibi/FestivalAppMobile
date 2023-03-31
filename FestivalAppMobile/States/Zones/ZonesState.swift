@@ -12,7 +12,7 @@ enum ZonesState: CustomStringConvertible, Equatable {
     case loading
     case zonesLoaded([ZoneDTO])
     case zonesLoadingFailed(APIRequestError)
-    case zoneAdded(ZoneDTO)
+    case zoneAdded(String)
     case zoneAddingFailed(APIRequestError)
     case zoneDeleted(String)
     case zoneDeletingFailed(APIRequestError)
@@ -28,8 +28,8 @@ enum ZonesState: CustomStringConvertible, Equatable {
             return "Zones Loaded Successfully"
         case .zonesLoadingFailed(let apiRequestError):
             return apiRequestError.localizedDescription
-        case .zoneAdded:
-            return "success"
+        case .zoneAdded(let msg):
+            return msg
         case .zoneAddingFailed(let error):
             return error.localizedDescription
         case .zoneDeleted(let msg):

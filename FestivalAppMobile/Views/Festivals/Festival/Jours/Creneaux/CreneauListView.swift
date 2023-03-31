@@ -15,11 +15,12 @@ struct CreneauListView: View {
         
         var body: some View {
             List {
-                ForEach(CreneauViewModels) { creneau in
-                    NavigationLink(destination: CreneauView(creneauVM: creneau)) {
-                        CreneauRow(creneau: creneau)
-                    }
-                }
+                EmptyView()
+                //ForEach(CreneauViewModels) { creneauVM in
+                    //NavigationLink(destination: CreneauView(viewModel: creneauVM)) {
+                        //CreneauRow(creneau: creneauVM)
+                    //}
+                //}
             }
             .navigationTitle("Liste des créneaux")
         }

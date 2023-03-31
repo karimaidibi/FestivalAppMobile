@@ -10,7 +10,10 @@ import Foundation
 import SwiftUI
 
 struct FestivalView: View {
-    @ObservedObject var viewModel: FestivalViewModel
+    @ObservedObject var festivalsVM : FestivalsViewModel
+    @ObservedObject var viewModel : FestivalViewModel
+    @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
+    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
     
     @State private var isEditingName = false
     @State private var editedName = ""
@@ -68,7 +71,7 @@ struct FestivalView: View {
                 if isEditingYear {
                     TextField("Année", text: $editedYear, onCommit: {
                         Task {
-                            let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: editedYear, editing: "annee")
+                            let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: Int(editedYear)!, editing: "annee")
                             if festivalUpdated {
                                 isEditingYear = false
                                 // show success alert
@@ -153,17 +156,21 @@ struct FestivalView: View {
         }
         .navigationTitle(viewModel.nom)
         .navigationBarItems(trailing:
-        Button(action: {
-            if selectedSection == .jours {
-                Task {
-                    let added = await festivalsIntent.addFestival(nom: "", annee : 1, estCloture: true)
+        HStack {
+            // First button
+            Button(action: {
+            }) {
+                if selectedSection == .jours {
+                    // envoie le user vers la page de création du jour
+                    NavigationLink(destination: AddJourView(joursVM: joursVM, festivalsVM: festivalsVM)) {
+                        Image(systemName: "plus")
+                    }
+                } else {
+                    NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalsVM: festivalsVM)) {
+                        Image(systemName: "plus")
+                    }
                 }
-                //viewModel.addNewDay()
-            } else {
-                //viewModel.addNewZone()
             }
-        }) {
-            Image(systemName: "plus")
         })
     }
 }

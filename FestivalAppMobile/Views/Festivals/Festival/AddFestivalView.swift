@@ -13,6 +13,8 @@ struct AddFestivalView: View {
     // ViewModel
     @ObservedObject var festivalsVM: FestivalsViewModel
     
+    @Environment(\.presentationMode) var presentationMode
+    
     // Gestion popup
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
@@ -46,11 +48,17 @@ struct AddFestivalView: View {
             // Create button
             Button(action: {
                 Task {
+                    // Créer le festival
                     let addedFestival = await festivalsIntent.addFestival(nom: nom, annee: annee, estCloture: estCloture)
                     // Handle error case
-                    alertMessage = festivalsVM.errorMessage
-                    alertTitle = "Error"
-                    showAlert = true
+                    if addedFestival {
+                        presentationMode.wrappedValue.dismiss()
+                    } else {
+                        // Handle error case
+                        showAlert = true
+                        alertTitle = "Error"
+                        alertMessage = festivalsVM.errorMessage
+                    }
                 }
             }) {
                 Text("Créer")

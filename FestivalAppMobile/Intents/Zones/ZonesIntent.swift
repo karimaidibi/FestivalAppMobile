@@ -41,8 +41,8 @@ struct ZonesIntent {
         viewModel.state = .loading
         let result = await zoneService.addZone(zoneDTO: zoneDTO)
         switch result{
-        case .success(let zoneDTO):
-            viewModel.state = .zoneAdded(zoneDTO!)
+        case .success(let msg):
+            viewModel.state = .zoneAdded(msg!)
             return true
         case .failure(let error as APIRequestError):
             viewModel.state = .zoneAddingFailed(error)

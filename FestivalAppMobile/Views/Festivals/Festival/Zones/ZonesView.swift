@@ -87,7 +87,7 @@ struct ZonesView: View {
             }
             
             // update the array of data in the zoneListVM
-            zoneListVM.setzoneViewModelArray(zoneViewModelArray: items)
+            //$zoneListVM.setzoneViewModelArray(zoneViewModelArray: items)
         }
     }
 }

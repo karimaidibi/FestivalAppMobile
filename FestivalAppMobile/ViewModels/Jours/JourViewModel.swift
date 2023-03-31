@@ -48,19 +48,51 @@ class JourViewModel: ObservableObject, Hashable, Identifiable {
             }
         }
     }
-    @Published var idFestival : String
 
-    // State Intent management
-    //@Published var state: JourState = .ready {
-      //  didSet {
-        //    switch state {
-          //  case .ready:
-            //    print("JourViewModel: ready state")
-            //case .error:
-              //  print("JourViewModel: error state")
-           // }
-       // }
-   // }
+    @Published var idFestival : String
+    
+    @Published var loading : Bool = false
+    @Published var errorMessage : String = ""
+    @Published var successMessage : String = ""
+
+    //State Intent management
+    @Published var state: JourState = .ready {
+        didSet {
+            switch state {
+            case .ready:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = ""
+                self.successMessage = ""
+            case .loading:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = true
+            case .jourUpdated(let jourDTO):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.updateJour(jourDTO: jourDTO)
+                self.loading = false
+                self.successMessage = "Jour Updated Successfully !"
+            case .jourUpdatingFailed(let error):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = error.localizedDescription
+            case .error:
+                print("JourViewModel: error state")
+            }
+        }
+   }
+    
+    private func updateJour(jourDTO : JourDTO){
+        self.date = jourDTO.date
+        self.nom = jourDTO.nom
+        self.heure_ouverture = jourDTO.heure_ouverture
+        self.heure_fermeture = jourDTO.heure_fermeture
+        self.idFestival = jourDTO.idFestival
+    }
 
     // constructor
     init(jourDTO : JourDTO){

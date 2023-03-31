@@ -12,6 +12,10 @@ enum JoursState: CustomStringConvertible, Equatable {
     case loading
     case joursLoaded([JourDTO])
     case joursLoadingFailed(APIRequestError)
+    case jourAdded(JourDTO)
+    case jourAddingFailed(APIRequestError)
+    case jourDeleted(String)
+    case jourDeletingFailed(APIRequestError)
     case error
     
     var description: String {
@@ -21,9 +25,17 @@ enum JoursState: CustomStringConvertible, Equatable {
         case .loading:
             return "loading"
         case .joursLoaded:
-            return "Festivals Loaded Successfully"
+            return "Jours Loaded Successfully"
         case .joursLoadingFailed(let apiRequestError):
             return apiRequestError.localizedDescription
+        case .jourAdded:
+            return "success"
+        case .jourAddingFailed(let error):
+            return error.localizedDescription
+        case .jourDeleted(let msg):
+            return msg
+        case .jourDeletingFailed(let error):
+            return error.localizedDescription
         case .error:
             return "error"
         }
