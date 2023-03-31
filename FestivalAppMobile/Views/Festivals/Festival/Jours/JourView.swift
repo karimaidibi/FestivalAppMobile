@@ -10,25 +10,16 @@ import Foundation
 import SwiftUI
 
 struct JourView: View {
-    @StateObject var viewModel: JourViewModel
+    @ObservedObject var viewModel: JourViewModel
 
     var body: some View {
         VStack {
-            Text(viewModel.date)
+            let formattedDate = UtilityHelper.formattedDateString(from: viewModel.date)
+            Text(formattedDate)
                 .font(.title)
                 .padding(.top, 20)
             
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    //ForEach(viewModel) { creneau in
-                        //NavigationLink(destination: CreneauListView(viewModel: creneau)) {
-                            //CreneauRow(creneau: creneau)
-                        //}
-                    //}
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 50)
-            }
+            CreneauListView(jourVM: viewModel)
 
             Spacer()
         }

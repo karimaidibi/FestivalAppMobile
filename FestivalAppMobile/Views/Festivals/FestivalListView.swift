@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 
-struct FestivalsView: View {
+struct FestivalListView: View {
     
     @StateObject var festivalsVM: FestivalsViewModel = FestivalsViewModel(festivalViewModels: [])
     @State private var showAlert = false // popup on success deleting

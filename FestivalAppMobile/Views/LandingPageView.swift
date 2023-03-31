@@ -15,6 +15,7 @@ struct LandingPageView: View {
     //@Binding var land: Bool
     @EnvironmentObject var viewsManager : ViewsManager
     @EnvironmentObject var authManager : AuthManager
+    
 
     var body: some View {
         VStack(spacing: 20) {

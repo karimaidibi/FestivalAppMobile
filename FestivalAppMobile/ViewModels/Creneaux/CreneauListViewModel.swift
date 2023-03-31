@@ -23,13 +23,57 @@ class CreneauListViewModel : ObservableObject, ViewModelObserver, RandomAccessCo
     
     
     // set
-    func setcreneauViewModelArray(creneauViewModelArray : [CreneauViewModel]){
+    func setCreneauViewModelArray(creneauViewModelArray : [CreneauViewModel]){
         self.creneauViewModelArray = creneauViewModelArray
         // register as a observer of all the track model views in the array
         for zvm in creneauViewModelArray{
             zvm.register(obs: self)
         }
     }
+    
+    
+    @Published var loading : Bool = false
+    @Published var errorMessage : String = ""
+    
+    // State Intent management
+    @Published var state: CreneauListState = .ready {
+        didSet {
+            switch state {
+            case .ready:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+            case .loading:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = true
+            case.creneauxLoaded(let creneauDTOs):
+                let newList : [CreneauViewModel] = CreneauListViewModel.fromDTOs(creneauDTOs : creneauDTOs)
+                self.setCreneauViewModelArray(creneauViewModelArray: newList)
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+            case.creneauxLoadingFailed(let apiRequestError):
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.errorMessage = apiRequestError.localizedDescription
+                self.loading = false
+            case .error:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
+            default:
+                self.loading = false
+            }
+        }
+    }
+    
+    static func fromDTOs(creneauDTOs: [CreneauDTO]) -> [CreneauViewModel] {
+        return creneauDTOs.map { creneauDTO in
+            CreneauViewModel(creneauDTO : creneauDTO)
+        }
+    }
+    
     
     // functions that update this listt view model when the view model is changed
     func viewModelUpdated(){

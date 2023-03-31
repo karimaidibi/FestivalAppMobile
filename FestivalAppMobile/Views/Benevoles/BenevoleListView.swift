@@ -12,17 +12,15 @@ import SwiftUI
 import Combine
 
 struct BenevoleListView: View {
-    @ObservedObject var viewModel: BenevoleListViewModel
+    @StateObject var viewModel: BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
     
     @State private var searchText = ""
-    @State private var filteredBenevoles: [BenevoleViewModel]
+    @State private var filteredBenevoles: [BenevoleViewModel] = []
     
-    init(viewModel: BenevoleListViewModel) {
-        self.viewModel = viewModel
-        self._filteredBenevoles = State(initialValue: viewModel.benevoleViewModels)
-    }
     
     var body: some View {
+        
+        
         VStack {
             SearchBar(text: $searchText, placeholder: "Rechercher par nom, prénom ou email")
             

@@ -8,38 +8,37 @@
 import Foundation
 import SwiftUI
 
-struct CreneauRow: View {
-    let creneau: Creneau
+struct CreneauRowView: View {
     
-    var totalVolunteers: Int {
-        creneau.areas.reduce(0) { $0 + $1.nbBenevolesMin }
-    }
+    @ObservedObject var creneauVM: CreneauViewModel
+    
+    //var totalVolunteers: Int {
+      //  creneau.areas.reduce(0) { $0 + $1.nbBenevolesMin }
+    //}
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("\(creneau.startingTime) - \(creneau.endingTime)")
+                Text("\(creneauVM.heure_debut) - \(creneauVM.heure_fin)")
                     .font(.headline)
                 
                 Spacer()
                 
-                Text("\(totalVolunteers) bénévoles")
+                Text("6 bénévoles")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
             
-            ForEach(creneau.areas) { zone in
-                HStack {
-                    Text(zone.name)
-                        .font(.subheadline)
+            //ForEach(creneau.areas) { zone in
+              //  HStack {
+                //    Text(zone.name)
+                  //      .font(.subheadline)
                     
-                    Spacer()
+                   // Spacer()
                     
-                    Text("\(zone.nbBenevolesMin) bénévoles")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-            }
+                   // Text("\(zone.nbBenevolesMin) bénévoles")
+                     //   .font(.subheadline)
+                       // .foregroundColor(.gray)
         }
     }
 }

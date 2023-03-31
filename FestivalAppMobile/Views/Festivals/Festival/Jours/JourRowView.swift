@@ -14,13 +14,18 @@ struct JourRowView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                let formattedDate = formattedDateString(from: jourVM.date)
-                Text(formattedDate)
+                // nom festival
+                Text(jourVM.nom)
                     .font(.headline)
                     .padding(1)
-                
-                Text("\(jourVM.heure_ouverture) - \(jourVM.heure_fermeture)")
+                // date
+                let formattedDate = UtilityHelper.formattedDateString(from: jourVM.date)
+                Text(formattedDate)
                     .font(.subheadline)
+                    .padding(1)
+                // date ouverture - date fermeture
+                Text("\(jourVM.heure_ouverture) - \(jourVM.heure_fermeture)")
+                    .font(.body)
                     .foregroundColor(.gray)
             }
             Spacer()
@@ -39,18 +44,3 @@ let dateFormatter: DateFormatter = {
     formatter.timeStyle = .none
     return formatter
 }()
-
-
-func formattedDateString(from dateString: String) -> String {
-    let inputFormatter = DateFormatter()
-    inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-
-    if let date = inputFormatter.date(from: dateString) {
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "dd MMMM yyyy"
-        return outputFormatter.string(from: date)
-    } else {
-        return dateString
-    }
-}
-

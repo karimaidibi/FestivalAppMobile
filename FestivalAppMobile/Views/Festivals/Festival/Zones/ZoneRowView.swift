@@ -9,16 +9,16 @@ import Foundation
 import SwiftUI
 
 
-struct ZoneView: View {
-    let zone: Zone
+struct ZoneRowView: View {
+    @ObservedObject var zoneVM : ZoneViewModel
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(zone.name)
+                Text(zoneVM.nom)
                     .font(.headline)
                 
-                Text("Bénévoles min. : \(zone.nbBenevolesMin)")
+                Text("Bénévoles min. : \(zoneVM.nombre_benevoles_necessaires)")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }

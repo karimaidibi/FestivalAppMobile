@@ -147,5 +147,47 @@ class BenevoleService {
         }
     
     }
+    
+    func addAffectation(benevoleId : String, affectationDTO : AffectationDTO) async -> Result<String, Error> {
+
+        guard let url = URL(string: "\(self.api)/benevoles/\(benevoleId)/addAffectation") else {
+            return .failure(APIRequestError.unknown)
+        }
+        // define the post request
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // encode the log in data
+        guard let encoded : Data = await JSONHelper.encode(data: affectationDTO) else {
+            return .failure(JSONError.JsonEncodingFailed)
+        }
+        // send the request
+        do {
+            let(data, response) = try await URLSession.shared.upload(for : request, from: encoded)
+            let httpresponse = response as! HTTPURLResponse // le bon type
+            // si tout se passe bien
+            if httpresponse.statusCode == 201{
+                // recuperer query result
+                guard let decoded : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
+                    return .failure(JSONError.JsonDecodingFailed)
+                }
+                let successMessage = decoded.message
+                return .success(successMessage)
+            }
+            // sinon afficher erreur avec le status code
+            else {
+                // sinon recuperer query bad result
+                guard let queryBadResult : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
+                    return .failure(JSONError.JsonDecodingFailed)
+                }
+                // si bad result
+                return .failure(APIRequestError.UploadError("\(queryBadResult.status) : \(queryBadResult.message)"))
+            }
+        }catch{
+            return .failure(APIRequestError.UploadError("Add Festival"))
+        }
+
+    }
 
 }

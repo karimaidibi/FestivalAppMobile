@@ -183,5 +183,45 @@ class ZoneService {
         }
 
     }
+    
+    func getzonesByFestival(festivalId : String) async -> Result<[ZoneDTO]?, Error>{
+        // definir url
+        guard let url = URL(string: "\(self.api)/zones/festival/\(festivalId)") else {
+            return .failure(APIRequestError.unknown)
+        }
+        // faire la requete get
+        do{
+            let (data, response) = try await URLSession.shared.data(from : url)
+            if let httpResponse = response as? HTTPURLResponse {
+                let statusCode = httpResponse.statusCode
+                // si tout se passe bien
+                if statusCode == 200 {
+                    // recuperer query result
+                    guard let decoded : QueryResult<ZoneDTO> = await JSONHelper.decodeOne(data: data) else{
+                        return .failure(JSONError.JsonDecodingFailed)
+                    }
+                    // si on a reussi a decoder le query result
+                    let zoneDTOs : [ZoneDTO] = decoded.result
+                    return .success(zoneDTOs)
+                }else{
+                    // si le status est autre que 200
+                    // sinon recuperer query bad result
+                    guard let queryBadResult : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
+                        return .failure(JSONError.JsonDecodingFailed)
+                    }
+                    // si bad result
+                    return .failure(APIRequestError.getRequestError("\(queryBadResult.status) : \(queryBadResult.message)"))
+                }
+            }else{
+                // gerer le cas ou on a pas de reponse de type HTTPURLResponse
+                return .failure(APIRequestError.invalidHTTPResponse("getZonesByFestival"))
+            }
+        }
+        // handle any error
+        catch{
+            return .failure(APIRequestError.unknown)
+        }
+        
+    }
 
 }

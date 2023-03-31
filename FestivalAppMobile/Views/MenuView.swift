@@ -26,8 +26,7 @@ struct MenuView: View {
     
     var body: some View {
         TabView() {
-            //FakeFestivalsView(festivals: fakeFestivals)
-            FestivalsView()
+            FestivalListView()
                 .tabItem {
                     Image(systemName: "info.circle")
                     Text("Festivals")
@@ -42,7 +41,7 @@ struct MenuView: View {
                     .tag(Tab.creneaux)
             }
             if (authManager.isAdmin == true) {
-                BenevoleListView(viewModel: BVMS)
+                BenevoleListView()
                     .tabItem {
                         Image(systemName: "gearshape.fill")
                         Text("Gestion")

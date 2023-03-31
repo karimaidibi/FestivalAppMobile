@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CreneauDTO : Decodable, Encodable{
+class CreneauDTO : Decodable, Encodable, Equatable, Identifiable{
     
     var _id : String
     var heure_debut : String
@@ -20,4 +20,10 @@ class CreneauDTO : Decodable, Encodable{
         self.heure_fin = heure_fin
         self.idJour = idJour
     }
+    
+    
+    static func == (lhs: CreneauDTO, rhs:CreneauDTO) -> Bool {
+        return lhs._id == rhs._id
+    }
+    
 }

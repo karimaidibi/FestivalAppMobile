@@ -9,7 +9,7 @@ import Foundation
 
 import SwiftUI
 
-class CreneauViewModel : ObservableObject, Hashable{
+class CreneauViewModel : ObservableObject, Hashable, Identifiable{
         
     //observers : lists of view model
     var observers : [ViewModelObserver] = []
@@ -57,6 +57,14 @@ class CreneauViewModel : ObservableObject, Hashable{
         self.heure_fin = heure_fin
         self.heure_debut = heure_debut
         self.idJour = idJour
+    }
+    
+    // constructor from DTO
+    init(creneauDTO : CreneauDTO){
+        self._id = creneauDTO._id
+        self.heure_debut = creneauDTO.heure_debut
+        self.heure_fin = creneauDTO.heure_fin
+        self.idJour = creneauDTO.idJour
     }
     
     // functions

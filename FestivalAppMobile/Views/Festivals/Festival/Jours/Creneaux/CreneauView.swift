@@ -14,7 +14,7 @@ struct CreneauView: View {
     @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
     @StateObject var authManager : AuthManager = AuthManager()
     let isUserAdmin: Bool = false
-    @State private var selectedZone: Zone?
+    //@State private var selectedZone: Zone?
     
     var body: some View {
         EmptyView()
