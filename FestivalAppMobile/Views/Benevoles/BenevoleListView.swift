@@ -32,7 +32,7 @@ struct BenevoleListView: View {
             
             List(filteredBenevoles, id: \._id) { benevoleVM in
                 NavigationLink(destination: BenevoleView(benevoleVM: benevoleVM)) {
-                    BenevoleRow(viewModel: benevoleVM)
+                    BenevoleRowView(viewModel: benevoleVM)
                 }
             }
         }
@@ -65,24 +65,6 @@ struct BenevoleListView: View {
     }
 }
 
-struct BenevoleRow: View {
-    @ObservedObject var viewModel: BenevoleViewModel
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text("\(viewModel.prenom) \(viewModel.nom)")
-                    .font(.headline)
-                
-                Text(viewModel.email)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            Spacer()
-        }
-        .padding(.vertical, 10)
-    }
-}
 
 struct SearchBar: View {
     @Binding var text: String

@@ -143,12 +143,7 @@ struct FestivalView: View {
             if selectedSection == .jours {
 				JourListView(festivalVM: viewModel)
             } else {
-                Section(header: Text("Zones")) {
-                    // Display the list of zones
-                    //ForEach(viewModel.zones) { zone in
-                      //  ZoneRowView(zone: zone)
-                    //}
-                }
+                ZoneListView(festivalVM: viewModel)
             }
         }
         .alert(isPresented: $showAlert) {
@@ -165,7 +160,7 @@ struct FestivalView: View {
                     NavigationLink(destination: AddJourView(joursVM: joursVM, festivalsVM: festivalsVM)) {
                         Image(systemName: "plus")
                     }
-                } else {
+                } else if selectedSection == .zones {
                     NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalsVM: festivalsVM)) {
                         Image(systemName: "plus")
                     }

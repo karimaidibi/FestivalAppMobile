@@ -33,6 +33,23 @@ struct ZonesIntent {
         }
     }
     
+    func getZonesByFestival(festivalId : String) async -> Bool{
+        
+        viewModel.state = .loading
+        let result = await zoneService.getZonesByFestival(festivalId: festivalId)
+        switch result{
+        case .success(let zoneDTOs):
+            viewModel.state = .zonesLoaded(zoneDTOs!)
+            return true
+        case .failure(let error as APIRequestError):
+            viewModel.state = .zonesLoadingFailed(error)
+            return false
+        default:
+            viewModel.state = .error
+            return false
+        }
+    }
+    
     func addZone(nom : String, nombre_benevoles_necessaires: Int, idFestival : String) async -> Bool {
         // create data
         // false zone (zone libre)

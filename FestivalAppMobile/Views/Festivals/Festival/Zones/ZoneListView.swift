@@ -6,3 +6,43 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct ZoneListView : View {
+    
+    
+    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @ObservedObject var festivalVM : FestivalViewModel
+    // for popup
+    @State private var showAlert = false // popup on success deleting
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
+    
+    var body: some View{
+        
+        let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
+        
+        Section(header: Text("zones")) {
+                ForEach(zonesVM, id:\.self) { zoneVM in
+                    NavigationLink(destination: ZoneView(viewModel: zoneVM)) {
+                        ZoneRowView(zoneVM: zoneVM)
+                    }
+                }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+        .task {
+            let zonesLoaded = await zonesIntent.getZonesByFestival(festivalId: festivalVM._id)
+            if !zonesLoaded{
+                alertMessage = zonesVM.errorMessage
+                alertTitle = "Error"
+                showAlert = true
+            }
+        }
+        
+        
+    }
+    
+    
+}

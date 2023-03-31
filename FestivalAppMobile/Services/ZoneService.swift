@@ -184,7 +184,7 @@ class ZoneService {
 
     }
     
-    func getzonesByFestival(festivalId : String) async -> Result<[ZoneDTO]?, Error>{
+    func getZonesByFestival(festivalId : String) async -> Result<[ZoneDTO]?, Error>{
         // definir url
         guard let url = URL(string: "\(self.api)/zones/festival/\(festivalId)") else {
             return .failure(APIRequestError.unknown)
