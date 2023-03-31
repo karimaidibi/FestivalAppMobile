@@ -60,8 +60,8 @@ struct AffectationsView: View {
                                         // Handle the delete action here by removing the `Slot` from the list
                                         // You can use an alert or a confirmation sheet to ask the user to confirm the delete action
                                         Task{
-                                            if let id = authManager.benevoleId{
-                                                let deletedAffectation = await benevoleIntent.removeAffectation(id: id, idZone:affectationDoc.idZone._id , idCreneau: affectationDoc.idCreneau._id)
+                                            if let _ = authManager.benevoleId{
+                                                let deletedAffectation = await benevoleIntent.removeAffectation(id: benevoleVM._id, idZone:affectationDoc.idZone._id , idCreneau: affectationDoc.idCreneau._id)
                                                 if deletedAffectation{
                                                     // delete the affectation from the list of affectation if benevoleVM
                                                     // Find the index of the affectationDoc in the list

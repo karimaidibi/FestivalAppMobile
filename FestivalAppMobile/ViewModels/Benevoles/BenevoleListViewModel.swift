@@ -1,6 +1,6 @@
 //
 //  BenevoleListViewModel.swift
-//  FestivalAppMobile
+//  BenevoleAppMobile
 //
 //  Created by etud on 24/03/2023.
 //
@@ -20,8 +20,57 @@ class BenevoleListViewModel: ObservableObject, ViewModelObserver, RandomAccessCo
         }
     }
     
-    init(benevoles: [BenevoleDTO]) {
-        self.benevoleViewModels = BenevoleDTO.convertBenevoleDTOsToDisplay(benevolesDTOs: benevoles)
+    func setBenevoleViewModels(benevoleViewModels: [BenevoleViewModel]){
+        self.benevoleViewModels = benevoleViewModels
+        // register as a observer of all the benevole view model in the array
+        for fmv in benevoleViewModels{
+            fmv.register(obs: self)
+        }
+    }
+    
+    @Published var loading : Bool = false
+    @Published var errorMessage : String = ""
+    @Published var successMessage : String = ""
+    
+    // State Intent management
+    @Published var state: BenevoleListState = .ready {
+        didSet {
+            switch state {
+            case .ready:
+                print("BenevoleListViewModel: ready state")
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = ""
+                self.successMessage = ""
+            case .loading:
+                print("BenevoleListViewModel: loading state")
+                debugPrint("-------------------------------")
+                self.loading = true
+            case.benevolesLoaded(let benevoleDTOs):
+                let newList : [BenevoleViewModel] = BenevoleListViewModel.fromDTOs(benevoleDTOs : benevoleDTOs)
+                self.setBenevoleViewModels(benevoleViewModels: newList)
+                print("BenevoleListViewModel: loaded state")
+                debugPrint("-------------------------------")
+                self.loading = false
+            case.benevolesLoadingFailed(let apiRequestError):
+                print("BenevoleListViewModel: loading failed state")
+                debugPrint("-------------------------------")
+                self.errorMessage = apiRequestError.localizedDescription
+                self.loading = false
+            case .error:
+                print("BenevoleListViewModel: error state")
+                debugPrint("-------------------------------")
+                self.loading = false
+            default:
+                self.loading = false
+            }
+        }
+    }
+    
+    static func fromDTOs(benevoleDTOs: [BenevoleDTO]) -> [BenevoleViewModel] {
+        return benevoleDTOs.map { benevoleDTO in
+            BenevoleViewModel(benevoleDTO : benevoleDTO)
+        }
     }
     
     func viewModelUpdated() {
@@ -61,4 +110,13 @@ class BenevoleListViewModel: ObservableObject, ViewModelObserver, RandomAccessCo
     var startIndex: Int {return benevoleViewModels.startIndex}
     var endIndex: Int {return benevoleViewModels.endIndex}
     func index(after i: Int) -> Int { return benevoleViewModels.index(after: i)}
+    
+    
+    func remove(atOffsets : IndexSet)
+    {benevoleViewModels.remove(atOffsets: atOffsets)}
+    
+    func move(fromOffsets: IndexSet, toOffset: Index){
+        benevoleViewModels.move(fromOffsets: fromOffsets, toOffset: toOffset)
+    }
+    
 }

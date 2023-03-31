@@ -17,9 +17,15 @@ struct BenevoleListView: View {
     @State private var searchText = ""
     @State private var filteredBenevoles: [BenevoleViewModel] = []
     
+    // popup
+    @State private var showAlert = false // popup on success deleting
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
+    
     
     var body: some View {
         
+        let benevoleListIntent : BenevolesIntent = BenevolesIntent(viewModel: viewModel)
         
         VStack {
             SearchBar(text: $searchText, placeholder: "Rechercher par nom, prénom ou email")
@@ -28,6 +34,21 @@ struct BenevoleListView: View {
                 NavigationLink(destination: BenevoleView(benevoleVM: benevoleVM)) {
                     BenevoleRow(viewModel: benevoleVM)
                 }
+            }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+        .task {
+            // call the intent to fetch data
+            let benevoleLoaded = await benevoleListIntent.getBenevoles()
+            if !benevoleLoaded{
+                alertMessage = viewModel.errorMessage
+                alertTitle = "Error"
+                showAlert = true
+            }else{
+                // if loaded
+                self.filteredBenevoles = viewModel.benevoleViewModels
             }
         }
         .onReceive(Just(searchText)) { searchText in
