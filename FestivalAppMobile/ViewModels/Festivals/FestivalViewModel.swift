@@ -42,7 +42,18 @@ class FestivalViewModel: ObservableObject, Hashable, Identifiable {
         }
     }
     
+    @Published var nbre_benevoles_necessaires = 0
+    
+    @Published var zoneListViewModels : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: []){
+        didSet{
+            self.nbre_benevoles_necessaires = zoneListViewModels.zoneViewModelArray.reduce(0) { sum, zone in
+                sum + zone.nombre_benevoles_necessaires
+            }
+        }
+    }
+    
     @Published var jourListViewModels : JourListViewModel = JourListViewModel(jourViewModels: [])
+    @Published var benevolesVMOfFestival :  BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
     
     @Published var loading : Bool = false
     @Published var errorMessage : String = ""
@@ -68,6 +79,10 @@ class FestivalViewModel: ObservableObject, Hashable, Identifiable {
                 self.updateFestival(festivalDTO: festivalDTO)
                 self.loading = false
                 self.successMessage = "Festival Updated Successfully !"
+            case .benevolesDocUpdated:
+                print(state.description)
+                debugPrint("-------------------------------")
+                self.loading = false
             case .festivalUpdatingFailed(let error):
                 print(state.description)
                 debugPrint("-------------------------------")

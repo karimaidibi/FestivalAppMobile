@@ -13,6 +13,7 @@ struct JourListView : View {
     
     @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
     @ObservedObject var festivalVM : FestivalViewModel
+    @ObservedObject var benevolesVM : BenevoleListViewModel
     // for popup
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
@@ -24,8 +25,8 @@ struct JourListView : View {
         
         Section(header: Text("Jours")) {
                 ForEach(joursVM, id:\.self) { jourVM in
-                    NavigationLink(destination: JourView(viewModel: jourVM)) {
-                        JourRowView(jourVM: jourVM)
+                    NavigationLink(destination: JourView(viewModel: jourVM, festivalVM: festivalVM)) {
+                        JourRowView(jourVM: jourVM,  benevolesVM: benevolesVM)
                     }
                 }
         }

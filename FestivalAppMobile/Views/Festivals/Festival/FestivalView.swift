@@ -14,6 +14,7 @@ struct FestivalView: View {
     @ObservedObject var viewModel : FestivalViewModel
     @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
     @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @StateObject var benevolesVM : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
     
     @State private var isEditingName = false
     @State private var editedName = ""
@@ -28,6 +29,8 @@ struct FestivalView: View {
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
     @State private var alertTitle = ""
+    
+    @State private var nbre_participants = 0
 
     enum FestivalSection {
             case jours
@@ -36,8 +39,22 @@ struct FestivalView: View {
     
     var body: some View {
         let festivalIntent : FestivalIntent = FestivalIntent(viewModel: viewModel)
+        let benevolesIntent : BenevolesIntent = BenevolesIntent(viewModel: benevolesVM)
         
         List {
+            Section(header: Text("Participants")) {
+                Text("Nombre de participants : \(nbre_participants)")
+            }
+            .task {
+                // load the list of benevoles with their nested affectations
+                let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
+                if benevolesDocLoaded{
+                    let benevolesFiltered = festivalIntent.getBenevolesDocInFestival(benevolesDocVM: benevolesVM)
+                    nbre_participants = benevolesFiltered.count
+                }
+                
+            }
+            
             Section(header: Text("Nom")) {
                 if isEditingName {
                     TextField("Nom du Festival", text: $editedName, onCommit: {
@@ -141,7 +158,7 @@ struct FestivalView: View {
             
             // affichage de la section
             if selectedSection == .jours {
-				JourListView(festivalVM: viewModel)
+				JourListView(festivalVM: viewModel, benevolesVM: benevolesVM)
             } else {
                 ZoneListView(festivalVM: viewModel)
             }

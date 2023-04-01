@@ -21,6 +21,10 @@ enum BenevoleState: CustomStringConvertible, Equatable {
     case affectationsLoadingFailure(APIRequestError)
     case affectationDeletedSuccess(String)
     case loadingAffectations
+    case benevoleLoadedSuccess(BenevoleDTO)
+    case benevoleLoadingFailure(APIRequestError)
+    case affectationAddedSuccess(String)
+    case affectationAddingFailure(APIRequestError)
     case error
     
     var description: String {
@@ -44,11 +48,19 @@ enum BenevoleState: CustomStringConvertible, Equatable {
         case .affectationsLoadedSuccess:
             return "Affectations Loaded Success"
         case .affectationsLoadingFailure(let error):
-            return "\(error.localizedDescription)"
+            return "\(error.description)"
         case .loadingAffectations:
             return "Loading Benevole Affectations..."
         case .affectationDeletedSuccess(let msg):
             return msg
+        case .benevoleLoadedSuccess(_):
+            return "Benevole loaded success"
+        case .benevoleLoadingFailure(let error):
+            return error.description
+        case .affectationAddedSuccess:
+            return "Affectation Added Success"
+        case .affectationAddingFailure(let error):
+            return "\(error.description)"
         case .error:
             return "error"
         }

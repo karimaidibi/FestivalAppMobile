@@ -49,4 +49,19 @@ struct JourIntent{
             return false
         }
     }
+    
+    func getBenevolesDocInJour(benevolesDocVM: BenevoleListViewModel) -> [BenevoleViewModel]{
+        // given the array in parameters, create a new one filtered with only the
+        // BenevoleViewModel objects that have an _id of idJour equal to self.viewModel._id
+        // in their idCreneau.idJour object in their affectationDocuments array
+        let jourId = self.viewModel._id
+
+        let filteredBenevoles : [BenevoleViewModel] = benevolesDocVM.benevoleViewModels.filter { benevoleVM in
+            benevoleVM.affectationDocuments.contains { affectationDoc in
+                affectationDoc.idCreneau.idJour?._id ?? "" == jourId
+            }
+        }
+
+        return filteredBenevoles
+    }
 }

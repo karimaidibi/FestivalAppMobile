@@ -14,6 +14,7 @@ struct MenuView: View {
     //@State private var visitor : Bool
     @EnvironmentObject var authManager : AuthManager
     @EnvironmentObject var viewsManager : ViewsManager
+    @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
 
     enum Tab {
         case compte
@@ -25,6 +26,9 @@ struct MenuView: View {
     
     
     var body: some View {
+        
+        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
+        
         TabView() {
             FestivalListView()
                 .tabItem {
@@ -33,7 +37,7 @@ struct MenuView: View {
                 }
                 .tag(Tab.festivals)
             if (authManager.benevoleId != nil) {
-                AffectationsView(isAdminGestion: false)
+                AffectationsView(benevoleVM: benevoleVM, isAdminGestion: false)
                     .tabItem {
                         Image(systemName: "timer")
                         Text("Mes créneaux")
@@ -55,5 +59,13 @@ struct MenuView: View {
             }
             .tag(Tab.compte)
         }
+        .onAppear(perform: {
+            Task {
+                if let benevoleId = authManager.benevoleId{
+                    let _ = await benevoleIntent.getBenevoleById(benevoleId: benevoleId)
+                }
+            }
+        })
     }
 }
+

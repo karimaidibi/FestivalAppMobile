@@ -10,8 +10,13 @@ import SwiftUI
 
 struct JourRowView: View {
     @ObservedObject var jourVM : JourViewModel
+    @ObservedObject var benevolesVM : BenevoleListViewModel
+    
+    @State var nbre_participants = 0
     
     var body: some View {
+        
+        let jourIntent : JourIntent = JourIntent(viewModel: jourVM)
         HStack {
             VStack(alignment: .leading) {
                 // nom festival
@@ -30,11 +35,15 @@ struct JourRowView: View {
             }
             Spacer()
             
-            Text("... participants")
+            Text("\(nbre_participants) participants")
                 .font(.subheadline)
                 .foregroundColor(.gray)
         }
         .padding(.vertical, 10)
+        .onAppear(perform : {
+            let benevolesFiltered = jourIntent.getBenevolesDocInJour(benevolesDocVM: benevolesVM)
+            nbre_participants = benevolesFiltered.count
+        })
     }
 }
 

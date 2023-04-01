@@ -12,6 +12,7 @@ enum FestivalState: CustomStringConvertible, Equatable {
     case loading
     case festivalUpdated(FestivalDTO)
     case festivalUpdatingFailed(APIRequestError)
+    case benevolesDocUpdated
     case error
     
     var description: String {
@@ -24,6 +25,8 @@ enum FestivalState: CustomStringConvertible, Equatable {
             return "FestivalViewModel: festivalUpdated state"
         case .festivalUpdatingFailed(_):
             return "FestivalViewModel: festivalUpdatingFailed state"
+        case .benevolesDocUpdated:
+            return "FestivalViewModel: benevolesDocUpdated state"
         case .error:
             return "FestivalViewModel: error state"
         }

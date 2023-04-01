@@ -50,5 +50,37 @@ struct BenevoleIntent{
         }
     }
     
+    func addAffectation(benevoleId : String, idZone : String, idCreneau : String) async -> Bool{
+        model.state = .loadingAffectations
+        let affectationDTO : AffectationDTO = AffectationDTO(idZone: idZone, idCreneau: idCreneau)
+        let result = await benevoleService.addAffectation(benevoleId: benevoleId, affectationDTO: affectationDTO)
+        switch result{
+            case .success(let msg):
+                model.state =  .affectationAddedSuccess(msg)
+                return true
+            case .failure(let error as APIRequestError):
+                model.state = .affectationAddingFailure(error)
+                return false
+            default:
+                model.state = .error
+                return false
+        }
+    }
+    
+    func getBenevoleById(benevoleId : String) async -> Bool{
+        model.state = .loading
+        let result = await benevoleService.getBenevoleById(id: benevoleId)
+        switch result{
+            case .success(let benevoleDTO):
+                model.state = .benevoleLoadedSuccess(benevoleDTO)
+                return true
+            case .failure(let error as APIRequestError):
+                model.state = .benevoleLoadingFailure(error)
+                return false
+            default:
+                model.state = .error
+                return false
+        }
+    }
 
 }

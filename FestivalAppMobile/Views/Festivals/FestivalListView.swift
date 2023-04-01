@@ -13,6 +13,7 @@ import SwiftUI
 struct FestivalListView: View {
     
     @StateObject var festivalsVM: FestivalsViewModel = FestivalsViewModel(festivalViewModels: [])
+
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
     @State private var alertTitle = ""
@@ -92,6 +93,7 @@ struct FestivalListView: View {
 struct FestivalRow: View {
     @ObservedObject var viewModel: FestivalViewModel
     @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels: [])
+    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
     
     var body: some View {
         let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
@@ -123,6 +125,7 @@ struct FestivalRow: View {
         .cornerRadius(10)
         .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)
         .task {
+            // get la liste des jours
             let joursLoaded = await joursIntent.getJoursByFestival(festivalId: viewModel._id)
             if(joursLoaded){
                 // set the list of jours of the festival view model

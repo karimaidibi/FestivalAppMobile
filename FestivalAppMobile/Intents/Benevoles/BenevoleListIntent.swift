@@ -35,4 +35,23 @@ struct BenevolesIntent {
         
     }
     
+    func getBenevolesNested() async -> Bool{
+        
+        viewModel.state = .loading
+        let result = await benevoleService.getBenevolesNested()
+        switch result{
+        case .success(let benevoleDocDTOs):
+            viewModel.state = .benevolesDocLoaded(benevoleDocDTOs!)
+            return true
+        case .failure(let error as APIRequestError):
+            viewModel.state = .benevolesLoadingFailed(error)
+            return false
+        default:
+            viewModel.state = .error
+            return false
+        }
+        
+    }
+    
+    
 }

@@ -10,7 +10,9 @@ import SwiftUI
 
 struct CreneauListView : View{
     @ObservedObject var jourVM : JourViewModel
+    @ObservedObject var benevolesVM : BenevoleListViewModel
     @StateObject var creneauxVM : CreneauListViewModel = CreneauListViewModel(creneauViewModelArray: [])
+    @ObservedObject var zonesVM : ZoneListViewModel
     // for popup
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
@@ -20,15 +22,15 @@ struct CreneauListView : View{
         
         let creneauListIntent : CreneauListIntent = CreneauListIntent(viewModel: creneauxVM)
         
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                ForEach(creneauxVM) { creneauVM in
-                    Divider() // comme sur angular mat
-                    CreneauRowView(creneauVM: creneauVM)
-                }
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 50)
+        Section(header: Text("Creneaux du jour")) {
+                    ForEach(creneauxVM) { creneauVM in
+                        NavigationLink(destination: SubscribeZoneListView(creneauVM : creneauVM, zonesVM: zonesVM)) {
+                            CreneauRowView(creneauVM: creneauVM, benevolesVM : benevolesVM, zonesVM: zonesVM)
+                            Divider() // comme sur angular mat
+                        }
+                    }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))

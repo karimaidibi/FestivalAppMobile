@@ -20,7 +20,7 @@ enum APIRequestError : Error, CustomStringConvertible, Equatable{
         case .UploadError(let service): return "APIRequestError [UploadError] : Data could not be uploaded in : \(service)"
         case .invalidURLRequest(let service): return "APIRequestError [invalidURLRequest] invalid URL in \(service)"
         case .getRequestError(let message):
-            return message
+            return "get request : \(message)"
         case .invalidHTTPResponse(let string):
             return("APIRequestError [invalidHTTPResponse] in : \(string)")
         case .unknown: return "APIRequestError [unknown]"

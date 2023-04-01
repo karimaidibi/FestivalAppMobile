@@ -154,19 +154,49 @@ class BenevoleViewModel : ObservableObject, Hashable, Identifiable{
                 debugPrint("-------------------------------")
                 self.affectationDocuments = affectationDocuments
                 self.loadingAffectations = false
-            case .affectationsLoadingFailure(_):
+            case .affectationsLoadingFailure(let error):
                 debugPrint("BenevoleViewModel : affectationsLoadingFailure state")
                 debugPrint("-------------------------------")
-                self.errorMessage = state.description
+                self.errorMessage = error.description
                 self.loadingAffectations = false
             case .affectationDeletedSuccess(_):
                 debugPrint("BenevoleViewModel : affectationsDeletedSuccess state")
                 debugPrint("-------------------------------")
                 self.loadingAffectations = false
+            case .benevoleLoadedSuccess(let benevoleDTO):
+                debugPrint("BenevoleViewModel : benevoleLoadedSuccess state")
+                debugPrint("-------------------------------")
+                self.updateBenevoleFromDTO(benevoleDTO: benevoleDTO)
+                self.loading = false
+            case .benevoleLoadingFailure(let err):
+                debugPrint("BenevoleViewModel : benevoleLoadingFailure state")
+                debugPrint("-------------------------------")
+                self.loading = false
+                self.errorMessage = err.description
+            case .affectationAddedSuccess(_):
+                debugPrint("BenevoleViewModel : affectationAddedSuccess state")
+                debugPrint("-------------------------------")
+                self.loadingAffectations = false
+            case .affectationAddingFailure(let error):
+                debugPrint("BenevoleViewModel : affectationAddingFailure state")
+                debugPrint("-------------------------------")
+                self.errorMessage = error.description
+                self.loadingAffectations = false
             default:
                 break
             }
         }
+    }
+    
+    private func updateBenevoleFromDTO(benevoleDTO : BenevoleDTO){
+        self._id = benevoleDTO._id
+        self.nom = benevoleDTO.nom
+        self.prenom = benevoleDTO.prenom
+        self.email = benevoleDTO.email
+        self.password = benevoleDTO.password
+        self.affectations = benevoleDTO.affectations
+        self.isAdmin = benevoleDTO.isAdmin
+        self.affectationDocuments = []
     }
     
     // constructor
@@ -179,6 +209,18 @@ class BenevoleViewModel : ObservableObject, Hashable, Identifiable{
         self.affectations = benevoleDTO.affectations
         self.isAdmin = benevoleDTO.isAdmin
         self.affectationDocuments = []
+    }
+    
+    // constructor
+    init(benevoleDocDTO : BenevoleDocDTO){
+        self._id = benevoleDocDTO._id
+        self.nom = benevoleDocDTO.nom
+        self.prenom = benevoleDocDTO.prenom
+        self.email = benevoleDocDTO.email
+        self.password = benevoleDocDTO.password
+        self.affectations = []
+        self.isAdmin = benevoleDocDTO.isAdmin
+        self.affectationDocuments = benevoleDocDTO.affectations
     }
     
     init(){

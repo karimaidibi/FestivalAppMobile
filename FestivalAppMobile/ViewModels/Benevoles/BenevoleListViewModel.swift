@@ -57,6 +57,12 @@ class BenevoleListViewModel: ObservableObject, ViewModelObserver, RandomAccessCo
                 debugPrint("-------------------------------")
                 self.errorMessage = apiRequestError.localizedDescription
                 self.loading = false
+            case.benevolesDocLoaded(let benevoleDocDTOs):
+                let newList : [BenevoleViewModel] = BenevoleListViewModel.fromDocDTOs(benevoleDocDTOs : benevoleDocDTOs)
+                self.setBenevoleViewModels(benevoleViewModels: newList)
+                print("BenevoleListViewModel: loaded with docs state")
+                debugPrint("-------------------------------")
+                self.loading = false
             case .error:
                 print("BenevoleListViewModel: error state")
                 debugPrint("-------------------------------")
@@ -70,6 +76,12 @@ class BenevoleListViewModel: ObservableObject, ViewModelObserver, RandomAccessCo
     static func fromDTOs(benevoleDTOs: [BenevoleDTO]) -> [BenevoleViewModel] {
         return benevoleDTOs.map { benevoleDTO in
             BenevoleViewModel(benevoleDTO : benevoleDTO)
+        }
+    }
+    
+    static func fromDocDTOs(benevoleDocDTOs: [BenevoleDocDTO]) -> [BenevoleViewModel] {
+        return benevoleDocDTOs.map { benevoleDocDTO in
+            BenevoleViewModel(benevoleDocDTO : benevoleDocDTO)
         }
     }
     

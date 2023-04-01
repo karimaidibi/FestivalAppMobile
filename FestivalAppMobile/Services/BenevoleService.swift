@@ -208,7 +208,7 @@ class BenevoleService {
             let(data, response) = try await URLSession.shared.upload(for : request, from: encoded)
             let httpresponse = response as! HTTPURLResponse // le bon type
             // si tout se passe bien
-            if httpresponse.statusCode == 201{
+            if httpresponse.statusCode == 200{
                 // recuperer query result
                 guard let decoded : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
                     return .failure(JSONError.JsonDecodingFailed)
@@ -226,9 +226,51 @@ class BenevoleService {
                 return .failure(APIRequestError.UploadError("\(queryBadResult.status) : \(queryBadResult.message)"))
             }
         }catch{
-            return .failure(APIRequestError.UploadError("Add Festival"))
+            return .failure(APIRequestError.UploadError("Add Affectation"))
         }
 
     }
+    
+    // get all benevoles with nested affectations
+    func getBenevolesNested() async -> Result<[BenevoleDocDTO]?, Error>{
+        // definir url
+        guard let url = URL(string: "\(self.api)/benevoles/getBenevoles/Nested") else {
+            return .failure(APIRequestError.unknown)
+        }
+        // faire la requete get
+        do{
+            let (data, response) = try await URLSession.shared.data(from : url)
+            if let httpResponse = response as? HTTPURLResponse {
+                let statusCode = httpResponse.statusCode
+                // si tout se passe bien
+                if statusCode == 200 {
+                    // recuperer query result
+                    guard let decoded : QueryResult<BenevoleDocDTO> = await JSONHelper.decodeOne(data: data) else{
+                        return .failure(JSONError.JsonDecodingFailed)
+                    }
+                    // si on a reussi a decoder le query result
+                    let benevoles : [BenevoleDocDTO] = decoded.result
+                    return .success(benevoles)
+                }else{
+                    // si le status est autre que 200
+                    // sinon recuperer query bad result
+                    guard let queryBadResult : QueryResultMSG = await JSONHelper.decodeOne(data: data) else{
+                        return .failure(JSONError.JsonDecodingFailed)
+                    }
+                    // si bad result
+                    return .failure(APIRequestError.getRequestError("\(queryBadResult.status) : \(queryBadResult.message)"))
+                }
+            }else{
+                // gerer le cas ou on a pas de reponse de type HTTPURLResponse
+                return .failure(APIRequestError.invalidHTTPResponse("get benevole with nested affectations"))
+            }
+        }
+        // handle any error
+        catch{
+            return .failure(APIRequestError.unknown)
+        }
+    
+    }
+
 
 }

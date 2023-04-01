@@ -38,6 +38,8 @@ struct ZoneListView : View {
                 alertMessage = zonesVM.errorMessage
                 alertTitle = "Error"
                 showAlert = true
+            }else{
+                festivalVM.zoneListViewModels = zonesVM
             }
         }
         

@@ -19,7 +19,7 @@ let slots: [Slot] = [
 
 struct AffectationsView: View {
     @State private var bookedSlots: [Slot] = []
-    @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
+    @ObservedObject var benevoleVM : BenevoleViewModel
     @StateObject var authManager : AuthManager = AuthManager()
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
@@ -29,7 +29,7 @@ struct AffectationsView: View {
     
     var body: some View {
         
-        var benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
+        let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
         
         NavigationView{
             if benevoleVM.loadingAffectations{
@@ -109,22 +109,18 @@ struct AffectationsView: View {
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
-        .task{
-            //bookedSlots = slots
-            if let id = authManager.benevoleId{
-                if (!isAdminGestion) {
-                    // load le bénévole avec l'intent
-                }
-                let affectationsLoaded = await benevoleIntent.getBenevoleAffectation(id: id)
-                if !affectationsLoaded{
-                    alertMessage = benevoleVM.errorMessage
-                    alertTitle = "Error"
-                    showAlert = true
+        .onAppear(perform: {
+            Task{
+                if let _ = authManager.benevoleId{
+                    let affectationsLoaded = await benevoleIntent.getBenevoleAffectation(id: benevoleVM._id)
+                    if !affectationsLoaded{
+                        alertMessage = benevoleVM.errorMessage
+                        alertTitle = "Error"
+                        showAlert = true
+                    }
                 }
             }
-                
-
-        }
+        })
     }
 }
 

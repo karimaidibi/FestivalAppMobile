@@ -37,6 +37,7 @@ class CreneauViewModel : ObservableObject, Hashable, Identifiable{
     
     @Published var idJour : String
 
+    @Published var benevolesVMOfCreneau : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
     
     // State Intent management
     @Published var state : ZoneState = .ready{

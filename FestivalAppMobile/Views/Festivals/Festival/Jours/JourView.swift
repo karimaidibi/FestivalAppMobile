@@ -11,17 +11,46 @@ import SwiftUI
 
 struct JourView: View {
     @ObservedObject var viewModel: JourViewModel
+    @StateObject var benevolesVM : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
+    @ObservedObject var festivalVM : FestivalViewModel
+    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @State var nbre_participants = 0
 
+    // for popup
+    @State private var showAlert = false // popup on success deleting
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
+    
     var body: some View {
-        VStack {
+        
+        let benevolesIntent : BenevolesIntent = BenevolesIntent(viewModel: benevolesVM)
+        let festivalIntent : FestivalIntent = FestivalIntent(viewModel: festivalVM)
+        let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
+        
+        List {
             let formattedDate = UtilityHelper.formattedDateString(from: viewModel.date)
-            Text(formattedDate)
-                .font(.title)
-                .padding(.top, 20)
+            Section(header: Text("Date")) {
+                Text(formattedDate)
+                    .font(.title)
+            }
             
-            CreneauListView(jourVM: viewModel)
+            Section(header: Text("Nom")) {
+                Text(viewModel.nom)
+                    .font(.headline)
+            }
+            
+            Section(header: Text("Heure ouverture - Heure fermeture")) {
+                Text("\(viewModel.heure_ouverture) - \(viewModel.heure_fermeture)")
+                    .font(.body)
+            }
+            
+            Section(header: Text("Participants")) {
+                Text("Nombre de participants : \(nbre_participants)")
+                    .font(.body)
+            }
+            
+            CreneauListView(jourVM: viewModel, benevolesVM : benevolesVM, zonesVM: zonesVM)
 
-            Spacer()
         }
         .navigationTitle("Jour")
         .navigationBarItems(trailing:
@@ -31,6 +60,24 @@ struct JourView: View {
                 Image(systemName: "plus")
             })
         )
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+        .task {
+            // load the list of benevoles with their nested affectations
+            let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
+            if benevolesDocLoaded{
+                let benevolesFiltered = festivalIntent.getBenevolesDocInFestival(benevolesDocVM: benevolesVM)
+                nbre_participants = benevolesFiltered.count
+            }
+ 
+            let zonesLoaded = await zonesIntent.getZonesByFestival(festivalId: festivalVM._id)
+            if !zonesLoaded{
+                alertMessage = zonesVM.errorMessage
+                alertTitle = "Error"
+                showAlert = true
+            }
+        }
     }
 }
 

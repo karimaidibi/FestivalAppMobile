@@ -45,4 +45,20 @@ struct FestivalIntent {
             return false
         }
     }
+    
+    func getBenevolesDocInFestival(benevolesDocVM: BenevoleListViewModel) -> [BenevoleViewModel]{
+        // given the array in parameters, create a new one filtered with only the
+        // BenevoleViewModel objects that have an _id of idFestival equal to self.viewModel._id
+        // in their idZone.idFestival object in their affectationDocuments array
+        let festivalId = self.viewModel._id
+
+        let filteredBenevoles : [BenevoleViewModel] = benevolesDocVM.benevoleViewModels.filter { benevoleVM in
+            benevoleVM.affectationDocuments.contains { affectationDoc in
+                affectationDoc.idZone.idFestival?._id ?? "" == festivalId
+            }
+        }
+        viewModel.state = .benevolesDocUpdated
+        return filteredBenevoles
+    }
+
 }

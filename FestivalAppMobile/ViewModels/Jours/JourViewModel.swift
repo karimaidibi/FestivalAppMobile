@@ -51,6 +51,8 @@ class JourViewModel: ObservableObject, Hashable, Identifiable {
 
     @Published var idFestival : String
     
+    @Published var benevolesVMOfJour : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
+    
     @Published var loading : Bool = false
     @Published var errorMessage : String = ""
     @Published var successMessage : String = ""

@@ -11,12 +11,15 @@ import SwiftUI
 struct CreneauRowView: View {
     
     @ObservedObject var creneauVM: CreneauViewModel
+    @ObservedObject var benevolesVM : BenevoleListViewModel
+    @ObservedObject var zonesVM : ZoneListViewModel
     
-    //var totalVolunteers: Int {
-      //  creneau.areas.reduce(0) { $0 + $1.nbBenevolesMin }
-    //}
+    @State var nbre_benevoles_inscrits = 0
     
     var body: some View {
+        
+        let creneauIntent : CreneauIntent = CreneauIntent(viewModel : creneauVM)
+        
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("\(creneauVM.heure_debut) - \(creneauVM.heure_fin)")
@@ -24,7 +27,7 @@ struct CreneauRowView: View {
                 
                 Spacer()
                 
-                Text("6 bénévoles")
+                Text("\(nbre_benevoles_inscrits) bénévoles / \(zonesVM.count)")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -40,5 +43,9 @@ struct CreneauRowView: View {
                      //   .font(.subheadline)
                        // .foregroundColor(.gray)
         }
+        .onAppear(perform: {
+            let benevolesFiltered = creneauIntent.getBenevolesDocInCreneau(benevolesDocVM: benevolesVM.benevoleViewModels)
+            self.nbre_benevoles_inscrits = benevolesFiltered.count
+        })
     }
 }
