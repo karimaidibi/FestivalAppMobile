@@ -24,11 +24,15 @@ struct JourListView : View {
         let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
         
         Section(header: Text("Jours")) {
+            if joursVM.loading{
+                ProgressView("Loading Jours ...")
+            }else{
                 ForEach(joursVM, id:\.self) { jourVM in
                     NavigationLink(destination: JourView(viewModel: jourVM, festivalVM: festivalVM)) {
                         JourRowView(jourVM: jourVM,  benevolesVM: benevolesVM)
                     }
                 }
+            }
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))

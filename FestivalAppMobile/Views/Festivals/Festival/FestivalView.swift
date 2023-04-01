@@ -15,6 +15,7 @@ struct FestivalView: View {
     @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
     @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
     @StateObject var benevolesVM : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
+    @StateObject var authManager : AuthManager = AuthManager()
     
     @State private var isEditingName = false
     @State private var editedName = ""
@@ -43,14 +44,17 @@ struct FestivalView: View {
         
         List {
             Section(header: Text("Participants")) {
-                Text("Nombre de participants : \(nbre_participants)")
+                if benevolesVM.loading{
+                    ProgressView("Loading participants...")
+                }else{
+                    Text("Nombre de participants : \(nbre_participants)")
+                }
             }
             .task {
                 // load the list of benevoles with their nested affectations
                 let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
                 if benevolesDocLoaded{
-                    let benevolesFiltered = festivalIntent.getBenevolesDocInFestival(benevolesDocVM: benevolesVM)
-                    nbre_participants = benevolesFiltered.count
+                    nbre_participants = festivalIntent.getNbreBenevolesDocInFestival(benevolesDocVM: benevolesVM)
                 }
                 
             }
@@ -78,8 +82,12 @@ struct FestivalView: View {
                     Text(viewModel.nom)
                         .font(.headline)
                         .onTapGesture {
-                            isEditingName = true
-                            editedName = viewModel.nom
+                            if let isAdmin = authManager.isAdmin{
+                                if isAdmin{
+                                    isEditingName = true
+                                    editedName = viewModel.nom
+                                }
+                            }
                         }
                 }
             }
@@ -105,48 +113,61 @@ struct FestivalView: View {
                     })
                     .keyboardType(.numberPad)
                 } else {
-                    Text("\(viewModel.annee)")
+                    Text("\(String(viewModel.annee))")
                         .font(.headline)
                         .onTapGesture {
-                            isEditingYear = true
-                            editedYear = "\(viewModel.annee)"
+                            if let isAdmin = authManager.isAdmin{
+                                if isAdmin{
+                                    isEditingYear = true
+                                    editedYear = "\(viewModel.annee)"
+                                }
+                            }
                         }
                 }
             }
             
             Section(header: Text("Est clôturé")) {
-                Toggle(isOn: $isClosed) {
-                    if isEditingClosed {
-                        Text("Est clôturé")
-                    } else {
-                        Text(viewModel.estCloture ? "Oui" : "Non")
-                    }
-                }
-                .onTapGesture {
-                    isEditingClosed = true
-                    isClosed = viewModel.estCloture
-                }
-                if isEditingClosed {
-                    Button(action: {
-                        Task {
-                            let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: isClosed, editing: "estCloture")
-                            if festivalUpdated {
-                                isEditingClosed = false
-                                // show success alert
-                                alertMessage = viewModel.successMessage
-                                alertTitle = "Success"
-                                showAlert = true
+                if let isAdmin = authManager.isAdmin{
+                    if isAdmin{
+                        Toggle(isOn: $isClosed) {
+                            if isEditingClosed {
+                                Text("Est clôturé")
                             } else {
-                                // show error alert
-                                alertMessage = viewModel.errorMessage
-                                alertTitle = "Error"
-                                showAlert = true
+                                Text(viewModel.estCloture ? "Oui" : "Non")
                             }
                         }
-                    }, label: {
-                        Text("Valider")
-                    })
+                        .onTapGesture {
+                            isEditingClosed = true
+                            isClosed = viewModel.estCloture
+                        }
+                        if isEditingClosed {
+                            Button(action: {
+                                Task {
+                                    let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: isClosed, editing: "estCloture")
+                                    if festivalUpdated {
+                                        isEditingClosed = false
+                                        // show success alert
+                                        alertMessage = viewModel.successMessage
+                                        alertTitle = "Success"
+                                        showAlert = true
+                                    } else {
+                                        // show error alert
+                                        alertMessage = viewModel.errorMessage
+                                        alertTitle = "Error"
+                                        showAlert = true
+                                    }
+                                }
+                            }, label: {
+                                Text("Valider")
+                            })
+                        }
+                    }else{
+                        Text(viewModel.estCloture ? "Oui" : "Non")
+                    }
+                }else{
+                    Text(viewModel.estCloture ? "Oui" : "Non")
                 }
+
             }
             
             Picker(selection: $selectedSection, label: Text("")) {
@@ -158,7 +179,11 @@ struct FestivalView: View {
             
             // affichage de la section
             if selectedSection == .jours {
-				JourListView(festivalVM: viewModel, benevolesVM: benevolesVM)
+                if benevolesVM.loading{
+                    ProgressView("Loading jours ...")
+                }else{
+                    JourListView(festivalVM: viewModel, benevolesVM: benevolesVM)
+                }
             } else {
                 ZoneListView(festivalVM: viewModel)
             }
@@ -169,17 +194,21 @@ struct FestivalView: View {
         .navigationTitle(viewModel.nom)
         .navigationBarItems(trailing:
         HStack {
-            // First button
-            Button(action: {
-            }) {
-                if selectedSection == .jours {
-                    // envoie le user vers la page de création du jour
-                    NavigationLink(destination: AddJourView(joursVM: joursVM, festivalsVM: festivalsVM)) {
-                        Image(systemName: "plus")
-                    }
-                } else if selectedSection == .zones {
-                    NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalsVM: festivalsVM)) {
-                        Image(systemName: "plus")
+            if let isAdmin = authManager.isAdmin{
+                if isAdmin{
+                    // First button
+                    Button(action: {
+                    }) {
+                        if selectedSection == .jours {
+                            // envoie le user vers la page de création du jour
+                            NavigationLink(destination: AddJourView(joursVM: joursVM, festivalsVM: festivalsVM)) {
+                                Image(systemName: "plus")
+                            }
+                        } else if selectedSection == .zones {
+                            NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalsVM: festivalsVM)) {
+                                Image(systemName: "plus")
+                            }
+                        }
                     }
                 }
             }

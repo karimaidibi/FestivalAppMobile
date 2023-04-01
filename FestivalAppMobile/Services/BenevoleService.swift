@@ -223,7 +223,7 @@ class BenevoleService {
                     return .failure(JSONError.JsonDecodingFailed)
                 }
                 // si bad result
-                return .failure(APIRequestError.UploadError("\(queryBadResult.status) : \(queryBadResult.message)"))
+                return .failure(APIRequestError.CustomError("\(queryBadResult.status) : \(queryBadResult.message)"))
             }
         }catch{
             return .failure(APIRequestError.UploadError("Add Affectation"))

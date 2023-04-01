@@ -113,11 +113,6 @@ struct AffectationsView: View {
             Task{
                 if let _ = authManager.benevoleId{
                     let affectationsLoaded = await benevoleIntent.getBenevoleAffectation(id: benevoleVM._id)
-                    if !affectationsLoaded{
-                        alertMessage = benevoleVM.errorMessage
-                        alertTitle = "Error"
-                        showAlert = true
-                    }
                 }
             }
         })

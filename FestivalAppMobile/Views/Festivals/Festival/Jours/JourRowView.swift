@@ -40,10 +40,9 @@ struct JourRowView: View {
                 .foregroundColor(.gray)
         }
         .padding(.vertical, 10)
-        .onAppear(perform : {
-            let benevolesFiltered = jourIntent.getBenevolesDocInJour(benevolesDocVM: benevolesVM)
-            nbre_participants = benevolesFiltered.count
-        })
+        .task{
+            nbre_participants = await jourIntent.getNbreBenevolesDocInJour(benevolesDocVM: benevolesVM)
+        }
     }
 }
 

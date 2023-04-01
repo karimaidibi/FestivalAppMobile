@@ -58,7 +58,7 @@ class ZoneListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
             case.zonesLoadingFailed(let apiRequestError):
                 print("ZonesViewModel: loading failed state")
                 debugPrint("-------------------------------")
-                self.errorMessage = apiRequestError.localizedDescription
+                self.errorMessage = apiRequestError.description
                 self.loading = false
             case.zoneAdded(let msg):
                 print("ZonesViewModel: zone Added state")

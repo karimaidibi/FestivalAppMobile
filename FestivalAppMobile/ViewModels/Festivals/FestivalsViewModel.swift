@@ -57,7 +57,7 @@ class FestivalsViewModel : ObservableObject, ViewModelObserver, RandomAccessColl
             case.festivalsLoadingFailed(let apiRequestError):
                 print("FestivalsViewModel: loading failed state")
                 debugPrint("-------------------------------")
-                self.errorMessage = apiRequestError.localizedDescription
+                self.errorMessage = apiRequestError.description
                 self.loading = false
             case.festivalAdded(let festivalDTO):
                 print("FestivalsViewModel: festival Added state")

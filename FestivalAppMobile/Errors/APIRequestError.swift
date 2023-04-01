@@ -10,6 +10,7 @@ import Foundation
 
 enum APIRequestError : Error, CustomStringConvertible, Equatable{
     case UploadError(String)
+    case CustomError(String)
     case invalidURLRequest(String)
     case getRequestError(String)
     case invalidHTTPResponse(String)
@@ -23,6 +24,7 @@ enum APIRequestError : Error, CustomStringConvertible, Equatable{
             return "get request : \(message)"
         case .invalidHTTPResponse(let string):
             return("APIRequestError [invalidHTTPResponse] in : \(string)")
+        case .CustomError(let message) : return message
         case .unknown: return "APIRequestError [unknown]"
         }
     }

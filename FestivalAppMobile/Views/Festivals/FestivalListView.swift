@@ -13,7 +13,7 @@ import SwiftUI
 struct FestivalListView: View {
     
     @StateObject var festivalsVM: FestivalsViewModel = FestivalsViewModel(festivalViewModels: [])
-
+    @EnvironmentObject var authManager : AuthManager
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
     @State private var alertTitle = ""
@@ -58,17 +58,21 @@ struct FestivalListView: View {
                 .font(.system(size: 18))
                 .navigationBarItems(trailing:
                     HStack {
-                        // First button
-                        Button(action: {
-                        }) {
-                            // envoie le user vers la page de création du festival
-                            NavigationLink(destination: AddFestivalView(festivalsVM: festivalsVM)) {
-                                Image(systemName: "plus")
+                        if let isAdmin = authManager.isAdmin{
+                            if isAdmin{
+                                // First button
+                                Button(action: {
+                                }) {
+                                    // envoie le user vers la page de création du festival
+                                    NavigationLink(destination: AddFestivalView(festivalsVM: festivalsVM)) {
+                                        Image(systemName: "plus")
+                                    }
+                                }
+                                // Second button
+                                Button(action: {}) {
+                                    CustomEditButton()
+                                }
                             }
-                        }
-                        // Second button
-                        Button(action: {}) {
-                            CustomEditButton()
                         }
                     }
                 )
@@ -93,7 +97,6 @@ struct FestivalListView: View {
 struct FestivalRow: View {
     @ObservedObject var viewModel: FestivalViewModel
     @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels: [])
-    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
     
     var body: some View {
         let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)

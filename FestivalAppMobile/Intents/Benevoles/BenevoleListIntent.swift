@@ -35,6 +35,34 @@ struct BenevolesIntent {
         
     }
     
+    func addAffectationOfBenevoles(benevoleIds: [String], idZone: String, idCreneau: String) async -> Bool {
+        viewModel.state = .processingAffectations
+        let affectationDTO: AffectationDTO = AffectationDTO(idZone: idZone, idCreneau: idCreneau)
+        var allSucceeded = true
+        for benevoleId in benevoleIds {
+            let result = await benevoleService.addAffectation(benevoleId: benevoleId, affectationDTO: affectationDTO)
+            switch result {
+            // en cas de success on fait rien (allSucceeded est à true par défaut)
+            case .success(let msg):
+                viewModel.state = .processingAffectationsSuccess(msg)
+            case .failure(let error as APIRequestError):
+                viewModel.state = .processingAffectationsFailure(error)
+                allSucceeded = false
+            default:
+                // cas ou il n'y a pas eu d'erreur
+                viewModel.state = .error
+                allSucceeded = false
+            }
+        }
+        return allSucceeded
+    }
+    
+    func benevoleIds(benevoleVMs: [BenevoleViewModel]) -> [String] {
+        return benevoleVMs.map { benevoleVM in
+            return benevoleVM._id
+        }
+    }
+    
     func getBenevolesNested() async -> Bool{
         
         viewModel.state = .loading

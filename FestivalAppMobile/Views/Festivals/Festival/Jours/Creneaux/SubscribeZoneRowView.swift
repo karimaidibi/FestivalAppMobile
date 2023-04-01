@@ -13,6 +13,8 @@ struct SubscribeZoneRowView: View {
     @ObservedObject var zoneVM : ZoneViewModel
     @ObservedObject var creneauVM : CreneauViewModel
     @ObservedObject var benevoleVM : BenevoleViewModel
+    @ObservedObject var benevolesVM : BenevoleListViewModel
+    @StateObject var authManager : AuthManager = AuthManager()
     
     // for popup
     @State private var showAlert = false // popup on success deleting
@@ -32,28 +34,37 @@ struct SubscribeZoneRowView: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 
+                
+                
                 // subscribe button
-                Button(action: {
-                    Task {
-                        let affectationAdded = await benevoleIntent.addAffectation(benevoleId: benevoleVM._id, idZone: zoneVM._id, idCreneau: creneauVM._id)
-                        if affectationAdded{
-                            alertMessage = "Le benevole est affecté avec succes !"
-                            alertTitle = "Success"
-                            showAlert = true
-                        }else{
-                            alertMessage = benevoleVM.errorMessage
-                            alertTitle = "Error"
-                            showAlert = true
-                        }
+                if authManager.isAdmin! {
+                    NavigationLink(destination: SubscribeBenevolesView(zoneVM : zoneVM, creneauVM : creneauVM)) {
+                        Text("Inscrire des bénévoles")
                     }
-                }) {
-                    Text("M'inscrire")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(width: 150, height: 20)
-                        .background(Color.green)
-                        .cornerRadius(15.0)
+                } else {
+                    Button(action: {
+                        Task {
+                            let affectationAdded = await benevoleIntent.addAffectation(benevoleId: benevoleVM._id, idZone: zoneVM._id, idCreneau: creneauVM._id)
+                            if affectationAdded{
+                                alertMessage = "Le benevole est affecté avec succes !"
+                                alertTitle = "Success"
+                                showAlert = true
+                            } else {
+                                alertMessage = benevoleVM.errorMessage
+                                alertTitle = "Error"
+                                showAlert = true
+                            }
+                        }
+                    }) {
+                        Text("M'inscrire")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 150, height: 20)
+                            .background(Color.green)
+                            .cornerRadius(15.0)
+                        
+                    }
                 }
             }
             Spacer()

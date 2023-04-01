@@ -55,13 +55,26 @@ class BenevoleListViewModel: ObservableObject, ViewModelObserver, RandomAccessCo
             case.benevolesLoadingFailed(let apiRequestError):
                 print("BenevoleListViewModel: loading failed state")
                 debugPrint("-------------------------------")
-                self.errorMessage = apiRequestError.localizedDescription
+                self.errorMessage = apiRequestError.description
                 self.loading = false
             case.benevolesDocLoaded(let benevoleDocDTOs):
                 let newList : [BenevoleViewModel] = BenevoleListViewModel.fromDocDTOs(benevoleDocDTOs : benevoleDocDTOs)
                 self.setBenevoleViewModels(benevoleViewModels: newList)
                 print("BenevoleListViewModel: loaded with docs state")
                 debugPrint("-------------------------------")
+                self.loading = false
+            case .processingAffectations:
+                print("BenevoleListViewModel : processing affectations")
+                debugPrint("-------------------------------")
+                self.loading = true
+            case .processingAffectationsSuccess(_):
+                print("BenevoleListViewModel : processing affectations success")
+                debugPrint("-------------------------------")
+                self.loading = false
+            case .processingAffectationsFailure(let apiRequestError):
+                print("BenevoleListViewModel : processing affectations failed")
+                debugPrint("-------------------------------")
+                self.errorMessage = apiRequestError.description
                 self.loading = false
             case .error:
                 print("BenevoleListViewModel: error state")

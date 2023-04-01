@@ -50,7 +50,7 @@ struct JourIntent{
         }
     }
     
-    func getBenevolesDocInJour(benevolesDocVM: BenevoleListViewModel) -> [BenevoleViewModel]{
+    func getNbreBenevolesDocInJour(benevolesDocVM: BenevoleListViewModel) async -> Int{
         // given the array in parameters, create a new one filtered with only the
         // BenevoleViewModel objects that have an _id of idJour equal to self.viewModel._id
         // in their idCreneau.idJour object in their affectationDocuments array
@@ -62,6 +62,6 @@ struct JourIntent{
             }
         }
 
-        return filteredBenevoles
+        return filteredBenevoles.count
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct SubscribeZoneListView: View {
+    @ObservedObject var benevolesVM : BenevoleListViewModel
     @ObservedObject var creneauVM : CreneauViewModel
     @ObservedObject var zonesVM : ZoneListViewModel
     @StateObject var authManager : AuthManager = AuthManager()
@@ -30,7 +31,7 @@ struct SubscribeZoneListView: View {
             List{
                 ForEach(zonesVM, id:\.self) { zoneVM in
                         //NavigationLink(destination: ZoneView(viewModel: zoneVM)) {
-                    SubscribeZoneRowView(zoneVM: zoneVM, creneauVM : creneauVM, benevoleVM: benevoleVM)
+                    SubscribeZoneRowView(zoneVM: zoneVM, creneauVM : creneauVM, benevoleVM: benevoleVM, benevolesVM: benevolesVM)
                         //}
                     }
             }

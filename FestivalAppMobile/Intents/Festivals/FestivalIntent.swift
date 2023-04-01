@@ -46,7 +46,7 @@ struct FestivalIntent {
         }
     }
     
-    func getBenevolesDocInFestival(benevolesDocVM: BenevoleListViewModel) -> [BenevoleViewModel]{
+    func getNbreBenevolesDocInFestival(benevolesDocVM: BenevoleListViewModel) -> Int{
         // given the array in parameters, create a new one filtered with only the
         // BenevoleViewModel objects that have an _id of idFestival equal to self.viewModel._id
         // in their idZone.idFestival object in their affectationDocuments array
@@ -58,7 +58,7 @@ struct FestivalIntent {
             }
         }
         viewModel.state = .benevolesDocUpdated
-        return filteredBenevoles
+        return filteredBenevoles.count
     }
 
 }

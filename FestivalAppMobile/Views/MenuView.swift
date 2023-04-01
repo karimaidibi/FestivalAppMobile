@@ -30,19 +30,21 @@ struct MenuView: View {
         let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
         
         TabView() {
-            FestivalListView()
+            FestivalListView().environmentObject(authManager)
                 .tabItem {
                     Image(systemName: "info.circle")
                     Text("Festivals")
                 }
                 .tag(Tab.festivals)
-            if (authManager.benevoleId != nil) {
-                AffectationsView(benevoleVM: benevoleVM, isAdminGestion: false)
-                    .tabItem {
-                        Image(systemName: "timer")
-                        Text("Mes créneaux")
-                    }
-                    .tag(Tab.creneaux)
+            if let _ = authManager.benevoleId {
+                if !benevoleVM.loading{
+                    AffectationsView(benevoleVM: benevoleVM, isAdminGestion: false)
+                        .tabItem {
+                            Image(systemName: "timer")
+                            Text("Mes créneaux")
+                        }
+                        .tag(Tab.creneaux)
+                }
             }
             if (authManager.isAdmin == true) {
                 BenevoleListView()

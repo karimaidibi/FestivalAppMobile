@@ -23,11 +23,11 @@ struct ContentView: View {
                 MenuView().environmentObject(authManager)
                     .environmentObject(viewsManager)
             }
-        }.task {
+        }.onAppear(perform: {
             self.authManager.authToken = nil
             self.authManager.benevoleId = nil
             self.authManager.isAdmin = nil
-        }
+        })
     }
 }
 

@@ -56,7 +56,7 @@ class CreneauListViewModel : ObservableObject, ViewModelObserver, RandomAccessCo
             case.creneauxLoadingFailed(let apiRequestError):
                 print(state.description)
                 debugPrint("-------------------------------")
-                self.errorMessage = apiRequestError.localizedDescription
+                self.errorMessage = apiRequestError.description
                 self.loading = false
             case .error:
                 print(state.description)

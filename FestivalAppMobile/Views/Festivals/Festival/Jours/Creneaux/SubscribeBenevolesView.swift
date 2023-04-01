@@ -38,12 +38,22 @@ let benevoles: [Benevole] = [
 struct SubscribeBenevolesView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var benevolesVM: BenevoleListViewModel
+    @StateObject var benevolesVM: BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
+    @ObservedObject var zoneVM : ZoneViewModel
+    @ObservedObject var creneauVM : CreneauViewModel
+    
+    // for popup
+    @State private var showAlert = false // popup on success deleting
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
     
     @State private var searchText = ""
     @State private var selectedBenevoles: Set<BenevoleViewModel> = []
     
     var body: some View {
+        
+        let benevoleListIntent : BenevolesIntent = BenevolesIntent(viewModel : benevolesVM)
+        
         NavigationView {
             VStack {
                 SearchBar(text: $searchText, placeholder: "Rechercher un bénévole")
@@ -69,16 +79,39 @@ struct SubscribeBenevolesView: View {
                 }
                 
                 Button(action: {
-                    //viewModel.subscribeBenevoles(Array(selectedBenevoles))
-                    presentationMode.wrappedValue.dismiss()
+                    Task {
+                        let benevoleIds = benevoleListIntent.benevoleIds(benevoleVMs: Array(selectedBenevoles))
+                        let addedAffectations = await benevoleListIntent.addAffectationOfBenevoles(benevoleIds: benevoleIds, idZone: zoneVM._id, idCreneau: creneauVM._id)
+                        if addedAffectations {
+                            presentationMode.wrappedValue.dismiss()
+                        } else {
+                            // Handle error case
+                            showAlert = true
+                            alertTitle = "Error"
+                            alertMessage = benevolesVM.errorMessage
+                        }
+                        
+                    }
+                    
                 }, label: {
-                    Text("S'inscrire")
+                    Text("Valider les inscriptions")
                         .foregroundColor(selectedBenevoles.isEmpty ? .gray : .blue)
                 })
                 .disabled(selectedBenevoles.isEmpty)
                 .padding()
                 
                 Spacer()
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            }
+            .task {
+                let benevolesLoaded = await benevoleListIntent.getBenevolesNested()
+                if !benevolesLoaded{
+                    alertMessage = benevolesVM.errorMessage
+                    alertTitle = "Error"
+                    showAlert = true
+                }
             }
             .navigationTitle("Inscription bénévoles")
             .navigationBarTitleDisplayMode(.inline)

@@ -13,6 +13,9 @@ enum BenevoleListState: CustomStringConvertible, Equatable {
     case benevolesLoaded([BenevoleDTO])
     case benevolesLoadingFailed(APIRequestError)
     case benevolesDocLoaded([BenevoleDocDTO])
+    case processingAffectations
+    case processingAffectationsSuccess(String)
+    case processingAffectationsFailure(APIRequestError)
     case error
     
     var description: String {
@@ -21,6 +24,12 @@ enum BenevoleListState: CustomStringConvertible, Equatable {
             return "ready"
         case .loading:
             return "loading"
+        case .processingAffectations:
+            return "Processing affectations..."
+        case .processingAffectationsSuccess(let msg):
+            return msg
+        case .processingAffectationsFailure(let error):
+            return error.description
         case .benevolesLoaded:
             return "Benevoles Loaded Successfully"
         case .benevolesLoadingFailed(let apiRequestError):

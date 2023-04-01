@@ -15,18 +15,28 @@ struct CreneauIntent{
         self.viewModel = viewModel
     }
 
-    func getBenevolesDocInCreneau(benevolesDocVM: [BenevoleViewModel]) -> [BenevoleViewModel]{
+    func getNbreBenevolesDocInCreneau(benevolesDocVM: BenevoleListViewModel) async -> Int{
         // given the array in parameters, create a new one filtered with only the
         // BenevoleViewModel objects that have an _id of idCreneau equal to self.viewModel._id
         // in their idCreneau object in their affectationDocuments array
         let creneauId = self.viewModel._id
 
-        let filteredBenevoles : [BenevoleViewModel] = benevolesDocVM.filter { benevoleVM in
+        let filteredBenevoles : [BenevoleViewModel] = benevolesDocVM.benevoleViewModels.filter { benevoleVM in
             benevoleVM.affectationDocuments.contains { affectationDoc in
                 affectationDoc.idCreneau._id  == creneauId
             }
         }
 
-        return filteredBenevoles
+        return filteredBenevoles.count
+    }
+    
+    func getNbreBenevolesMax(zonesVM : ZoneListViewModel) -> Int{
+        
+        viewModel.state = .loading
+        let nbreMax : Int = zonesVM.zoneViewModelArray.reduce(0) { sum, zone in
+            sum + zone.nombre_benevoles_necessaires
+        }
+        viewModel.state = .nbreBeneveolesMaxCalculated(nbreMax)
+        return nbreMax
     }
 }

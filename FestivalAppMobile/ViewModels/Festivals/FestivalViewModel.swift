@@ -87,7 +87,7 @@ class FestivalViewModel: ObservableObject, Hashable, Identifiable {
                 print(state.description)
                 debugPrint("-------------------------------")
                 self.loading = false
-                self.errorMessage = error.localizedDescription
+                self.errorMessage = error.description
             case .error:
                 print(state.description)
             }

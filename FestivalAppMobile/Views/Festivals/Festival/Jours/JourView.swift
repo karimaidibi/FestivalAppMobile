@@ -28,38 +28,34 @@ struct JourView: View {
         let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
         
         List {
-            let formattedDate = UtilityHelper.formattedDateString(from: viewModel.date)
-            Section(header: Text("Date")) {
-                Text(formattedDate)
-                    .font(.title)
+            if benevolesVM.loading || zonesVM.loading{
+                ProgressView("Loading Jour ...")
+            }else{
+                let formattedDate = UtilityHelper.formattedDateString(from: viewModel.date)
+                Section(header: Text("Date")) {
+                    Text(formattedDate)
+                        .font(.title)
+                }
+                
+                Section(header: Text("Nom")) {
+                    Text(viewModel.nom)
+                        .font(.headline)
+                }
+                
+                Section(header: Text("Heure ouverture - Heure fermeture")) {
+                    Text("\(viewModel.heure_ouverture) - \(viewModel.heure_fermeture)")
+                        .font(.body)
+                }
+                
+                Section(header: Text("Participants")) {
+                    Text("Nombre de participants : \(nbre_participants)")
+                        .font(.body)
+                }
+                
+                CreneauListView(jourVM: viewModel, benevolesVM : benevolesVM, zonesVM: zonesVM)
             }
-            
-            Section(header: Text("Nom")) {
-                Text(viewModel.nom)
-                    .font(.headline)
-            }
-            
-            Section(header: Text("Heure ouverture - Heure fermeture")) {
-                Text("\(viewModel.heure_ouverture) - \(viewModel.heure_fermeture)")
-                    .font(.body)
-            }
-            
-            Section(header: Text("Participants")) {
-                Text("Nombre de participants : \(nbre_participants)")
-                    .font(.body)
-            }
-            
-            CreneauListView(jourVM: viewModel, benevolesVM : benevolesVM, zonesVM: zonesVM)
-
         }
         .navigationTitle("Jour")
-        .navigationBarItems(trailing:
-            Button(action: {
-            //viewModel.addNewCreneau()
-            }, label: {
-                Image(systemName: "plus")
-            })
-        )
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
@@ -67,8 +63,7 @@ struct JourView: View {
             // load the list of benevoles with their nested affectations
             let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
             if benevolesDocLoaded{
-                let benevolesFiltered = festivalIntent.getBenevolesDocInFestival(benevolesDocVM: benevolesVM)
-                nbre_participants = benevolesFiltered.count
+                nbre_participants = festivalIntent.getNbreBenevolesDocInFestival(benevolesDocVM: benevolesVM)
             }
  
             let zonesLoaded = await zonesIntent.getZonesByFestival(festivalId: festivalVM._id)

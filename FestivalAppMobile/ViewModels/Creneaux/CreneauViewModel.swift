@@ -39,13 +39,27 @@ class CreneauViewModel : ObservableObject, Hashable, Identifiable{
 
     @Published var benevolesVMOfCreneau : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
     
+    @Published var loading = false
+    
+    @Published var nbreBenevolesMax : Int
+    
     // State Intent management
-    @Published var state : ZoneState = .ready{
+    @Published var state : CreneauState = .ready{
         didSet{
             switch state{
             case .ready:
                 debugPrint("CreneauViewModel : ready state")
                 debugPrint("-------------------------------")
+                self.loading = false
+            case .loading:
+                debugPrint("CreneauViewModel : loading state")
+                debugPrint("-------------------------------")
+                self.loading = true
+            case .nbreBeneveolesMaxCalculated(let nbre):
+                debugPrint("CreneauViewModel : nbreBenevoleCaluclated state")
+                debugPrint("-------------------------------")
+                self.nbreBenevolesMax = nbre
+                self.loading = false
             default:
                 break
             }
@@ -58,6 +72,7 @@ class CreneauViewModel : ObservableObject, Hashable, Identifiable{
         self.heure_fin = heure_fin
         self.heure_debut = heure_debut
         self.idJour = idJour
+        self.nbreBenevolesMax = 0
     }
     
     // constructor from DTO
@@ -66,6 +81,7 @@ class CreneauViewModel : ObservableObject, Hashable, Identifiable{
         self.heure_debut = creneauDTO.heure_debut
         self.heure_fin = creneauDTO.heure_fin
         self.idJour = creneauDTO.idJour
+        self.nbreBenevolesMax = 0
     }
     
     // functions

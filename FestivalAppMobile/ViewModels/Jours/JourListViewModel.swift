@@ -54,7 +54,7 @@ class JourListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
             case.joursLoadingFailed(let apiRequestError):
                 print("JourListViewModel: loading failed state")
                 debugPrint("-------------------------------")
-                self.errorMessage = apiRequestError.localizedDescription
+                self.errorMessage = apiRequestError.description
                 self.loading = false
             case .error:
                 print("JourListViewModel: error state")
