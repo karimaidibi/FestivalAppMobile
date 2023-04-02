@@ -112,8 +112,12 @@ struct FestivalRow: View {
             
             Spacer()
             
-            Text("\(viewModel.jourListViewModels.count) Jours")
-                .font(.body)
+            if joursVM.loading{
+                ProgressView("...")
+            }else{
+                Text("\(viewModel.jourListViewModels.count) Jours")
+                    .font(.body)
+            }
             
             if !viewModel.estCloture {
                 Image(systemName: "checkmark.circle.fill")

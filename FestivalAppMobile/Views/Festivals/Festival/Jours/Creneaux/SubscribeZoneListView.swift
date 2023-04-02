@@ -13,6 +13,7 @@ struct SubscribeZoneListView: View {
     @ObservedObject var benevolesVM : BenevoleListViewModel
     @ObservedObject var creneauVM : CreneauViewModel
     @ObservedObject var zonesVM : ZoneListViewModel
+    @ObservedObject var festivalVM : FestivalViewModel
     @StateObject var authManager : AuthManager = AuthManager()
     @StateObject var benevoleVM : BenevoleViewModel = BenevoleViewModel()
     
@@ -27,14 +28,19 @@ struct SubscribeZoneListView: View {
     var body: some View{
         
         let benevoleIntent : BenevoleIntent = BenevoleIntent(benevole: benevoleVM)
-        Section(header: Text("Choisissez une zone pour s'inscrire")) {
-            List{
-                ForEach(zonesVM, id:\.self) { zoneVM in
-                        //NavigationLink(destination: ZoneView(viewModel: zoneVM)) {
-                    SubscribeZoneRowView(zoneVM: zoneVM, creneauVM : creneauVM, benevoleVM: benevoleVM, benevolesVM: benevolesVM)
-                        //}
-                    }
+        Section(header: Text("Choisissez une zone")) {
+            if benevoleVM.loading{
+                ProgressView("Loading ...")
+            }else{
+                List{
+                    ForEach(zonesVM, id:\.self) { zoneVM in
+                        SubscribeZoneRowView(zoneVM: zoneVM, creneauVM : creneauVM, benevoleVM: benevoleVM, benevolesVM: benevolesVM, festivalVM : festivalVM)
+                        }
+                }
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .task {
             if let benevoleId = authManager.benevoleId{

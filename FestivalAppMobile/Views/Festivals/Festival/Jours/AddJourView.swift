@@ -11,7 +11,7 @@ import SwiftUI
 
 struct AddJourView: View {
     @ObservedObject var joursVM: JourListViewModel
-    @ObservedObject var festivalsVM: FestivalsViewModel
+    @ObservedObject var festivalVM: FestivalViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -27,6 +27,12 @@ struct AddJourView: View {
     
     var body: some View {
         let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
+        
+        // Constants for the year 2023
+        let festivalYear: Int = festivalVM.annee
+          let startOfYear = Calendar.current.date(from: DateComponents(year: festivalYear, month: 1, day: 1))!
+          let endOfYear = Calendar.current.date(from: DateComponents(year: festivalYear, month: 12, day: 31))!
+
         
         NavigationView {
             Form {
@@ -45,7 +51,7 @@ struct AddJourView: View {
                             formatter.dateFormat = "yyyy-MM-dd" // use the same format as your string date
                             self.date = formatter.string(from: $0)
                         }
-                    ), displayedComponents: [.date])
+                    ), in: startOfYear...endOfYear, displayedComponents: [.date])
                     .datePickerStyle(.wheel)
                     // Heure d'ouverture
                     TextField("Heure d'ouverture", text: $heureOuverture)
@@ -61,7 +67,7 @@ struct AddJourView: View {
                     Button("Créer") {
                         Task {
                             // Créer le jour
-                            let addedJour = await joursIntent.addJour(date: date, nom: nom, heure_ouverture: heureOuverture, heure_fermeture: heureFermeture, idFestival: festivalsVM.getCurrent()._id)
+                            let addedJour = await joursIntent.addJour(date: date, nom: nom, heure_ouverture: heureOuverture, heure_fermeture: heureFermeture, idFestival: festivalVM._id)
                             if addedJour {
                                 presentationMode.wrappedValue.dismiss()
                             } else {
@@ -75,6 +81,9 @@ struct AddJourView: View {
                     .disabled(nom.isEmpty || date.isEmpty || heureOuverture.isEmpty || heureFermeture.isEmpty)
                 }
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
     }
 }

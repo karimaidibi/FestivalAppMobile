@@ -14,7 +14,12 @@ struct JourView: View {
     @StateObject var benevolesVM : BenevoleListViewModel = BenevoleListViewModel(benevoleViewModels: [])
     @ObservedObject var festivalVM : FestivalViewModel
     @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @State var authManager : AuthManager = AuthManager()
+    
     @State var nbre_participants = 0
+    
+    @State private var isEditingName = false
+    @State private var editedName = ""
 
     // for popup
     @State private var showAlert = false // popup on success deleting
@@ -26,6 +31,7 @@ struct JourView: View {
         let benevolesIntent : BenevolesIntent = BenevolesIntent(viewModel: benevolesVM)
         let festivalIntent : FestivalIntent = FestivalIntent(viewModel: festivalVM)
         let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
+        let jourIntent : JourIntent = JourIntent(viewModel: viewModel)
         
         List {
             if benevolesVM.loading || zonesVM.loading{
@@ -38,8 +44,36 @@ struct JourView: View {
                 }
                 
                 Section(header: Text("Nom")) {
-                    Text(viewModel.nom)
-                        .font(.headline)
+                    if isEditingName {
+                        TextField("Nom du Jour", text: $editedName, onCommit: {
+                            Task{
+                                let jourUpdated = await jourIntent.updateJour(id: viewModel._id, editedProperty: editedName, editing: "nom")
+                                if jourUpdated{
+                                    isEditingName = false
+                                    // show success alert
+                                    alertMessage = viewModel.successMessage
+                                    alertTitle = "Success"
+                                    showAlert = true
+                                }else{
+                                    // show error alert
+                                    alertMessage = viewModel.errorMessage
+                                    alertTitle = "Error"
+                                    showAlert = true
+                                }
+                            }
+                        })
+                    } else {
+                        Text(viewModel.nom)
+                            .font(.headline)
+                            .onTapGesture {
+                                if let isAdmin = authManager.isAdmin{
+                                    if isAdmin{
+                                        isEditingName = true
+                                        editedName = viewModel.nom
+                                    }
+                                }
+                            }
+                    }
                 }
                 
                 Section(header: Text("Heure ouverture - Heure fermeture")) {
@@ -52,7 +86,7 @@ struct JourView: View {
                         .font(.body)
                 }
                 
-                CreneauListView(jourVM: viewModel, benevolesVM : benevolesVM, zonesVM: zonesVM)
+                CreneauListView(jourVM: viewModel, benevolesVM : benevolesVM, zonesVM: zonesVM, festivalVM : festivalVM)
             }
         }
         .navigationTitle("Jour")

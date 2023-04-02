@@ -31,7 +31,7 @@ struct CreneauRowView: View {
                     
                     Spacer()
                     
-                    Text("\($nbre_benevoles_inscrits.wrappedValue) bénévoles / \(creneauVM.nbreBenevolesMax)")
+                    Text("\($nbre_benevoles_inscrits.wrappedValue) inscription / \(creneauVM.nbreBenevolesMax)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -51,7 +51,7 @@ struct CreneauRowView: View {
             let _  = creneauIntent.getNbreBenevolesMax(zonesVM: zonesVM)
         })
         .task {
-            nbre_benevoles_inscrits = await creneauIntent.getNbreBenevolesDocInCreneau(benevolesDocVM: benevolesVM)
+            nbre_benevoles_inscrits = await creneauIntent.getNbreInscriptionsInCreneau(benevolesDocVM: benevolesVM)
         }
  
     }

@@ -39,6 +39,8 @@ class ZoneViewModel : ObservableObject, Hashable, Identifiable{
         }
     }
     
+    @Published var nbre_benevoles_inscrits : Int = 0
+    
     // State Intent management
     @Published var state : ZoneState = .ready{
         didSet{
@@ -46,6 +48,9 @@ class ZoneViewModel : ObservableObject, Hashable, Identifiable{
             case .ready:
                 debugPrint("ZoneViewModel : ready state")
                 debugPrint("-------------------------------")
+                self.loading = false
+                self.successMessage = ""
+                self.errorMessage = ""
             case .loading:
                 print(state.description)
                 debugPrint("-------------------------------")
@@ -61,8 +66,14 @@ class ZoneViewModel : ObservableObject, Hashable, Identifiable{
                 debugPrint("-------------------------------")
                 self.loading = false
                 self.errorMessage = error.description
-            case .error:
+            case .zoneBenevolesInscritsComputed(let nbreBenevolesInscrits):
                 print(state.description)
+                debugPrint("-------------------------------")
+                self.nbre_benevoles_inscrits = nbreBenevolesInscrits
+                self.loading = false
+            case .error:
+                self.errorMessage = "error"
+                self.loading = false
             }
         }
     }

@@ -27,15 +27,15 @@ enum JoursState: CustomStringConvertible, Equatable {
         case .joursLoaded:
             return "Jours Loaded Successfully"
         case .joursLoadingFailed(let apiRequestError):
-            return apiRequestError.localizedDescription
+            return apiRequestError.description
         case .jourAdded:
             return "success"
         case .jourAddingFailed(let error):
-            return error.localizedDescription
+            return error.description
         case .jourDeleted(let msg):
             return msg
         case .jourDeletingFailed(let error):
-            return error.localizedDescription
+            return error.description
         case .error:
             return "error"
         }

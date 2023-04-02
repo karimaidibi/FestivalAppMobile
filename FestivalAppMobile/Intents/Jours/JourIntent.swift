@@ -23,13 +23,12 @@ struct JourIntent{
         case "date":
             jourDTO.date = editedProperty as! String
         case "nom":
-            jourDTO.nom = editedProperty as! String
-        case "heure_ouverture":
-            jourDTO.heure_ouverture = editedProperty as! String
-        case "heure_fermeture":
-            jourDTO.heure_fermeture = editedProperty as! String
-        case "idFestival":
-            jourDTO.idFestival = editedProperty as! String
+            let editedName = editedProperty as! String
+            if editedName.isEmpty{
+                viewModel.state = .jourUpdatingFailed(.CustomError("Name Of Jour Must Not Be Empty !"))
+                return false
+            }
+            jourDTO.nom = editedName
         default:
             return false
         }
@@ -49,6 +48,18 @@ struct JourIntent{
             return false
         }
     }
+    
+    func validateAndUpdateTime(_ time: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        if let date = dateFormatter.date(from: time) {
+            return date
+        } else {
+            return nil
+        }
+    }
+
     
     func getNbreBenevolesDocInJour(benevolesDocVM: BenevoleListViewModel) async -> Int{
         // given the array in parameters, create a new one filtered with only the

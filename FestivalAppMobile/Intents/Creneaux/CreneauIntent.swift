@@ -15,10 +15,7 @@ struct CreneauIntent{
         self.viewModel = viewModel
     }
 
-    func getNbreBenevolesDocInCreneau(benevolesDocVM: BenevoleListViewModel) async -> Int{
-        // given the array in parameters, create a new one filtered with only the
-        // BenevoleViewModel objects that have an _id of idCreneau equal to self.viewModel._id
-        // in their idCreneau object in their affectationDocuments array
+    func getNbreInscriptionsInCreneau(benevolesDocVM: BenevoleListViewModel) async -> Int{
         let creneauId = self.viewModel._id
 
         let filteredBenevoles : [BenevoleViewModel] = benevolesDocVM.benevoleViewModels.filter { benevoleVM in
@@ -26,8 +23,17 @@ struct CreneauIntent{
                 affectationDoc.idCreneau._id  == creneauId
             }
         }
+        
+        var count : Int = 0
+        for benevoleVM in filteredBenevoles{
+            for affectationDoc in benevoleVM.affectationDocuments{
+                if affectationDoc.idCreneau._id == creneauId {
+                    count += 1
+                }
+            }
+        }
 
-        return filteredBenevoles.count
+        return count
     }
     
     func getNbreBenevolesMax(zonesVM : ZoneListViewModel) -> Int{

@@ -18,7 +18,7 @@ enum APIRequestError : Error, CustomStringConvertible, Equatable{
     
     var description: String{
         switch self {
-        case .UploadError(let service): return "APIRequestError [UploadError] : Data could not be uploaded in : \(service)"
+        case .UploadError(let service): return "APIRequestError [UploadError] : \(service)"
         case .invalidURLRequest(let service): return "APIRequestError [invalidURLRequest] invalid URL in \(service)"
         case .getRequestError(let message):
             return "get request : \(message)"

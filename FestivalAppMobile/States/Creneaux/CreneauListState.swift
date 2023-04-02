@@ -23,7 +23,7 @@ enum CreneauListState: CustomStringConvertible, Equatable {
         case .creneauxLoaded:
             return "CreneauListViewModel: loaded state"
         case .creneauxLoadingFailed(let apiRequestError):
-            return "CreneauListViewModel: loading failed state -  \(apiRequestError.localizedDescription)"
+            return "CreneauListViewModel: loading failed state -  \(apiRequestError.description)"
         case .error:
             return "CreneauListViewModelViewModel: error state"
         }

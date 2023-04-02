@@ -27,15 +27,15 @@ enum FestivalsState: CustomStringConvertible, Equatable {
         case .festivalsLoaded:
             return "Festivals Loaded Successfully"
         case .festivalsLoadingFailed(let apiRequestError):
-            return apiRequestError.localizedDescription
+            return apiRequestError.description
         case .festivalAdded:
             return "success"
         case .festivalAddingFailed(let error):
-            return error.localizedDescription
+            return error.description
         case .festivalDeleted(let msg):
             return msg
         case .festivalDeletingFailed(let error):
-            return error.localizedDescription
+            return error.description
         case .error:
             return "error"
         }

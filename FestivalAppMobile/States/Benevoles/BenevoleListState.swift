@@ -33,7 +33,7 @@ enum BenevoleListState: CustomStringConvertible, Equatable {
         case .benevolesLoaded:
             return "Benevoles Loaded Successfully"
         case .benevolesLoadingFailed(let apiRequestError):
-            return apiRequestError.localizedDescription
+            return apiRequestError.description
         case .benevolesDocLoaded:
             return "Benevoles Loaded Successfully"
         case .error:

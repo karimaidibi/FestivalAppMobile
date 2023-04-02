@@ -34,7 +34,7 @@ struct FestivalsIntent {
         }
     }
     
-    func addFestival(nom: String, annee: Int, estCloture: Bool) async -> Bool {
+    func addFestival(nom: String, annee: Int, estCloture: Bool) async -> FestivalDTO? {
         // create data
         let festivalDTO = FestivalDTO(nom: nom, annee: annee, estCloture: estCloture)
         
@@ -43,13 +43,13 @@ struct FestivalsIntent {
         switch result{
         case .success(let festivalDTO):
             viewModel.state = .festivalAdded(festivalDTO!)
-            return true
+            return festivalDTO
         case .failure(let error as APIRequestError):
             viewModel.state = .festivalAddingFailed(error)
-            return false
+            return nil
         default:
             viewModel.state = .error
-            return false
+            return nil
         }
     }
     

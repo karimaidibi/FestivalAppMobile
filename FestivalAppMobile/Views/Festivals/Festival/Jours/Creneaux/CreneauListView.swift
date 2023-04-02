@@ -13,6 +13,7 @@ struct CreneauListView : View{
     @ObservedObject var benevolesVM : BenevoleListViewModel
     @StateObject var creneauxVM : CreneauListViewModel = CreneauListViewModel(creneauViewModelArray: [])
     @ObservedObject var zonesVM : ZoneListViewModel
+    @ObservedObject var festivalVM : FestivalViewModel
     
     @StateObject var authManager : AuthManager = AuthManager()
     
@@ -31,7 +32,7 @@ struct CreneauListView : View{
             }else{
                 if let _ = authManager.benevoleId{
                     ForEach(creneauxVM) { creneauVM in
-                        NavigationLink(destination: SubscribeZoneListView(benevolesVM : benevolesVM,creneauVM : creneauVM, zonesVM: zonesVM)) {
+                        NavigationLink(destination: SubscribeZoneListView(benevolesVM : benevolesVM, creneauVM : creneauVM, zonesVM: zonesVM, festivalVM : festivalVM)) {
                             CreneauRowView(creneauVM: creneauVM, benevolesVM : benevolesVM, zonesVM : zonesVM)
                             Divider() // comme sur angular mat
                         }

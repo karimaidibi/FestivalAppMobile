@@ -56,9 +56,27 @@ class JourListViewModel : ObservableObject, ViewModelObserver, RandomAccessColle
                 debugPrint("-------------------------------")
                 self.errorMessage = apiRequestError.description
                 self.loading = false
+            case.jourDeleted(_):
+                print("JourListViewModel: jour deleted state")
+                debugPrint("-------------------------------")
+                self.loading = false
+            case.jourDeletingFailed(let apiRequestError):
+                print("JourListViewModel: jour deleting  state")
+                debugPrint("-------------------------------")
+                self.errorMessage = apiRequestError.description
+                self.loading = false
             case .error:
                 print("JourListViewModel: error state")
                 debugPrint("-------------------------------")
+                self.loading = false
+            case .jourAdded(_):
+                print("JourListViewModel: jour added state")
+                debugPrint("-------------------------------")
+                self.loading = false
+            case .jourAddingFailed(let error):
+                print("JourListViewModel: jour adding failed state")
+                debugPrint("-------------------------------")
+                self.errorMessage = error.description
                 self.loading = false
             default:
                 self.loading = false

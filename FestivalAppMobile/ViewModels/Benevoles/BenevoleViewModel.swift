@@ -98,6 +98,7 @@ class BenevoleViewModel : ObservableObject, Hashable, Identifiable{
                 debugPrint("-------------------------------")
                 self.loading = false
                 self.authErrorMessage = ""
+                self.loadingAffectations = false
             case .loading:
                 debugPrint("BenevoleViewModel : loading state")
                 debugPrint("-------------------------------")

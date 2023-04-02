@@ -41,6 +41,8 @@ struct FestivalView: View {
     var body: some View {
         let festivalIntent : FestivalIntent = FestivalIntent(viewModel: viewModel)
         let benevolesIntent : BenevolesIntent = BenevolesIntent(viewModel: benevolesVM)
+        let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
+        let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
         
         List {
             Section(header: Text("Participants")) {
@@ -50,15 +52,6 @@ struct FestivalView: View {
                     Text("Nombre de participants : \(nbre_participants)")
                 }
             }
-            .task {
-                // load the list of benevoles with their nested affectations
-                let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
-                if benevolesDocLoaded{
-                    nbre_participants = festivalIntent.getNbreBenevolesDocInFestival(benevolesDocVM: benevolesVM)
-                }
-                
-            }
-            
             Section(header: Text("Nom")) {
                 if isEditingName {
                     TextField("Nom du Festival", text: $editedName, onCommit: {
@@ -96,7 +89,7 @@ struct FestivalView: View {
                 if isEditingYear {
                     TextField("Année", text: $editedYear, onCommit: {
                         Task {
-                            let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: Int(editedYear)!, editing: "annee")
+                            let festivalUpdated = await festivalIntent.updateFestival(id: viewModel._id, editedProperty: editedYear, editing: "annee")
                             if festivalUpdated {
                                 isEditingYear = false
                                 // show success alert
@@ -179,40 +172,66 @@ struct FestivalView: View {
             
             // affichage de la section
             if selectedSection == .jours {
-                if benevolesVM.loading{
+                if benevolesVM.loading || joursVM.loading{
                     ProgressView("Loading jours ...")
                 }else{
-                    JourListView(festivalVM: viewModel, benevolesVM: benevolesVM)
+                    JourListView(joursVM : joursVM ,festivalVM: viewModel, benevolesVM: benevolesVM)
                 }
             } else {
-                ZoneListView(festivalVM: viewModel)
+                if zonesVM.loading{
+                    ProgressView("Loading zones ...")
+                }else{
+                    ZoneListView(zonesVM: zonesVM, festivalVM : viewModel)
+                }
             }
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .navigationTitle(viewModel.nom)
-        .navigationBarItems(trailing:
-        HStack {
-            if let isAdmin = authManager.isAdmin{
-                if isAdmin{
+        //.navigationBarItems(trailing:
+        //HStack {
+          //  if let isAdmin = authManager.isAdmin{
+            //    if isAdmin{
                     // First button
-                    Button(action: {
-                    }) {
-                        if selectedSection == .jours {
+              //      Button(action: {
+                //    }) {
+                  //      if selectedSection == .jours {
                             // envoie le user vers la page de création du jour
-                            NavigationLink(destination: AddJourView(joursVM: joursVM, festivalsVM: festivalsVM)) {
-                                Image(systemName: "plus")
-                            }
-                        } else if selectedSection == .zones {
-                            NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalsVM: festivalsVM)) {
-                                Image(systemName: "plus")
-                            }
-                        }
-                    }
+                    //        NavigationLink(destination: AddJourView(joursVM: joursVM, festivalsVM: festivalsVM)) {
+                      //          Text("Jour")
+                        //        Image(systemName: "plus")
+                          //  }
+                        //} else if selectedSection == .zones {
+                          //  NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalsVM: festivalsVM)) {
+                            //    Text("Zones")
+                              //  Image(systemName: "plus")
+                            //}
+                        //}
+                    //}
+                //}
+            //}
+        //})
+        .task {
+            // load the list of benevoles with their nested affectations
+            let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
+            if benevolesDocLoaded{
+                nbre_participants = festivalIntent.getNbreBenevolesDocInFestival(benevolesDocVM: benevolesVM)
+            }
+            let joursLoaded = await joursIntent.getJoursByFestival(festivalId: viewModel._id)
+            if !joursLoaded{
+                alertMessage = joursVM.errorMessage
+                alertTitle = "Error"
+                showAlert = true
+            }else{
+                let zonesLoaded = await zonesIntent.getZonesByFestival(festivalId: viewModel._id)
+                if !zonesLoaded{
+                    alertMessage = zonesVM.errorMessage
+                    alertTitle = "Error"
+                    showAlert = true
                 }
             }
-        })
+        }
     }
 }
 

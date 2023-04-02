@@ -16,23 +16,34 @@ struct FestivalIntent {
         self.viewModel = viewModel
     }
     
-    func updateFestival(id : String, editedProperty : Any, editing : String) async -> Bool{
+    func updateFestival(id : String, editedProperty : Any, editing : String) async -> Bool {
         let festivalDTO : FestivalDTO = FestivalDTO(festivalVM: viewModel)
-        // what are we editing ?
-        switch editing{
-            case "nom":
-                festivalDTO.nom = editedProperty as! String
-        	case "annee":
-            	festivalDTO.annee = editedProperty as! Int
-            case "estCloture":
-            	festivalDTO.estCloture = editedProperty as! Bool
-            default:
+
+        // what are we editing?
+        switch editing {
+        case "nom":
+            let nom = editedProperty as! String
+            if nom.isEmpty {
+                viewModel.state = .festivalUpdatingFailed(.CustomError("Nom cannot be empty"))
                 return false
+            }
+            festivalDTO.nom = nom
+        case "annee":
+            let anneeString = editedProperty as! String
+            guard let annee = Int(anneeString), "\(annee)".count == 4, annee >= 2023 else {
+                viewModel.state = .festivalUpdatingFailed(.CustomError("Anne must be a 4-digit number and >= 2023"))
+                return false
+            }
+            festivalDTO.annee = annee
+        case "estCloture":
+            festivalDTO.estCloture = editedProperty as! Bool
+        default:
+            return false
         }
         
         viewModel.state = .loading
         let result = await festivalService.updateFestival(id: id, festivalDTO: festivalDTO)
-        switch result{
+        switch result {
         case .success(_):
             viewModel.state = .festivalUpdated(festivalDTO)
             return true
@@ -45,6 +56,7 @@ struct FestivalIntent {
             return false
         }
     }
+
     
     func getNbreBenevolesDocInFestival(benevolesDocVM: BenevoleListViewModel) -> Int{
         // given the array in parameters, create a new one filtered with only the

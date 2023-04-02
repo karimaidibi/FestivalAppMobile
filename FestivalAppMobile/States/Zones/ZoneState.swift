@@ -14,6 +14,7 @@ enum ZoneState: CustomStringConvertible, Equatable {
     case error // There was an error
     case zoneUpdated(ZoneDTO) // The zoneDTO was updated
     case zoneUpdatingFailed(APIRequestError) // The zoneDTO failed to update
+    case zoneBenevolesInscritsComputed(Int)
     
     // Provide a description for each state
     var description: String {
@@ -26,6 +27,8 @@ enum ZoneState: CustomStringConvertible, Equatable {
             return "ZoneViewModel: zoneUpdated state"
         case .zoneUpdatingFailed(_):
             return "ZoneViewModel: zoneUpdatingFailed state"
+        case .zoneBenevolesInscritsComputed(_):
+            return "ZoneViewModel: zoneBenevolesComputed state"
         case .error:
             return "ZoneViewModel: error state"
         }

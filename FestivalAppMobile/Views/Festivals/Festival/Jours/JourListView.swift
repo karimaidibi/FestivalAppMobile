@@ -11,9 +11,10 @@ import SwiftUI
 struct JourListView : View {
     
     
-    @StateObject var joursVM : JourListViewModel = JourListViewModel(jourViewModels : [])
+    @ObservedObject var joursVM : JourListViewModel
     @ObservedObject var festivalVM : FestivalViewModel
     @ObservedObject var benevolesVM : BenevoleListViewModel
+    @StateObject var authManager : AuthManager = AuthManager()
     // for popup
     @State private var showAlert = false // popup on success deleting
     @State private var alertMessage = ""
@@ -23,7 +24,7 @@ struct JourListView : View {
         
         let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
         
-        Section(header: Text("Jours")) {
+        Section(header: customHeaderView()) {
             if joursVM.loading{
                 ProgressView("Loading Jours ...")
             }else{
@@ -32,22 +33,33 @@ struct JourListView : View {
                         JourRowView(jourVM: jourVM,  benevolesVM: benevolesVM)
                     }
                 }
+                .onDelete { indexSet in
+                    Task {
+                        let jour = joursVM[indexSet.first!]
+                        let jourDeleted = await joursIntent.removeJour(id: jour._id)
+                        if jourDeleted{
+                            joursVM.remove(atOffsets: indexSet)
+                        }
+                    }
+                }
             }
         }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-        }
-        .task {
-            let joursLoaded = await joursIntent.getJoursByFestival(festivalId: festivalVM._id)
-            if !joursLoaded{
-                alertMessage = joursVM.errorMessage
-                alertTitle = "Error"
-                showAlert = true
-            }
-        }
-        
-        
     }
     
-    
+    private func customHeaderView() -> some View {
+        HStack {
+            Text("Jours")
+            if let isAdmin = authManager.isAdmin{
+                if isAdmin{
+                    Spacer()
+                    // envoie le user vers la page de création du jour
+                    NavigationLink(destination: AddJourView(joursVM: joursVM, festivalVM: festivalVM)) {
+                        Image(systemName: "plus")
+                    }
+                    .padding(.trailing, 1)
+                    CustomEditButton()
+                }
+            }
+        }
+    }
 }

@@ -12,7 +12,7 @@ import SwiftUI
 struct AddZoneView: View {
     // View models observés
     @ObservedObject var zonesVM: ZoneListViewModel
-    @ObservedObject var festivalsVM: FestivalsViewModel
+    @ObservedObject var festivalVM: FestivalViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -44,7 +44,7 @@ struct AddZoneView: View {
                     Button("Créer") {
                         Task {
                             // Create Zone
-                            let addedZone = await zonesIntent.addZone(nom: nom, nombre_benevoles_necessaires: Int(nombre_benevoles_necessaires) ?? 0, idFestival: festivalsVM.getCurrent()._id)
+                            let addedZone = await zonesIntent.addZone(nom: nom, nombre_benevoles_necessaires: Int(nombre_benevoles_necessaires) ?? 0, idFestival: festivalVM._id)
                             
                             if addedZone {
                                 presentationMode.wrappedValue.dismiss()

@@ -12,6 +12,8 @@ import SwiftUI
 struct AddFestivalView: View {
     // ViewModel
     @ObservedObject var festivalsVM: FestivalsViewModel
+    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @State var joursVM : JourListViewModel = JourListViewModel(jourViewModels: [])
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -28,20 +30,26 @@ struct AddFestivalView: View {
     // View
     var body: some View {
         let festivalsIntent : FestivalsIntent = FestivalsIntent(viewModel: festivalsVM)
+        let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
+        let joursIntent : JoursIntent = JoursIntent(viewModel: joursVM)
         
         VStack {
             // Form to create new festival
-            Form {
-                Section(header: Text("Nom")) {
-                    TextField("Nom du Festival", text: $nom)
-                }
-                Section(header: Text("Année")) {
-                    Stepper(value: $annee, in: 2010...2090, step: 1) {
-                        Text("\(annee)")
+            if festivalsVM.loading || joursVM.loading || zonesVM.loading{
+                ProgressView("Please Wait ...")
+            }else{
+                Form {
+                    Section(header: Text("Nom")) {
+                        TextField("Nom du Festival", text: $nom)
                     }
-                }
-                Section(header: Text("Cloturé")) {
-                    Toggle("Cloturé", isOn: $estCloture)
+                    Section(header: Text("Année")) {
+                        Stepper(value: $annee, in: 2010...2090, step: 1) {
+                            Text("\(annee)")
+                        }
+                    }
+                    Section(header: Text("Cloturé")) {
+                        Toggle("Cloturé", isOn: $estCloture)
+                    }
                 }
             }
             
@@ -51,8 +59,29 @@ struct AddFestivalView: View {
                     // Créer le festival
                     let addedFestival = await festivalsIntent.addFestival(nom: nom, annee: annee, estCloture: estCloture)
                     // Handle error case
-                    if addedFestival {
-                        presentationMode.wrappedValue.dismiss()
+                    if let addedFestival = addedFestival {
+                        // create a default jour
+                        let formattedDate = "\(addedFestival.annee)-01-01"
+                        let heure_ouverture = "09:00"
+                        let heure_fermeture = "21:00"
+                        let addedJour = await joursIntent.addJour(date: formattedDate, nom: "Default Day", heure_ouverture: heure_ouverture, heure_fermeture: heure_fermeture, idFestival: addedFestival._id)
+                        if addedJour{
+                            // create the default zone
+                            let addedZone = await zonesIntent.addZone(nom: "Libre", nombre_benevoles_necessaires: 10, idFestival: addedFestival._id)
+                            if addedZone{
+                                presentationMode.wrappedValue.dismiss()
+                            }else{
+                                // Handle error case
+                                showAlert = true
+                                alertTitle = "Error"
+                                alertMessage = zonesVM.errorMessage
+                            }
+                        }else{
+                            // Handle error case
+                            showAlert = true
+                            alertTitle = "Error"
+                            alertMessage = joursVM.errorMessage
+                        }
                     } else {
                         // Handle error case
                         showAlert = true
@@ -73,6 +102,9 @@ struct AddFestivalView: View {
             .disabled(!formIsValid()) // disable button if form is not valid
         }
         .navigationTitle("Ajouter un festival")
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
     
     // Check if form is valid

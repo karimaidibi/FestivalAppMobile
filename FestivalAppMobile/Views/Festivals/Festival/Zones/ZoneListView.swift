@@ -11,19 +11,15 @@ import SwiftUI
 struct ZoneListView : View {
     
     
-    @StateObject var zonesVM : ZoneListViewModel = ZoneListViewModel(zoneViewModelArray: [])
+    @ObservedObject var zonesVM : ZoneListViewModel
     @ObservedObject var festivalVM : FestivalViewModel
     @StateObject var authManager : AuthManager = AuthManager()
-    // for popup
-    @State private var showAlert = false // popup on success deleting
-    @State private var alertMessage = ""
-    @State private var alertTitle = ""
     
     var body: some View{
         
         let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
         
-        Section(header: Text("zones")) {
+        Section(header: customHeaderView()) {
             if let isAdmin = authManager.isAdmin{
                 if isAdmin{
                     ForEach(zonesVM, id:\.self) { zoneVM in
@@ -31,6 +27,16 @@ struct ZoneListView : View {
                             ZoneRowView(zoneVM: zoneVM)
                         }
                     }
+                    .onDelete { indexSet in
+                        Task {
+                            let zone = zonesVM[indexSet.first!]
+                            let zoneDeleted = await zonesIntent.removeZone(id: zone._id)
+                            if zoneDeleted{
+                                zonesVM.remove(atOffsets: indexSet)
+                            }
+                        }
+                    }
+                    
                 }else{
                     ForEach(zonesVM, id:\.self) { zoneVM in
                         ZoneRowView(zoneVM: zoneVM)
@@ -38,22 +44,22 @@ struct ZoneListView : View {
                 }
             }
         }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-        }
-        .task {
-            let zonesLoaded = await zonesIntent.getZonesByFestival(festivalId: festivalVM._id)
-            if !zonesLoaded{
-                alertMessage = zonesVM.errorMessage
-                alertTitle = "Error"
-                showAlert = true
-            }else{
-                festivalVM.zoneListViewModels = zonesVM
-            }
-        }
-        
-        
     }
     
     
+    private func customHeaderView() -> some View {
+        HStack {
+            Text("Zones")
+            if let isAdmin = authManager.isAdmin{
+                if isAdmin{
+                    Spacer()
+                    NavigationLink(destination: AddZoneView(zonesVM: zonesVM, festivalVM: festivalVM)) {
+                        Image(systemName: "plus")
+                    }
+                    .padding(.trailing, 1)
+                    CustomEditButton()
+                }
+            }
+        }
+    }
 }
