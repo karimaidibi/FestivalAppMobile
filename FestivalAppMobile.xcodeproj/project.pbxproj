@@ -18,8 +18,6 @@
 		6F004D2529D4419400BCB7ED /* JourListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F004D2429D4419400BCB7ED /* JourListView.swift */; };
 		6F004D2729D441B200BCB7ED /* ZoneListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F004D2629D441B200BCB7ED /* ZoneListView.swift */; };
 		6F004D2A29D442A500BCB7ED /* CreneauRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F004D2929D442A500BCB7ED /* CreneauRowView.swift */; };
-		6F5B9A4E29D95E3F00719B8C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B9A4D29D95E3F00719B8C /* File.swift */; };
-		6F5B9A5029D95E4600719B8C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B9A4F29D95E4600719B8C /* File.swift */; };
 		6F7E099D29CDD7F300ED9927 /* FestivalAppMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E099C29CDD7F300ED9927 /* FestivalAppMobileTests.swift */; };
 		6F7E09A729CDD7F300ED9927 /* FestivalAppMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E09A629CDD7F300ED9927 /* FestivalAppMobileUITests.swift */; };
 		6F7E09A929CDD7F300ED9927 /* FestivalAppMobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7E09A829CDD7F300ED9927 /* FestivalAppMobileUITestsLaunchTests.swift */; };
@@ -143,8 +141,7 @@
 		6F004D2429D4419400BCB7ED /* JourListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourListView.swift; sourceTree = "<group>"; };
 		6F004D2629D441B200BCB7ED /* ZoneListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneListView.swift; sourceTree = "<group>"; };
 		6F004D2929D442A500BCB7ED /* CreneauRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreneauRowView.swift; sourceTree = "<group>"; };
-		6F5B9A4D29D95E3F00719B8C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		6F5B9A4F29D95E4600719B8C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		6F5B9A5129D95ECD00719B8C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6F7E098829CDD7F200ED9927 /* FestivalAppMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FestivalAppMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F7E099829CDD7F300ED9927 /* FestivalAppMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FestivalAppMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F7E099C29CDD7F300ED9927 /* FestivalAppMobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalAppMobileTests.swift; sourceTree = "<group>"; };
@@ -405,6 +402,7 @@
 		6F7E097F29CDD7F200ED9927 = {
 			isa = PBXGroup;
 			children = (
+				6F5B9A5129D95ECD00719B8C /* README.md */,
 				6F7E0A4C29CDD9D700ED9927 /* FestivalAppMobile */,
 				6F7E099B29CDD7F300ED9927 /* FestivalAppMobileTests */,
 				6F7E09A529CDD7F300ED9927 /* FestivalAppMobileUITests */,
@@ -426,7 +424,6 @@
 			isa = PBXGroup;
 			children = (
 				6F7E099C29CDD7F300ED9927 /* FestivalAppMobileTests.swift */,
-				6F5B9A4D29D95E3F00719B8C /* File.swift */,
 			);
 			path = FestivalAppMobileTests;
 			sourceTree = "<group>";
@@ -436,7 +433,6 @@
 			children = (
 				6F7E09A629CDD7F300ED9927 /* FestivalAppMobileUITests.swift */,
 				6F7E09A829CDD7F300ED9927 /* FestivalAppMobileUITestsLaunchTests.swift */,
-				6F5B9A4F29D95E4600719B8C /* File.swift */,
 			);
 			path = FestivalAppMobileUITests;
 			sourceTree = "<group>";
@@ -945,7 +941,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F7E099D29CDD7F300ED9927 /* FestivalAppMobileTests.swift in Sources */,
-				6F5B9A4E29D95E3F00719B8C /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -954,7 +949,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F7E09A929CDD7F300ED9927 /* FestivalAppMobileUITestsLaunchTests.swift in Sources */,
-				6F5B9A5029D95E4600719B8C /* File.swift in Sources */,
 				6F7E09A729CDD7F300ED9927 /* FestivalAppMobileUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
