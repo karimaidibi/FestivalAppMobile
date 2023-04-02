@@ -10,31 +10,6 @@ import Foundation
 import SwiftUI
 
 
-//fake DTO
-struct Benevole: Identifiable {
-    var id : String
-    var nom : String
-    var prenom : String
-    var email : String
-    var password : String
-    var isAdmin : Bool
-}
-
-//fake data
-let benevoles: [Benevole] = [
-    Benevole(id: "1", nom: "Dupont", prenom: "Jean", email: "jean.dupont@example.com", password: "password", isAdmin: false),
-    Benevole(id: "2", nom: "Durand", prenom: "Pierre", email: "pierre.durand@example.com", password: "password", isAdmin: true),
-    Benevole(id: "3", nom: "Martin", prenom: "Marie", email: "marie.martin@example.com", password: "password", isAdmin: false),
-    Benevole(id: "4", nom: "Bernard", prenom: "Sophie", email: "sophie.bernard@example.com", password: "password", isAdmin: false),
-    Benevole(id: "5", nom: "Petit", prenom: "Paul", email: "paul.petit@example.com", password: "password", isAdmin: false),
-    Benevole(id: "6", nom: "Robert", prenom: "Lucie", email: "lucie.robert@example.com", password: "password", isAdmin: false),
-    Benevole(id: "7", nom: "Richard", prenom: "Julie", email: "julie.richard@example.com", password: "password", isAdmin: false),
-    Benevole(id: "8", nom: "Dumont", prenom: "Nicolas", email: "nicolas.dumont@example.com", password: "password", isAdmin: false),
-    Benevole(id: "9", nom: "Moreau", prenom: "Céline", email: "celine.moreau@example.com", password: "password", isAdmin: false),
-    Benevole(id: "10", nom: "Dubois", prenom: "Marcel", email: "marcel.dubois@example.com", password: "password", isAdmin: false)
-]
-
-
 struct SubscribeBenevolesView: View {
     @Environment(\.presentationMode) var presentationMode
     
@@ -60,8 +35,16 @@ struct SubscribeBenevolesView: View {
                 
                 List {
                     ForEach(benevolesVM.filteredBenevoles(searchText: searchText)) { benevoleVM in
+                        let isDejaAffecte =  benevoleVM.affectations.contains(where: { $0.idCreneau == creneauVM._id && $0.idZone == zoneVM._id })
                         HStack {
                             Text(benevoleVM.nom)
+                            // if the creneau._id and zone_id exist in the affectations of the benevoleVM
+                            // mark it with "déjà affecté"
+                            if isDejaAffecte {
+                                  Spacer()
+                                  Text("déjà affecté")
+                                      .foregroundColor(.red)
+                              }
                             Spacer()
                             if selectedBenevoles.contains(benevoleVM) {
                                 Image(systemName: "checkmark")
@@ -69,10 +52,13 @@ struct SubscribeBenevolesView: View {
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            if selectedBenevoles.contains(benevoleVM) {
-                                selectedBenevoles.remove(benevoleVM)
-                            } else {
-                                selectedBenevoles.insert(benevoleVM)
+                            // Only allow selection if the benevole is not "déjà affecté"
+                            if !isDejaAffecte{
+                                if selectedBenevoles.contains(benevoleVM) {
+                                    selectedBenevoles.remove(benevoleVM)
+                                } else {
+                                    selectedBenevoles.insert(benevoleVM)
+                                }
                             }
                         }
                     }
@@ -106,7 +92,7 @@ struct SubscribeBenevolesView: View {
                 Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
             .task {
-                let benevolesLoaded = await benevoleListIntent.getBenevolesNested()
+                let benevolesLoaded = await benevoleListIntent.getBenevoles()
                 if !benevolesLoaded{
                     alertMessage = benevolesVM.errorMessage
                     alertTitle = "Error"

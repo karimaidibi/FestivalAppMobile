@@ -23,4 +23,9 @@ struct UtilityHelper{
         }
     }
 
+    static func dateFromString(_ dateString: String, dateFormat: String = "yyyy-MM-dd") -> Date? {
+          let dateFormatter = DateFormatter()
+          dateFormatter.dateFormat = dateFormat
+          return dateFormatter.date(from: dateString)
+      }
 }

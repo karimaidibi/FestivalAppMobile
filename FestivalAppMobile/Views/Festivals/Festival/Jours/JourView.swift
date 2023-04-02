@@ -26,6 +26,16 @@ struct JourView: View {
     @State private var alertMessage = ""
     @State private var alertTitle = ""
     
+    @State private var selectedDate: Date = Date()
+    @State private var isEditingDate = false
+
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+
+    
     var body: some View {
         
         let benevolesIntent : BenevolesIntent = BenevolesIntent(viewModel: benevolesVM)
@@ -33,15 +43,59 @@ struct JourView: View {
         let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
         let jourIntent : JourIntent = JourIntent(viewModel: viewModel)
         
+        let startOfYear = Calendar.current.date(from: DateComponents(year: festivalVM.annee, month: 1, day: 1))!
+        let endOfYear = Calendar.current.date(from: DateComponents(year: festivalVM.annee, month: 12, day: 31))!
+        
         List {
             if benevolesVM.loading || zonesVM.loading{
                 ProgressView("Loading Jour ...")
             }else{
-                let formattedDate = UtilityHelper.formattedDateString(from: viewModel.date)
                 Section(header: Text("Date")) {
-                    Text(formattedDate)
-                        .font(.title)
+                    if isEditingDate{
+                        DatePicker("Date", selection: $selectedDate, in: startOfYear...endOfYear ,displayedComponents: [.date])
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                            .onChange(of: selectedDate) { newDate in
+                                let formattedNewDate = dateFormatter.string(from: newDate)
+                                   Task {
+                                       let jourUpdated = await jourIntent.updateJour(id: viewModel._id, editedProperty: formattedNewDate, editing: "date")
+                                       if jourUpdated {
+                                           // show success alert
+                                           self.isEditingDate = false
+                                           alertMessage = viewModel.successMessage
+                                           alertTitle = "Success"
+                                           showAlert = true
+                                       } else {
+                                           // show error alert
+                                           alertMessage = viewModel.errorMessage
+                                           alertTitle = "Error"
+                                           showAlert = true
+                                       }
+                                   }
+                            }
+                            .onSubmit {
+                                self.isEditingDate = false
+                            }
+                    }else{
+                        let formattedDate = UtilityHelper.formattedDateString(from: viewModel.date)
+                        HStack{
+                            Text(formattedDate)
+                                .font(.title2)
+                            if let isAdmin = authManager.isAdmin{
+                                if isAdmin {
+                                    Spacer()
+                                    Button(action: {
+                                        selectedDate = UtilityHelper.dateFromString(viewModel.date) ?? Date()
+                                        isEditingDate = true
+                                    }) {
+                                        Image(systemName: "pencil")
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
+
                 
                 Section(header: Text("Nom")) {
                     if isEditingName {
@@ -94,6 +148,7 @@ struct JourView: View {
             Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .task {
+
             // load the list of benevoles with their nested affectations
             let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
             if benevolesDocLoaded{
