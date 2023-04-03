@@ -31,7 +31,7 @@ struct CreneauRowView: View {
                     
                     Spacer()
                     
-                    Text("\($nbre_benevoles_inscrits.wrappedValue) inscription / \(creneauVM.nbreBenevolesMax)")
+                    Text("\($nbre_benevoles_inscrits.wrappedValue) inscription(s) / \(creneauVM.nbreBenevolesMax)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }

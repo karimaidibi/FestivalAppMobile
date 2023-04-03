@@ -20,7 +20,7 @@ class SignUpService {
         }
     }
     
-    func signup(email: String, password: String) async -> Result<String?, Error> {
+    func signup(email: String, password: String, nom: String, prenom: String) async -> Result<String?, Error> {
 
         guard let url = URL(string: "\(self.api)/benevoles/signup") else {
             return .failure(APIRequestError.unknown)
@@ -31,7 +31,7 @@ class SignUpService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // encode the log in data
-        let signUpInfo: SignUpDTO =  SignUpDTO(nom : "New User", prenom: "New User", email: email, password: password, affectations: [], isAdmin: false)
+        let signUpInfo: SignUpDTO =  SignUpDTO(nom : nom, prenom: prenom, email: email, password: password, affectations: [], isAdmin: false)
         guard let encoded : Data = await JSONHelper.encode(data: signUpInfo) else {
             return .failure(JSONError.JsonEncodingFailed)
         }

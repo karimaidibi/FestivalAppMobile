@@ -39,7 +39,7 @@ struct JourView: View {
     var body: some View {
         
         let benevolesIntent : BenevolesIntent = BenevolesIntent(viewModel: benevolesVM)
-        let festivalIntent : FestivalIntent = FestivalIntent(viewModel: festivalVM)
+        //let festivalIntent : FestivalIntent = FestivalIntent(viewModel: festivalVM)
         let zonesIntent : ZonesIntent = ZonesIntent(viewModel: zonesVM)
         let jourIntent : JourIntent = JourIntent(viewModel: viewModel)
         
@@ -152,7 +152,7 @@ struct JourView: View {
             // load the list of benevoles with their nested affectations
             let benevolesDocLoaded = await benevolesIntent.getBenevolesNested()
             if benevolesDocLoaded{
-                nbre_participants = festivalIntent.getNbreBenevolesDocInFestival(benevolesDocVM: benevolesVM)
+                nbre_participants = await jourIntent.getNbreBenevolesDocInJour(benevolesDocVM: benevolesVM)
             }
  
             let zonesLoaded = await zonesIntent.getZonesByFestival(festivalId: festivalVM._id)

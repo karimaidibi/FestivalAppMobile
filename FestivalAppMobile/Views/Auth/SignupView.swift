@@ -12,6 +12,8 @@ import SwiftUI
 struct SignupView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var nom = ""
+    @State private var prenom = ""
     var onSignupSuccess: () -> Void
     @Binding var isSignupViewPresented : Bool
     
@@ -31,6 +33,16 @@ struct SignupView: View {
                     .fontWeight(.bold)
                     .padding(.bottom, 20)
                 
+                TextField("Nom", text: $nom)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 10)
+                
+                TextField("Prénom", text: $prenom)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 10)
+                
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal, 20)
@@ -47,11 +59,11 @@ struct SignupView: View {
                     Task {
                         // Here you would implement the code to validate the user's signin credentials
                         // If the validation is successful, set `isShowingHome` to true to take the user to the home screen
-                        let signedUp : Bool = await signUpIntent.signUp(email: self.email, password: self.password)
+                        let signedUp : Bool = await signUpIntent.signUp(email: self.email, password: self.password, nom: self.nom, prenom: self.prenom)
                         if signedUp{
                             self.onSignupSuccess()
                             //land = false
-                            viewsManager.land = false
+                            //viewsManager.land = false
                             isSignupViewPresented = false
                             // show pop up with benevoleVM.signUpSuccessMessage here
                         }else{

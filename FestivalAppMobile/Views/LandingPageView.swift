@@ -60,7 +60,6 @@ struct LandingPageView: View {
             
             Button(action: {
                 // Navigate to HomeView for visitors
-                //self.land = false
                 viewsManager.land = false
             }) {
                 Text("Continue as a visitor")

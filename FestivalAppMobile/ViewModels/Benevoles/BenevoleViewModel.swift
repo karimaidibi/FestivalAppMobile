@@ -121,6 +121,11 @@ class BenevoleViewModel : ObservableObject, Hashable, Identifiable{
                 self.isAdmin = benevoleDTO.isAdmin
                 self.loading = false
                 self.authErrorMessage = ""
+            case .emptyFields:
+                debugPrint("BenevoleViewModel : emptyFields state")
+                debugPrint("-------------------------------")
+                self.authErrorMessage = state.description
+                self.loading = false
             case .tooShortPassword:
                 debugPrint("BenevoleViewModel : tooShortPassword state")
                 debugPrint("-------------------------------")

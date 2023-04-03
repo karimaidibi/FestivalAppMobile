@@ -37,7 +37,8 @@ struct SubscribeBenevolesView: View {
                     ForEach(benevolesVM.filteredBenevoles(searchText: searchText)) { benevoleVM in
                         let isDejaAffecte =  benevoleVM.affectations.contains(where: { $0.idCreneau == creneauVM._id && $0.idZone == zoneVM._id })
                         HStack {
-                            Text(benevoleVM.nom)
+                            Text(benevoleVM.prenom + " " + benevoleVM.nom)
+                            .font(.headline)
                             // if the creneau._id and zone_id exist in the affectations of the benevoleVM
                             // mark it with "déjà affecté"
                             if isDejaAffecte {

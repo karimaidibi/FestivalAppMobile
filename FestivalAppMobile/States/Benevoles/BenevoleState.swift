@@ -14,6 +14,7 @@ enum BenevoleState: CustomStringConvertible, Equatable {
     case loggedIn(BenevoleDTO)
     case loading
     case authFailed(AuthError)
+    case emptyFields
     case emailNotValid
     case tooShortPassword
     case signedUp(String)
@@ -41,6 +42,8 @@ enum BenevoleState: CustomStringConvertible, Equatable {
             return "Password must be at least 5 characters !"
         case .emailNotValid:
             return "Please verify your email format and try again !"
+        case .emptyFields:
+            return "Fields Must Not Be Empty !"
         case .authFailed(let error):
             return "Error : \(error.localizedDescription)"
         case .signedUp(let message):

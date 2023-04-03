@@ -18,10 +18,17 @@ struct SignUpIntent{
     }
     
     // signup and change the state of the model to signedUp
-    func signUp(email : String, password: String) async -> Bool{
+    func signUp(email : String, password: String, nom: String, prenom: String) async -> Bool{
         // set email to lower case :
         
         let lowercasedEmail = email.lowercased()
+        
+        // Verify the name
+        if nom.isEmpty || prenom.isEmpty {
+             // If nom or prenom is empty , change the state to emptyFields
+             model.state = .emptyFields
+             return false
+         }
         
         // Verify the email
          if !validateEmail(lowercasedEmail) {
@@ -39,7 +46,7 @@ struct SignUpIntent{
         
         // if ok send loggin and change the state to loading
         model.state = .loading
-        let result = await self.signUpService.signup(email: lowercasedEmail, password: password)
+        let result = await self.signUpService.signup(email: lowercasedEmail, password: password, nom: nom, prenom: prenom)
         switch result {
             case .success(let msg) :
                 model.state = .signedUp(msg!)

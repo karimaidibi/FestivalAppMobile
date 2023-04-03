@@ -28,4 +28,12 @@ struct UtilityHelper{
           dateFormatter.dateFormat = dateFormat
           return dateFormatter.date(from: dateString)
       }
+    
+    public var numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        return formatter
+    }()
+    
 }
